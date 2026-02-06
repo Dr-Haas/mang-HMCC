@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #2a2a2a;
+  --hmcc-red: #e61d2b;
+  --hmcc-red-dark: #b81a25;
+  --hmcc-dark: #2a2a2a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-hmcc-red: var(--hmcc-red);
+  --color-hmcc-red-dark: var(--hmcc-red-dark);
+  --color-hmcc-dark: var(--hmcc-dark);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Mouvement smooth des assets hero : rebond + légère rotation (bien visible) */
+@keyframes hero-float-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -8px) rotate(5deg); }
+  50% { transform: translate(-4px, 4px) rotate(-4deg); }
+  75% { transform: translate(6px, 6px) rotate(3deg); }
+}
+@keyframes hero-float-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-8px, 10px) rotate(-5deg); }
+  66% { transform: translate(6px, -6px) rotate(4deg); }
+}
+@keyframes hero-float-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(8px, 6px) rotate(-4deg); }
+  50% { transform: translate(-6px, -8px) rotate(5deg); }
+  75% { transform: translate(4px, -4px) rotate(-2deg); }
+}
+@keyframes hero-float-4 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-10px, -6px) rotate(5deg); }
+  66% { transform: translate(6px, 8px) rotate(-4deg); }
+}
+@keyframes hero-float-5 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(6px, 8px) rotate(-5deg); }
+}
+
+.animate-hero-float-1 { animation: hero-float-1 5s ease-in-out infinite; }
+.animate-hero-float-2 { animation: hero-float-2 5.5s ease-in-out infinite; }
+.animate-hero-float-3 { animation: hero-float-3 5s ease-in-out infinite; }
+.animate-hero-float-4 { animation: hero-float-4 5.2s ease-in-out infinite; }
+.animate-hero-float-5 { animation: hero-float-5 5.8s ease-in-out infinite; }
+
+/* Curseur fixe : battement (grossit / rétrécit) */
+@keyframes hero-cursor-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.animate-hero-cursor-pulse {
+  animation: hero-cursor-pulse 1.2s ease-in-out infinite;
+}
+
+/* Effet lévitation section 2 : ombre marquée + léger décalage vertical + micro-animation */
+.section2-asset-float {
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  transform: translateY(-6px);
+  animation: section2-float 4s ease-in-out infinite;
+}
+@keyframes section2-float {
+  0%, 100% { transform: translateY(-6px); }
+  50% { transform: translateY(-12px); }
+}
