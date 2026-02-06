@@ -11,7 +11,7 @@ export function CTASection() {
           Faites-nous part de votre projet et nous vous recontacterons rapidement.
         </p>
         <Link
-          href="#contact"
+          href="/contact"
           className="mt-8 inline-flex items-center justify-center rounded-md bg-white px-8 py-3 text-base font-medium text-[#e61d2b] transition hover:bg-white/95"
         >
           Contact

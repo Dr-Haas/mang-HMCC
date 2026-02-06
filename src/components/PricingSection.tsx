@@ -53,7 +53,7 @@ export function PricingSection() {
                 ))}
               </ul>
               <Link
-                href="#contact"
+                href="/contact"
                 className={`mt-8 block w-full rounded-md py-3 text-center font-medium transition ${
                   plan.highlighted
                     ? "bg-[#e61d2b] text-white hover:bg-[#b81a25]"

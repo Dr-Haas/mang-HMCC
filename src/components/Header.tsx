@@ -6,9 +6,9 @@ import { useState } from "react";
 
 const navLinks = [
   { label: "Services", href: "/services" },
-  { label: "Facturation", href: "/#facturation" },
+  { label: "Facturation", href: "/facturation" },
   { label: "Nos bureaux", href: "/nos-bureaux" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Header() {
@@ -18,7 +18,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#2a2a2a]/10 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-0" aria-label="HMCC Accueil">
+        <Link href="/" className="flex items-center gap-0" aria-label="HMCC Accueil" target="_self">
           <span className="text-xl font-bold text-[#2a2a2a] sm:text-2xl">HM</span>
           <span className="text-xl font-bold text-[#e61d2b] sm:text-2xl">CC</span>
         </Link>
@@ -27,12 +27,14 @@ export function Header() {
           {navLinks.map((link) => {
             const isActive =
               (link.href === "/services" && pathname === "/services") ||
+              (link.href === "/facturation" && pathname === "/facturation") ||
               (link.href === "/nos-bureaux" && pathname === "/nos-bureaux") ||
-              (link.href === "/#contact" && pathname === "/");
+              (link.href === "/contact" && pathname === "/contact");
             return (
               <Link
                 key={link.href + link.label}
                 href={link.href}
+                target="_self"
                 className={`transition hover:text-[#e61d2b] ${
                   isActive
                     ? "text-[#e61d2b] underline decoration-[#e61d2b] underline-offset-4"
@@ -47,7 +49,8 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/#contact"
+            href="/contact"
+            target="_self"
             className="rounded-md bg-[#e61d2b] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#b81a25]"
           >
             Je suis intéressé
@@ -72,6 +75,7 @@ export function Header() {
               <Link
                 key={link.href + link.label}
                 href={link.href}
+                target="_self"
                 className="py-2 text-[#2a2a2a]"
                 onClick={() => setOpen(false)}
               >

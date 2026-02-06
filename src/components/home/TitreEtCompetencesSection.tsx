@@ -30,7 +30,7 @@ const cards = [
 
 export function TitreEtCompetencesSection() {
   return (
-    <section className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <section id="competences" className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-2xl font-bold text-[#2a2a2a] sm:text-3xl">
           Titre

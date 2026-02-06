@@ -24,7 +24,7 @@ const SERVICE_CARDS = [
     label: "Pilotage d'Activité",
     description:
       "Pilotage de votre activité avec tableaux de bord, indicateurs et mises à jour régulières pour une vision claire de votre performance.",
-    href: "/#contact",
+    href: "/contact",
   },
   {
     tag: "Fiscalité",
@@ -34,7 +34,7 @@ const SERVICE_CARDS = [
     label: "Comptabilité Générale",
     description:
       "Tenue de comptes, enregistrement des écritures, rapprochements bancaires. Clôture annuelle et déclarations fiscales (TVA, impôts, liasse) pour rester en conformité en toute sérénité.",
-    href: "/#contact",
+    href: "/contact",
   },
   {
     tag: "Fiscalité",
@@ -44,7 +44,7 @@ const SERVICE_CARDS = [
     label: "Gestion de Paie",
     description:
       "Gestion de la paie, bulletins, déclarations sociales et obligations employeur. Un interlocuteur dédié pour l'administratif du personnel.",
-    href: "/#contact",
+    href: "/contact",
   },
   {
     tag: "Fiscalité",
@@ -53,7 +53,7 @@ const SERVICE_CARDS = [
     label: "Création d'Entreprise",
     description:
       "Montage du dossier de création, choix du statut (SARL, SAS, auto-entrepreneur…), rédaction des statuts et accompagnement jusqu'à l'immatriculation.",
-    href: "/#contact",
+    href: "/contact",
   },
   {
     tag: "Fiscalité",
@@ -63,7 +63,7 @@ const SERVICE_CARDS = [
     label: "Conseil Fiscal",
     description:
       "Stratégie fiscale, optimisation de la structure et accompagnement dans vos décisions. Anticipation et choix des options les plus adaptées à votre activité.",
-    href: "/#contact",
+    href: "/contact",
   },
 ];
 

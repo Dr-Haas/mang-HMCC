@@ -1,0 +1,95 @@
+[00:00:00.862] Server  LOG     
+[00:00:00.862] Server  LOG       We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+[00:00:00.862] Server  LOG       The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+[00:00:00.862] Server  LOG       	- include was updated to add 'mang_temp/types/**/*.ts'
+[00:00:00.862] Server  LOG       	- include was updated to add 'mang_temp/dev/types/**/*.ts'
+[00:00:00.862] Server  LOG     
+[00:00:00.953] Server  LOG     ✓ Ready in 621ms
+[00:00:02.312] Server  ERROR   Each child in a list should have a unique "key" prop.
+
+Check the render method of `TitreEtCompetencesSection`. See https://react.dev/link/warning-keys for more information.
+[00:00:02.820] Browser ERROR   Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
+
+Check the render method of `TitreEtCompetencesSection`. 
+[00:00:02.820] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+                            className="geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__var..."
+-                           cz-shortcut-listen="true"
+                          >
+                  ...
+
+[00:00:02.820] Browser WARN    Image with src "http://localhost:3000/images/homepage-hero/cursor.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:03:38.485] Server  LOG     ✓ Compiled in 516ms
+[00:03:47.183] Server  LOG     ✓ Compiled in 82ms
+[00:04:12.286] Server  LOG     ✓ Compiled in 91ms
+[00:04:29.369] Server  LOG     ✓ Compiled in 283ms
+[00:04:56.701] Server  LOG     ✓ Compiled in 98ms
+[00:08:16.588] Server  LOG     ✓ Compiled in 324ms
+[00:08:17.976] Server  LOG     ✓ Compiled in 57ms
+[00:08:19.834] Server  LOG     ✓ Compiled in 53ms
+[00:08:21.756] Server  LOG     ✓ Compiled in 56ms
+[00:12:48.910] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/nos-bureaux" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+                            className="geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__var..."
+-                           style={{overscroll-behavior-x:"contain",overscroll-behavior-y:"contain"}}
+                          >
+                  ...
+
+[00:13:02.165] Server  LOG     ✓ Compiled in 95ms

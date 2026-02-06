@@ -9,21 +9,21 @@ const navColumns = [
     { label: "Accueil", href: "/" },
     { label: "Services", href: "/services" },
     { label: "Nos bureaux", href: "/nos-bureaux" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
     { label: "Mentions légales", href: "/mentions-legales" },
   ],
   [
     { label: "Services", href: "/services" },
-    { label: "Facturation", href: "/#facturation" },
+    { label: "Facturation", href: "/facturation" },
     { label: "Nos bureaux", href: "/nos-bureaux" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
     { label: "CGV", href: "/cgv" },
   ],
   [
     { label: "Accueil", href: "/" },
     { label: "Services", href: "/services" },
     { label: "Nos bureaux", href: "/nos-bureaux" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
     { label: "Politique de confidentialité", href: "/confidentialite" },
   ],
 ];
@@ -46,6 +46,7 @@ export function FooterSection() {
                     <li key={link.href + link.label}>
                       <Link
                         href={link.href}
+                        target="_self"
                         className="text-white/90 transition hover:text-white hover:underline"
                       >
                         {link.label}

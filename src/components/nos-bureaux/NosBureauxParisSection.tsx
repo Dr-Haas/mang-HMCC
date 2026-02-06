@@ -3,9 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const NAV_REPEAT = 7;
-const ACTIVE_INDEX = 3;
-
 const CARD_IMAGES = [
   "/images/nos-bureaux/nos-bureaux-1.png",
   "/images/nos-bureaux/nos-bureaux-2.png",
@@ -16,27 +13,11 @@ const CARD_IMAGES = [
 ];
 
 /**
- * Section Figma : barre Services, titre central "Nos bureaux à paris",
- * 6 cartes disposées autour (5 bordeaux, 1 grise), puis bloc Titre + texte + lien + 2 boutons.
+ * Section : titre central "Nos bureaux à paris", 6 cartes, puis bloc Titre + texte + lien + 2 boutons.
  */
 export function NosBureauxParisSection() {
   return (
     <section className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <nav className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-10 sm:mb-14">
-        {Array.from({ length: NAV_REPEAT }, (_, i) => (
-          <span
-            key={i}
-            className={`text-sm font-medium sm:text-base ${
-              i === ACTIVE_INDEX
-                ? "text-[#e61d2b] underline decoration-[#e61d2b] underline-offset-4 decoration-2"
-                : "text-[#2a2a2a]"
-            }`}
-          >
-            Services
-          </span>
-        ))}
-      </nav>
-
       <div className="mx-auto max-w-4xl">
         <h2 className="text-center text-3xl font-bold text-[#2a2a2a] sm:text-4xl">
           Nos bureaux à Paris
@@ -82,7 +63,7 @@ export function NosBureauxParisSection() {
               ponctuelle et conforme.
             </p>
             <Link
-              href="/#contact"
+              href="/contact"
               className="mt-4 inline-flex items-center gap-1 text-[#2563eb] hover:underline"
             >
               Voir nos compétences →

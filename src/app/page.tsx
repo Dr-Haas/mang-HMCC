@@ -5,7 +5,6 @@ import { NousProposonsSection } from "@/components/home/NousProposonsSection";
 import { TitreEtCompetencesSection } from "@/components/home/TitreEtCompetencesSection";
 import { ServicesCardsSection } from "@/components/home/ServicesCardsSection";
 import { BlocsChiffresSection } from "@/components/home/BlocsChiffresSection";
-import { ContactForm } from "@/components/ContactForm";
 import { FooterSection } from "@/components/home/FooterSection";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
         <TitreEtCompetencesSection />
         <ServicesCardsSection />
         <BlocsChiffresSection />
-        <ContactForm />
       </main>
       <FooterSection />
     </div>

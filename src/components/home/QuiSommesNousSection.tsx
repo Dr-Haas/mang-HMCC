@@ -67,7 +67,7 @@ export function QuiSommesNousSection() {
         {/* Ils nous font confiance */}
         <div className="mt-10 flex gap-4">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 overflow-hidden">
-            <Image src="/images/section2/boy.png" alt="" width={32} height={32} className="h-6 w-6 object-contain sm:h-7 sm:w-7" unoptimized />
+            <Image src="/images/homepage-section2/boy.png" alt="" width={32} height={32} className="h-6 w-6 object-contain sm:h-7 sm:w-7" unoptimized />
           </div>
           <div>
             <h2 className="text-xl font-bold text-[#2a2a2a] sm:text-2xl">
@@ -99,15 +99,6 @@ export function QuiSommesNousSection() {
           ))}
         </div>
 
-        {/* Barre Client en bas */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-0 border-t border-[#2a2a2a]/10 pt-8">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} className="flex items-center text-[#2a2a2a]/45 text-sm sm:text-base">
-              {i > 0 && <span className="mx-3 sm:mx-4 text-[#2a2a2a]/30">|</span>}
-              <span>Client</span>
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   );

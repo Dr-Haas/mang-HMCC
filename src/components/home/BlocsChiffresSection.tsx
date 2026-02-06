@@ -1,7 +1,14 @@
 /**
- * Section 6 – 3 blocs avec image + chiffre (Figma Home_Page_6).
- * Assets Figma : 3 photos (architecture), formes décoratives rose/gris.
+ * Section 6 – 3 blocs avec image + chiffre (Figma Home_Page_6, node 52:317).
+ * Structure : titre centré ; 3 cartes (texte à gauche gris clair, image à droite avec overlay chiffre + label).
+ * Assets : 3 photos architecture (homepage-section6).
  */
+const BLOC_IMAGES = [
+  "/images/homepage-section6/bloc-1.png",
+  "/images/homepage-section6/bloc-2.png",
+  "/images/homepage-section6/bloc-3.png",
+];
+
 const blocs = [
   {
     title: "Votre gestion comptable, toujours à jour.",
@@ -32,33 +39,62 @@ const blocs = [
 export function BlocsChiffresSection() {
   return (
     <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-[#fce7e7]/60 blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-[#f0f0f0] blur-3xl" />
-      <div className="relative mx-auto max-w-6xl">
-        <h2 className="text-2xl font-bold text-[#2a2a2a] sm:text-3xl">
+      {/* Formes décoratives rose pâle (Figma) */}
+      <div
+        className="pointer-events-none absolute -left-32 top-0 h-[420px] w-[420px] rounded-full opacity-90"
+        style={{
+          background: "radial-gradient(circle, rgba(252, 231, 231, 0.7) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute -right-32 top-1/3 h-[380px] w-[380px] rounded-full opacity-90"
+        style={{
+          background: "radial-gradient(circle, rgba(252, 231, 231, 0.6) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-5xl">
+        <h2 className="text-center text-2xl font-bold text-[#2a2a2a] sm:text-3xl lg:text-4xl">
           Titre
         </h2>
-        <div className="mt-12 space-y-8">
-          {blocs.map((bloc) => (
+
+        <div className="mt-10 space-y-6 sm:mt-14 sm:space-y-8">
+          {blocs.map((bloc, index) => (
             <article
               key={bloc.title}
-              className="flex flex-col gap-8 rounded-2xl border border-[#2a2a2a]/10 bg-[#fafafa] p-8 sm:flex-row sm:items-center"
+              className="flex flex-col overflow-hidden rounded-3xl bg-[#f5f5f5] shadow-sm sm:flex-row"
             >
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-[#2a2a2a] sm:text-2xl">
+              {/* Partie gauche : texte sur fond gris clair — 75 % de la div */}
+              <div className="flex min-w-0 flex-[3] flex-col justify-center px-6 py-8 sm:px-10 sm:py-10">
+                <h3 className="text-lg font-bold text-[#2a2a2a] sm:text-xl lg:text-2xl">
                   {bloc.title}
                 </h3>
-                <p className="mt-2 text-sm font-medium text-[#e61d2b]">
+                <p className="mt-2 text-sm font-bold text-[#2a2a2a] sm:text-base">
                   {bloc.subtitle}
                 </p>
-                <p className="mt-4 text-[#2a2a2a]/80">{bloc.description}</p>
+                <p className="mt-4 text-[#2a2a2a]/85 text-sm leading-relaxed sm:text-base">
+                  {bloc.description}
+                </p>
               </div>
-              <div className="relative h-56 w-full shrink-0 overflow-hidden rounded-xl bg-[#2a2a2a]/10 sm:h-48 sm:w-80">
-                <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
-                  <div>
-                    <p className="text-2xl font-bold">{bloc.stat}</p>
-                    <p className="text-sm">{bloc.statLabel}</p>
-                  </div>
+
+              {/* Partie droite : image = 25 % de la largeur de la carte, hauteur alignée au bloc */}
+              <div className="relative h-40 w-full shrink-0 overflow-hidden sm:h-full sm:min-h-[200px] sm:w-1/4 sm:self-stretch">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={BLOC_IMAGES[index] ?? BLOC_IMAGES[0]}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                />
+                <div
+                  className="absolute inset-0 z-10 flex flex-col items-center justify-end bg-gradient-to-t from-black/70 via-black/20 to-transparent pb-8 pt-16"
+                  aria-hidden
+                >
+                  <span className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                    {bloc.stat}
+                  </span>
+                  <span className="mt-1 text-center text-sm font-medium text-white/95 sm:text-base">
+                    {bloc.statLabel}
+                  </span>
                 </div>
               </div>
             </article>

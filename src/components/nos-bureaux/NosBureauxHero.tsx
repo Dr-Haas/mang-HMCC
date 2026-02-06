@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 
-const NAV_REPEAT = 7;
-const ACTIVE_INDEX = 3;
-
 /** Couleurs des cartes : #700000 (foncé), #B22020 (moyen), #9C9090 (gris) */
 const CARD_COLORS = {
   dark: "bg-[#700000]",
@@ -44,41 +41,35 @@ function CurrencyCard({ variant = "medium" }: { variant?: CardVariant }) {
 export function NosBureauxHero() {
   return (
     <section className="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      {/* Barre Services */}
-      <nav className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-10 sm:mb-12">
-        {Array.from({ length: NAV_REPEAT }, (_, i) => (
-          <span
-            key={i}
-            className={`text-sm font-medium sm:text-base ${
-              i === ACTIVE_INDEX
-                ? "text-[#e61d2b] underline decoration-[#e61d2b] underline-offset-4 decoration-2"
-                : "text-[#2a2a2a]"
-            }`}
-          >
-            Services
-          </span>
-        ))}
-      </nav>
-
-      {/* Zone centrale : 4 cartes au-dessus, titre au milieu, 3 cartes en dessous */}
-      <div className="mx-auto max-w-4xl flex flex-col items-center justify-center">
-        {/* 4 cartes au-dessus du titre — masquées sur mobile */}
-        <div className="hidden sm:flex w-full justify-between items-center px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
+      {/* Zone centrale : cartes en position absolue (coordonnées), titre au milieu */}
+      <div className="relative mx-auto max-w-4xl min-h-[380px] sm:min-h-[420px] flex flex-col items-center justify-center">
+        {/* 4 cartes au-dessus du titre — coordonnées en % (left, top) */}
+        <div className="absolute left-[6%] top-[0%] hidden sm:block">
           <CurrencyCard variant="dark" />
+        </div>
+        <div className="absolute left-[26%] top-[12%] hidden sm:block">
           <CurrencyCard variant="medium" />
+        </div>
+        <div className="absolute left-[54%] top-[4%] hidden sm:block">
           <CurrencyCard variant="dark" />
+        </div>
+        <div className="absolute left-[78%] top-[16%] hidden sm:block">
           <CurrencyCard variant="medium" />
         </div>
 
-        {/* Titre au centre de la page */}
+        {/* Titre au centre */}
         <h1 className="relative z-10 text-center text-3xl font-bold text-[#2a2a2a] sm:text-4xl lg:text-5xl">
           Nos bureaux à Paris
         </h1>
 
-        {/* 3 cartes en dessous du titre — masquées sur mobile */}
-        <div className="hidden sm:flex w-full justify-between items-center px-8 sm:px-12 lg:px-24 mt-6 sm:mt-8">
+        {/* 3 cartes en dessous du titre — coordonnées en % (left, top) */}
+        <div className="absolute left-[4%] top-[68%] hidden sm:block">
           <CurrencyCard variant="medium" />
+        </div>
+        <div className="absolute left-[40%] top-[82%] hidden sm:block">
           <CurrencyCard variant="dark" />
+        </div>
+        <div className="absolute left-[76%] top-[72%] hidden sm:block">
           <CurrencyCard variant="grey" />
         </div>
       </div>
@@ -95,25 +86,11 @@ export function NosBureauxHero() {
             ponctuelle et conforme.
           </p>
           <Link
-            href="/#contact"
+            href="/contact"
             className="mt-4 inline-flex items-center gap-1 text-[#2563eb] hover:underline"
           >
             Voir nos compétences →
           </Link>
-        </div>
-        <div className="flex gap-3 shrink-0">
-          <button
-            type="button"
-            className="rounded-xl border border-[#2a2a2a]/20 bg-white px-5 py-2.5 text-sm font-medium text-[#2a2a2a]"
-          >
-            Texte
-          </button>
-          <button
-            type="button"
-            className="rounded-xl border border-[#2a2a2a]/20 bg-white px-5 py-2.5 text-sm font-medium text-[#2a2a2a]"
-          >
-            Texte
-          </button>
         </div>
       </div>
     </section>

@@ -3,9 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const NAV_REPEAT = 7;
-const ACTIVE_INDEX = 3;
-
 const AGENCIES = [
   {
     title: "Agence 1",
@@ -20,26 +17,11 @@ const AGENCIES = [
 ];
 
 /**
- * Section Figma : barre Services, 2 cartes agence (image, titre, adresse, 5 cercles, bouton "Voir sur la carte"), puis Titre + paragraphe.
+ * Section : 2 cartes agence (image, titre, adresse, 5 cercles, bouton "Voir sur la carte"), puis Titre + paragraphe.
  */
 export function NosBureauxAgencyCards() {
   return (
     <section className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <nav className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-10 sm:mb-14">
-        {Array.from({ length: NAV_REPEAT }, (_, i) => (
-          <span
-            key={i}
-            className={`text-sm font-medium sm:text-base ${
-              i === ACTIVE_INDEX
-                ? "text-[#e61d2b] underline decoration-[#e61d2b] underline-offset-4 decoration-2"
-                : "text-[#2a2a2a]"
-            }`}
-          >
-            Services
-          </span>
-        ))}
-      </nav>
-
       <div className="mx-auto max-w-5xl">
         <div className="grid gap-6 sm:grid-cols-2">
           {AGENCIES.map((agency) => (
@@ -74,7 +56,7 @@ export function NosBureauxAgencyCards() {
                   ))}
                 </div>
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#e61d2b] px-4 py-2.5 text-sm font-medium text-white shadow transition hover:bg-[#b81a25]"
                 >
                   Voir sur la carte

@@ -20,7 +20,7 @@ export function Hero() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center justify-center rounded-md bg-[#e61d2b] px-6 py-3 text-base font-medium text-white transition hover:bg-[#b81a25]"
               >
                 Nous contacter

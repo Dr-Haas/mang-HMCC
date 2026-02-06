@@ -19,7 +19,7 @@ export function ComptabiliteSection() {
               et la conformité. Vous restez concentré sur votre activité.
             </p>
             <Link
-              href="#contact"
+              href="/contact"
               className="mt-6 inline-flex items-center justify-center rounded-md bg-[#e61d2b] px-6 py-3 text-base font-medium text-white transition hover:bg-[#b81a25]"
             >
               Demander un devis

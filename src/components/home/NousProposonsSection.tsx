@@ -16,7 +16,7 @@ const RED_LINKS = [
   { label: "NOS SERVICES", href: "/services" },
   { label: "FACTURATION", href: "/#facturation" },
   { label: "NOS BUREAUX", href: "/nos-bureaux" },
-  { label: "CONTACT", href: "/#contact" },
+  { label: "CONTACT", href: "/contact" },
 ];
 
 export function NousProposonsSection() {

@@ -81,7 +81,7 @@ export function HeroSection() {
           accompagner au quotidien et simplifier la gestion de vos finances.
         </p>
         <Link
-          href="/#contact"
+          href="/contact"
           className="mt-10 inline-flex items-center justify-center rounded-full bg-[#e61d2b] px-10 py-4 text-base font-medium text-white shadow-lg transition hover:bg-[#b81a25] sm:text-lg"
         >
           Je suis intéressé
