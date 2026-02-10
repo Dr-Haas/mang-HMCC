@@ -1,7 +1,0 @@
-{
-  "/contact/page": "app/contact/page.js",
-  "/facturation/page": "app/facturation/page.js",
-  "/nos-bureaux/page": "app/nos-bureaux/page.js",
-  "/page": "app/page.js",
-  "/services/page": "app/services/page.js"
-}

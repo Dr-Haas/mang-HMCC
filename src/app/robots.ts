@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "./lib/constants";
 
+export const dynamic = "force-static";
+
 /**
  * Génère robots.txt pour les crawlers (Google, Bing, etc.).
  * Autorise l’indexation du site et pointe vers le sitemap.

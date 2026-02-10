@@ -1,25 +1,25 @@
-import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/home/HeroSection";
-import { QuiSommesNousSection } from "@/components/home/QuiSommesNousSection";
-import { NousProposonsSection } from "@/components/home/NousProposonsSection";
-import { TitreEtCompetencesSection } from "@/components/home/TitreEtCompetencesSection";
-import { ServicesCardsSection } from "@/components/home/ServicesCardsSection";
-import { BlocsChiffresSection } from "@/components/home/BlocsChiffresSection";
-import { FooterSection } from "@/components/home/FooterSection";
+import { ExpertiseSection } from "@/components/home/ExpertiseSection";
+import { ValeurSection } from "@/components/home/ValeurSection";
+import { CabinetSection } from "@/components/home/CabinetSection";
+import { BureauxSection } from "@/components/home/BureauxSection";
+import { PourquoiSection } from "@/components/home/PourquoiSection";
+import { DigitalSection } from "@/components/home/DigitalSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { FooterCTASection } from "@/components/home/FooterCTASection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-[#2a2a2a]">
-      <Header />
-      <main>
-        <HeroSection />
-        <QuiSommesNousSection />
-        <NousProposonsSection />
-        <TitreEtCompetencesSection />
-        <ServicesCardsSection />
-        <BlocsChiffresSection />
-      </main>
-      <FooterSection />
-    </div>
+    <main>
+      <HeroSection />
+      <ExpertiseSection />
+      <ValeurSection />
+      <CabinetSection />
+      <BureauxSection />
+      <PourquoiSection />
+      <DigitalSection />
+      <TestimonialsSection />
+      <FooterCTASection />
+    </main>
   );
 }

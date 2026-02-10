@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "./lib/constants";
 
+/** Nécessaire pour l'export statique (output: 'export'). */
+export const dynamic = "force-static";
+
 /**
  * Sitemap XML pour aider Google et les autres moteurs à indexer le site.
  * Ajoutez ici les URLs de vos pages (ou générez-les dynamiquement).

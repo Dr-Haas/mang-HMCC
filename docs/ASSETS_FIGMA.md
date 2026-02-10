@@ -1,6 +1,6 @@
 # Récupérer les assets depuis Figma
 
-La home a été construite d’après les maquettes Figma. Les **icônes et images 3D** du design ne sont pas encore exportées : des emplacements (texte, emojis ou blocs vides) sont utilisés en attendant.
+Le site a été refondu à partir du nouveau Figma **[HMCC-Webside](https://www.figma.com/design/30LtbNha2wozffWnJVHQGp/HMCC-Webside?node-id=1-3)**. Les images et icônes du design sont à exporter depuis Figma et à intégrer dans le projet.
 
 ## Pourquoi les assets ne viennent pas du MCP Figma
 
@@ -8,38 +8,16 @@ Le **Figma MCP** a une limite d’appels selon le type de compte. Quand la limit
 
 ## Où mettre les assets dans le projet
 
-- **Images (photos, illustrations)** : dans `public/images/` (ex. `public/images/hero.jpg`, `public/images/card-1.jpg`).
+- **Images (photos, illustrations)** : dans `public/images/` (ex. `public/images/home/hero.jpg`, `public/images/services/card-1.jpg`). Créer des sous-dossiers par page ou section si besoin.
 - **Icônes (SVG/PNG)** : dans `public/icons/` ou `src/components/icons/`.
-- Ensuite, utilise `next/image` avec `src="/images/..."` ou importe les SVG en composants React.
-
-## Éléments à exporter depuis Figma (par section)
-
-1. **Hero (Home_Page_1)**  
-   Icônes : $, €, toggle à pièce, carte, documents empilés, portefeuille, curseur souris.
-
-2. **Qui sommes-nous (Home_Page_2)**  
-   Icônes 3D : smartphone/graphique, deux profils, pin de localisation ; décor : étoile, documents, drapeau, cadenas, puzzle, carte, compas.
-
-3. **Nous proposons (Home_Page_3)**  
-   Icônes 3D : curseur, montre, carte, puzzle, cadenas.
-
-4. **Titre + compétences (Home_Page_4)**  
-   Icônes 3D : dossiers, bulle de chat, bouclier ; formes décoratives (carrés rose/gris).
-
-5. **5 cartes services (Home_Page_5)**  
-   Images de fond des cartes (architecture) ; icône type Wi‑Fi/check en bas de section.
-
-6. **3 blocs chiffres (Home_Page_6)**  
-   3 photos (architecture) pour chaque bloc ; formes décoratives.
-
-7. **Footer**  
-   Aucun asset spécifique (texte + liens uniquement).
+- Ensuite, utiliser `next/image` avec `src="/images/..."` ou importer les SVG en composants React.
 
 ## Export depuis Figma
 
-1. Sélectionne le frame ou le groupe contenant l’icône/image.
-2. Clic droit → **Export** (ou panneau Design → Export).
-3. Choisis le format (PNG, SVG, JPG selon l’usage).
-4. Enregistre dans le dossier adapté du projet (voir ci‑dessus).
+1. Ouvrir le fichier [HMCC-Webside](https://www.figma.com/design/30LtbNha2wozffWnJVHQGp/HMCC-Webside?node-id=1-3) et parcourir les frames (desktop et responsive).
+2. Sélectionner le frame ou le groupe contenant l’icône/image.
+3. Clic droit → **Export** (ou panneau Design → Export).
+4. Choisir le format (PNG, SVG, JPG selon l’usage).
+5. Enregistrer dans le dossier adapté du projet (voir ci‑dessus).
 
-Une fois les fichiers en place, on peut remplacer les placeholders dans les composants par ces assets.
+Une fois les fichiers en place, remplacer les placeholders dans les composants par ces assets (via `next/image` ou composants SVG).

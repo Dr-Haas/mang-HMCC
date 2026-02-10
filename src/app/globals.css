@@ -24,56 +24,116 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Mouvement smooth des assets hero : rebond + légère rotation (bien visible) */
-@keyframes hero-float-1 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(10px, -8px) rotate(5deg); }
-  50% { transform: translate(-4px, 4px) rotate(-4deg); }
-  75% { transform: translate(6px, 6px) rotate(3deg); }
+/* ========== Animations au scroll ========== */
+.scroll-animate-fade-up {
+  opacity: 0;
+  transform: translateY(48px);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-@keyframes hero-float-2 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(-8px, 10px) rotate(-5deg); }
-  66% { transform: translate(6px, -6px) rotate(4deg); }
-}
-@keyframes hero-float-3 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(8px, 6px) rotate(-4deg); }
-  50% { transform: translate(-6px, -8px) rotate(5deg); }
-  75% { transform: translate(4px, -4px) rotate(-2deg); }
-}
-@keyframes hero-float-4 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(-10px, -6px) rotate(5deg); }
-  66% { transform: translate(6px, 8px) rotate(-4deg); }
-}
-@keyframes hero-float-5 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(6px, 8px) rotate(-5deg); }
+.scroll-animate-fade-up.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.animate-hero-float-1 { animation: hero-float-1 5s ease-in-out infinite; }
-.animate-hero-float-2 { animation: hero-float-2 5.5s ease-in-out infinite; }
-.animate-hero-float-3 { animation: hero-float-3 5s ease-in-out infinite; }
-.animate-hero-float-4 { animation: hero-float-4 5.2s ease-in-out infinite; }
-.animate-hero-float-5 { animation: hero-float-5 5.8s ease-in-out infinite; }
-
-/* Curseur fixe : battement (grossit / rétrécit) */
-@keyframes hero-cursor-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+.scroll-animate-fade-in {
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.animate-hero-cursor-pulse {
-  animation: hero-cursor-pulse 1.2s ease-in-out infinite;
+.scroll-animate-fade-in.scroll-visible {
+  opacity: 1;
 }
 
-/* Effet lévitation section 2 : ombre marquée + léger décalage vertical + micro-animation */
-.section2-asset-float {
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-  transform: translateY(-6px);
-  animation: section2-float 4s ease-in-out infinite;
+.scroll-animate-fade-down {
+  opacity: 0;
+  transform: translateY(-48px);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-@keyframes section2-float {
-  0%, 100% { transform: translateY(-6px); }
-  50% { transform: translateY(-12px); }
+.scroll-animate-fade-down.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate-slide-left {
+  opacity: 0;
+  transform: translateX(60px);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-animate-slide-left.scroll-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-animate-slide-right {
+  opacity: 0;
+  transform: translateX(-60px);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-animate-slide-right.scroll-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-animate-scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+  will-change: opacity, transform;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-animate-scale-in.scroll-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scroll-stagger-children > * {
+  opacity: 0;
+  transform: translateY(32px);
+  will-change: opacity, transform;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(2) {
+  transition-delay: 80ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(3) {
+  transition-delay: 160ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(4) {
+  transition-delay: 240ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(5) {
+  transition-delay: 320ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(6) {
+  transition-delay: 400ms;
+}
+.scroll-stagger-children.scroll-visible > *:nth-child(n + 7) {
+  transition-delay: 480ms;
+}
+.scroll-stagger-children.scroll-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Classes utilitaires */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero-gradient {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 1));
 }
