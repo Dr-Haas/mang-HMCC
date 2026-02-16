@@ -3,8 +3,17 @@
 import { Send, Mail, Phone, MapPin, Check } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_ADDRESS_PARIS } from "@/app/lib/constants";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/app/lib/constants";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const DualMetaballBackground = dynamic(
+  () =>
+    import("@/components/decor/DualMetaballBackground").then(
+      (module) => module.DualMetaballBackground,
+    ),
+  { ssr: false },
+);
 
 export function ContactPageContent() {
   const [formData, setFormData] = useState({
@@ -38,9 +47,14 @@ export function ContactPageContent() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-hidden">
+      <section
+        id="contact"
+        className="py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-visible"
+      >
         {/* Animated Filaments Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-visible">
+          <DualMetaballBackground className="absolute inset-0" />
+
           {/* Gradient Orbs */}
           <div className="absolute top-0 left-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-20"></div>

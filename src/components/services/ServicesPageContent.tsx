@@ -7,6 +7,7 @@ import Link from "next/link";
 
 export function ServicesPageContent() {
   const [activeService, setActiveService] = useState(0);
+  const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
 
   const services = [
     {
@@ -116,19 +117,34 @@ export function ServicesPageContent() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative py-32 md:py-40 overflow-hidden bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+      <section
+        className="relative py-28 md:py-36 overflow-hidden"
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          setHeroPointer({ x, y });
+        }}
+        onMouseLeave={() => setHeroPointer({ x: 50, y: 50 })}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900 to-neutral-900" />
+        <div
+          className="absolute inset-0 transition-all duration-300 ease-out"
+          style={{
+            background: `radial-gradient(680px 280px at ${heroPointer.x}% ${heroPointer.y}%, rgba(220, 38, 38, 0.42), transparent 70%)`,
+          }}
+        />
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-1/3 left-1/2 h-[420px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500/40 blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-3xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium text-white mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium text-white/90 mb-8"
             >
               <Sparkles size={16} className="text-red-400" />
               Innovation & Expertise comptable
@@ -138,20 +154,35 @@ export function ServicesPageContent() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6 leading-[1.1]"
+              className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-6 leading-[1.15]"
             >
               Des services nouvelle <br />
-              <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">génération</span>
+              <span className="bg-gradient-to-r from-red-300 to-red-100 bg-clip-text text-transparent">génération</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-xl text-neutral-300 font-light leading-relaxed"
+              className="text-lg md:text-2xl text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto"
             >
               Technologie de pointe et expertise humaine pour transformer votre gestion comptable
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-10"
+            >
+              <Link
+                href="/contact"
+                className="bg-white text-neutral-900 text-base font-medium px-10 py-4 rounded-full hover:bg-neutral-100 transition-all shadow-2xl inline-flex items-center gap-2"
+              >
+                Démarrer maintenant
+                <ArrowRight size={20} />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -218,12 +249,14 @@ export function ServicesPageContent() {
                       </ul>
 
                       {/* Arrow indicator */}
-                      <motion.div
-                        animate={isActive ? { x: 5 } : { x: 0 }}
-                        className="mt-6 flex items-center gap-2 text-sm font-medium text-neutral-400 group-hover:text-red-600 transition-colors"
-                      >
-                        En savoir plus
-                        <ArrowRight size={16} />
+                      <motion.div animate={isActive ? { x: 5 } : { x: 0 }}>
+                        <Link
+                          href="/contact"
+                          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-neutral-400 group-hover:text-red-600 transition-colors"
+                        >
+                          En savoir plus
+                          <ArrowRight size={16} />
+                        </Link>
                       </motion.div>
                     </div>
                   </div>

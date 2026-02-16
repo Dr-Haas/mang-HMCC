@@ -153,11 +153,15 @@ export function MentionsLegalesPageContent() {
                 <div className="space-y-6">
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex} className="space-y-3">
-                      {item.subtitle && <h3 className="text-lg font-semibold text-neutral-900">{item.subtitle}</h3>}
-                      {item.text && (
-                        <p className="text-neutral-600 font-light leading-relaxed whitespace-pre-line">{item.text}</p>
+                      {"subtitle" in item && item.subtitle && (
+                        <h3 className="text-lg font-semibold text-neutral-900">{item.subtitle}</h3>
                       )}
-                      {item.list && (
+                      {"text" in item && item.text && (
+                        <p className="text-neutral-600 font-light leading-relaxed whitespace-pre-line">
+                          {item.text}
+                        </p>
+                      )}
+                      {"list" in item && item.list && (
                         <ul className="list-disc list-inside space-y-2 text-neutral-600 font-light">
                           {item.list.map((listItem, listIndex) => (
                             <li key={listIndex}>{listItem}</li>

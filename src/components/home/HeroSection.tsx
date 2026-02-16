@@ -4,7 +4,11 @@ import Link from "next/link";
 import { ArrowRight, Calculator, TrendingUp, FileText, PieChart, Wallet, BarChart3, CircleDollarSign } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  skipInitialAnimation?: boolean;
+}
+
+export function HeroSection({ skipInitialAnimation = false }: HeroSectionProps) {
   const floatingIcons = [
     { Icon: Calculator, position: "top-[15%] left-[10%]", delay: 0, size: 40 },
     { Icon: TrendingUp, position: "top-[25%] right-[12%]", delay: 0.2, size: 36 },
@@ -20,9 +24,9 @@ export function HeroSection() {
       <div className="max-w-4xl mx-auto px-6 relative z-10 w-full">
         <div className="text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={skipInitialAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={skipInitialAnimation ? { duration: 0 } : { duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-50 border border-neutral-200 text-xs font-medium text-neutral-600 mb-8"
           >
             <span className="relative flex h-2 w-2">
@@ -33,9 +37,9 @@ export function HeroSection() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={skipInitialAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={skipInitialAnimation ? { duration: 0 } : { duration: 0.6, delay: 0.1 }}
             className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1]"
           >
             Pilotez votre <br />
@@ -43,18 +47,18 @@ export function HeroSection() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={skipInitialAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={skipInitialAnimation ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-neutral-500 font-light leading-relaxed mb-10 max-w-2xl mx-auto"
           >
             HMCC transforme vos obligations comptables en opportunités stratégiques. Une approche moderne, digitale et humaine pour les entrepreneurs exigeants.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={skipInitialAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={skipInitialAnimation ? { duration: 0 } : { duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center gap-4 justify-center"
           >
             <Link
@@ -74,9 +78,9 @@ export function HeroSection() {
 
           {/* Trust Indicators */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={skipInitialAnimation ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={skipInitialAnimation ? { duration: 0 } : { duration: 0.6, delay: 0.4 }}
             className="mt-16 pt-8 border-t border-neutral-100 flex items-center justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
           >
             <span className="text-sm font-semibold tracking-tight text-neutral-400">Ordre des Experts-Comptables</span>
