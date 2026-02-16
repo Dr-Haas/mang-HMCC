@@ -28,6 +28,13 @@ interface PointerCubeProps {
   pressed: boolean;
 }
 
+/**
+ * One metaball particle.
+ *
+ * This is NOT where the global silhouette is defined.
+ * The silhouette (shape design) comes from the `clusters` array in `MetaballSystem`.
+ * Here we only apply motion rules (spring attraction + swirl on hover).
+ */
 function MetaBall({
   color,
   home,
@@ -93,6 +100,13 @@ function MetaBall({
   );
 }
 
+/**
+ * Extra kinematic metaball driven by pointer.
+ *
+ * Acts like a local magnet/perturbation:
+ * - when hover is active, it follows pointer
+ * - when hover ends, it moves back behind the field (z = -6)
+ */
 function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
   const cubeRef = useRef<THREE.Group | null>(null);
   const position = useRef(new THREE.Vector3(0, 0, -6));
@@ -135,19 +149,58 @@ function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
   );
 }
 
+/**
+ * One complete metaball field (left OR right).
+ *
+ * CRITICAL: `clusters` is where we DESIGN the geometry.
+ * Each entry is a "control metaball" that sculpts the final merged silhouette.
+ *
+ * - `home`: base position in local field space (the static geometry)
+ * - `hoverOffset`: motion vector applied around pointer during interaction
+ *
+ * If you want to change the shape to match a design, edit `clusters` first.
+ * Tuning `strength/subtract` changes fusion softness, but cluster placement defines the form.
+ */
 function MetaballSystem({
+  side,
   anchor,
   colors,
   interactionRef,
   pressed,
 }: {
+  side: "left" | "right";
   anchor: [number, number, number];
   colors: string[];
   interactionRef: React.RefObject<InteractionState>;
   pressed: boolean;
 }) {
-  const clusters = useMemo(
-    () => [
+  // Geometry authoring zone:
+  // This array is the "shape blueprint" for each side.
+  // Move/add/remove points here to redesign the silhouette.
+  const clusters = useMemo(() => {
+    if (side === "left") {
+      // LEFT SHAPE BLUEPRINT:
+      // Rounded top + inward waist + vertical leg.
+      return [
+        { home: [-0.78, 0.64, 0.08], hoverOffset: [-0.94, 0.7, 0.08] },
+        { home: [-0.58, 0.76, -0.05], hoverOffset: [-0.74, 0.84, -0.05] },
+        { home: [-0.32, 0.68, 0.06], hoverOffset: [-0.12, 0.78, 0.06] },
+        { home: [-0.86, 0.34, -0.06], hoverOffset: [-1.02, 0.38, -0.06] },
+        { home: [-0.62, 0.32, 0.06], hoverOffset: [-0.82, 0.28, 0.06] },
+        { home: [-0.2, 0.28, -0.06], hoverOffset: [0.06, 0.24, -0.06] },
+        { home: [-0.92, -0.02, 0.08], hoverOffset: [-1.1, -0.04, 0.08] },
+        { home: [-0.64, -0.02, -0.05], hoverOffset: [-0.82, -0.08, -0.05] },
+        { home: [-0.26, -0.06, 0.05], hoverOffset: [0.1, -0.16, 0.05] },
+        { home: [-0.88, -0.34, -0.06], hoverOffset: [-1.08, -0.4, -0.06] },
+        { home: [-0.66, -0.46, 0.06], hoverOffset: [-0.86, -0.56, 0.06] },
+        { home: [-0.46, -0.62, -0.05], hoverOffset: [-0.58, -0.78, -0.05] },
+        { home: [-0.7, -0.78, 0.05], hoverOffset: [-0.88, -0.96, 0.05] },
+      ];
+    }
+
+    // RIGHT SHAPE BLUEPRINT:
+    // Smoother, more compact right blob.
+    return [
       { home: [0.12, 0.24, 0.08], hoverOffset: [0.56, 0.28, 0.08] },
       { home: [-0.18, 0.22, -0.07], hoverOffset: [-0.58, 0.22, -0.07] },
       { home: [0.22, 0.06, 0.04], hoverOffset: [0.68, -0.14, 0.04] },
@@ -158,9 +211,8 @@ function MetaballSystem({
       { home: [-0.04, 0.32, -0.05], hoverOffset: [-0.18, 0.66, -0.05] },
       { home: [0.32, -0.02, 0.06], hoverOffset: [0.84, 0.18, 0.06] },
       { home: [-0.32, 0.02, -0.06], hoverOffset: [-0.84, -0.18, -0.06] },
-    ],
-    [],
-  );
+    ];
+  }, [side]);
 
   return (
     <MarchingCubes
@@ -170,6 +222,7 @@ function MetaballSystem({
       enableColors
       position={anchor}
     >
+      {/* Surface material for merged metaballs */}
       <meshStandardMaterial
         vertexColors
         roughness={0.06}
@@ -177,9 +230,14 @@ function MetaballSystem({
         transparent
         opacity={0.95}
       />
+      {/*
+        Base fusion core:
+        - higher strength => more filled mass
+        - lower subtract => easier fusion
+      */}
       <MarchingCube
-        strength={0.34}
-        subtract={8.2}
+        strength={side === "left" ? 0.42 : 0.34}
+        subtract={side === "left" ? 7.2 : 8.2}
         color={new THREE.Color("#d75c60")}
         position={[0, 0, 0]}
       />
@@ -198,6 +256,14 @@ function MetaballSystem({
   );
 }
 
+/**
+ * Global background renderer with TWO independent metaball systems.
+ *
+ * Architecture:
+ * - one WebGL canvas for performance/stability
+ * - left and right systems rendered in same scene
+ * - two separate DOM hit areas for independent hover/click interactions
+ */
 export function DualMetaballBackground({ className }: DualMetaballBackgroundProps) {
   const leftInteractionRef = useRef<InteractionState>({
     hover: false,
@@ -213,6 +279,7 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
   const [leftPressed, setLeftPressed] = useState(false);
   const [rightPressed, setRightPressed] = useState(false);
 
+  // Converts pointer from DOM hitbox coordinates to normalized local values [-1..1].
   const updatePointer = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
     side: "left" | "right",
@@ -242,13 +309,19 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
         <ambientLight intensity={1} />
         <directionalLight intensity={1.15} position={[1.6, 1.1, 2.4]} />
         <directionalLight intensity={0.35} position={[-1.2, -0.4, 1.8]} />
+
+        {/* Left metaball field */}
         <MetaballSystem
-          anchor={[-0.95, 0.06, 0]}
+          side="left"
+          anchor={[-0.5, -0.06, 0.5]}
           colors={["#de5b60", "#d94f56", "#e77378", "#cf4c51"]}
           interactionRef={leftInteractionRef}
           pressed={leftPressed}
         />
+
+        {/* Right metaball field */}
         <MetaballSystem
+          side="right"
           anchor={[0.95, -0.08, 0]}
           colors={["#de5b60", "#d94f56", "#e77378", "#cf4c51"]}
           interactionRef={rightInteractionRef}
@@ -256,6 +329,7 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
         />
       </Canvas>
 
+      {/* Left interaction hitbox: drives only left system */}
       <div
         className="pointer-events-auto absolute -top-52 -left-[280px] h-[1000px] w-[640px] md:-left-[320px] md:h-[1040px] md:w-[680px]"
         onMouseEnter={(event) => {
@@ -302,6 +376,7 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
         }}
       />
 
+      {/* Right interaction hitbox: drives only right system */}
       <div
         className="pointer-events-auto absolute -bottom-62 -right-[270px] h-[980px] w-[640px] md:-right-[320px] md:h-[1020px] md:w-[660px]"
         onMouseEnter={(event) => {

@@ -4,10 +4,10 @@ import { Calculator, Users, Scale, TrendingUp, FileText, Briefcase, Check, Arrow
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import { UnicornHeaderScene } from "@/components/decor/UnicornHeaderScene";
 
 export function ServicesPageContent() {
   const [activeService, setActiveService] = useState(0);
-  const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
 
   const services = [
     {
@@ -117,25 +117,10 @@ export function ServicesPageContent() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section
-        className="relative py-28 md:py-36 overflow-hidden"
-        onMouseMove={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * 100;
-          const y = ((event.clientY - rect.top) / rect.height) * 100;
-          setHeroPointer({ x, y });
-        }}
-        onMouseLeave={() => setHeroPointer({ x: 50, y: 50 })}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900 to-neutral-900" />
-        <div
-          className="absolute inset-0 transition-all duration-300 ease-out"
-          style={{
-            background: `radial-gradient(680px 280px at ${heroPointer.x}% ${heroPointer.y}%, rgba(220, 38, 38, 0.42), transparent 70%)`,
-          }}
-        />
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-1/3 left-1/2 h-[420px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500/40 blur-3xl" />
+      <section className="relative py-28 md:py-36 overflow-hidden bg-neutral-950">
+        <div className="absolute inset-0">
+          <UnicornHeaderScene width="100%" height="100%" />
+          <div className="absolute inset-0 bg-neutral-950/35" />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
