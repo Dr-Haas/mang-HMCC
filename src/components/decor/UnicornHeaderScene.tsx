@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const UNICORN_PROJECT_ID = "KpJtpHMREjfflPEjEkw1";
 const UNICORN_SDK_URL =
@@ -25,9 +25,28 @@ export function UnicornHeaderScene({
   width = "100%",
   height = "400px",
 }: UnicornHeaderSceneProps) {
+  const [shouldRenderUnicorn, setShouldRenderUnicorn] = useState(false);
+
   useEffect(() => {
+    const isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
+    const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+
+    // Mobile Safari can be unstable with third-party WebGL embeds.
+    // Keep a static fallback there to avoid blank/partial pages.
+    if (isSmallScreen || isReducedMotion || isIOS) {
+      setShouldRenderUnicorn(false);
+      return;
+    }
+
+    setShouldRenderUnicorn(true);
+
     const initScene = () => {
-      window.UnicornStudio?.init?.();
+      try {
+        window.UnicornStudio?.init?.();
+      } catch {
+        setShouldRenderUnicorn(false);
+      }
     };
 
     if (window.UnicornStudio?.init) {
@@ -42,6 +61,7 @@ export function UnicornHeaderScene({
       script.src = UNICORN_SDK_URL;
       script.async = true;
       script.onload = initScene;
+      script.onerror = () => setShouldRenderUnicorn(false);
       (document.head || document.body).appendChild(script);
     } else {
       script.addEventListener("load", initScene, { once: true });
@@ -49,10 +69,11 @@ export function UnicornHeaderScene({
   }, []);
 
   return (
-    <div
-      data-us-project={UNICORN_PROJECT_ID}
-      style={{ width, height }}
-      className="unicorn-scene-host"
-    />
+    <div style={{ width, height }} className="relative overflow-hidden unicorn-scene-host">
+      <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900/70 to-neutral-950" />
+      {shouldRenderUnicorn && (
+        <div data-us-project={UNICORN_PROJECT_ID} className="absolute inset-0" />
+      )}
+    </div>
   );
 }

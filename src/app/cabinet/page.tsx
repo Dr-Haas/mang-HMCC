@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/app/lib/constants";
 import { CabinetHeroSection } from "@/components/cabinet/CabinetHeroSection";
+import { CabinetTimelineSection } from "@/components/cabinet/CabinetTimelineSection";
 import { CabinetSection } from "@/components/home/CabinetSection";
 import { BureauxSection } from "@/components/home/BureauxSection";
 import { FooterCTASection } from "@/components/home/FooterCTASection";
@@ -15,6 +16,7 @@ export default function CabinetPage() {
     <main>
       <div className="pt-20">
         <CabinetHeroSection />
+        <CabinetTimelineSection />
         <CabinetSection />
         <BureauxSection />
         <FooterCTASection />
