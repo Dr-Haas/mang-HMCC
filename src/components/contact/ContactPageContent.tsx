@@ -52,7 +52,7 @@ export function ContactPageContent() {
         className="py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-visible"
       >
         {/* Animated Filaments Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
+        <div className="absolute inset-0 pointer-events-none overflow-visible -left-[10%] -right-[10%] w-[120%]">
           <DualMetaballBackground className="absolute inset-0" />
 
           {/* Gradient Orbs */}
