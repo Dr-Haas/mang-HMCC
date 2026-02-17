@@ -2,12 +2,33 @@
 
 import { Calculator, Users, Scale, TrendingUp, FileText, Briefcase, Check, ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { UnicornHeaderScene } from "@/components/decor/UnicornHeaderScene";
+import { gsap } from "gsap";
 
 export function ServicesPageContent() {
   const [activeService, setActiveService] = useState(0);
+  const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
+  
+  // Refs pour les animations GSAP du hero
+  const heroRef = useRef<HTMLElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleLettersRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const gradientTextRef = useRef<HTMLSpanElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const buttonRef = useRef<HTMLAnchorElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const mousePos = useRef({ x: 0, y: 0 });
+
+  // Positions fixes des particules pour qu'elles ne bougent pas au re-render
+  const particlePositions = useMemo(() => {
+    return [...Array(20)].map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+    }));
+  }, []);
 
   const services = [
     {
@@ -114,60 +135,329 @@ export function ServicesPageContent() {
     },
   ];
 
+  // Animations d'entrée GSAP
+  useEffect(() => {
+    const timeline = gsap.timeline();
+
+    // Badge avec effet d'explosion
+    timeline.fromTo(
+      badgeRef.current,
+      {
+        scale: 0,
+        rotation: -180,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        rotation: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "back.out(2)",
+      }
+    );
+
+    // Lettres du titre avec effet cascade
+    timeline.fromTo(
+      titleLettersRef.current.filter(Boolean),
+      {
+        y: 100,
+        opacity: 0,
+        rotationX: 90,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        rotationX: 0,
+        duration: 0.8,
+        stagger: 0.03,
+        ease: "power3.out",
+      },
+      "-=0.4"
+    );
+
+    // Texte gradient avec effet de slide
+    timeline.fromTo(
+      gradientTextRef.current,
+      {
+        x: -100,
+        opacity: 0,
+        scale: 0.8,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "power3.out",
+      },
+      "-=0.5"
+    );
+
+    // Description avec blur
+    timeline.fromTo(
+      descRef.current,
+      {
+        y: 50,
+        opacity: 0,
+        filter: "blur(10px)",
+      },
+      {
+        y: 0,
+        opacity: 1,
+        filter: "blur(0px)",
+        duration: 0.8,
+        ease: "power2.out",
+      },
+      "-=0.4"
+    );
+
+    // Bouton avec bounce
+    timeline.fromTo(
+      buttonRef.current,
+      {
+        scale: 0,
+        rotation: 180,
+      },
+      {
+        scale: 1,
+        rotation: 0,
+        duration: 0.6,
+        ease: "back.out(2.5)",
+      },
+      "-=0.3"
+    );
+
+    // Particules animées en continu (indépendantes du curseur)
+    particlesRef.current.forEach((particle, i) => {
+      if (!particle) return;
+      gsap.to(particle, {
+        y: `random(-50, 50)`,
+        x: `random(-50, 50)`,
+        rotation: `random(-180, 180)`,
+        scale: `random(0.5, 1.5)`,
+        duration: `random(3, 6)`,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: i * 0.2,
+      });
+    });
+
+    return () => {
+      timeline.kill();
+    };
+  }, []);
+
+  // Effet magnétique sur le titre avec le curseur
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = hero.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      mousePos.current = { x, y };
+
+      // Déplacement magnétique du titre
+      const moveX = (x - centerX) * 0.02;
+      const moveY = (y - centerY) * 0.02;
+      
+      gsap.to(titleRef.current, {
+        x: moveX,
+        y: moveY,
+        rotation: moveX * 0.05,
+        duration: 1,
+        ease: "power2.out",
+      });
+
+      // Badge qui suit le curseur
+      gsap.to(badgeRef.current, {
+        x: (x - centerX) * 0.03,
+        y: (y - centerY) * 0.03,
+        rotation: (x - centerX) * 0.01,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+
+      // Description avec effet parallaxe inverse
+      gsap.to(descRef.current, {
+        x: -(x - centerX) * 0.015,
+        y: -(y - centerY) * 0.015,
+        duration: 1.2,
+        ease: "power2.out",
+      });
+    };
+
+    const handleMouseLeave = () => {
+      // Retour à la position initiale
+      gsap.to([titleRef.current, badgeRef.current, descRef.current], {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        duration: 1,
+        ease: "power2.out",
+      });
+    };
+
+    hero.addEventListener("mousemove", handleMouseMove);
+    hero.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      hero.removeEventListener("mousemove", handleMouseMove);
+      hero.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  // Animation du bouton au hover
+  useEffect(() => {
+    const button = buttonRef.current;
+    const arrow = arrowRef.current;
+    if (!button || !arrow) return;
+
+    const handleEnter = () => {
+      gsap.to(button, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      gsap.to(arrow, {
+        x: 5,
+        rotation: -45,
+        scale: 1.2,
+        duration: 0.4,
+        ease: "back.out(2)",
+      });
+    };
+
+    const handleLeave = () => {
+      gsap.to(button, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      gsap.to(arrow, {
+        x: 0,
+        rotation: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    };
+
+    button.addEventListener("mouseenter", handleEnter);
+    button.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      button.removeEventListener("mouseenter", handleEnter);
+      button.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative py-28 md:py-36 overflow-hidden bg-neutral-950">
-        <div className="absolute inset-0">
-          <UnicornHeaderScene width="100%" height="100%" />
-          <div className="absolute inset-0 bg-neutral-950/35" />
+      <section
+        ref={heroRef}
+        className="relative py-28 md:py-36 overflow-hidden"
+        onMouseMove={(event) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          setHeroPointer({ x, y });
+        }}
+        onMouseLeave={() => setHeroPointer({ x: 50, y: 50 })}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900 to-neutral-900" />
+        <div
+          className="absolute inset-0 transition-all duration-300 ease-out"
+          style={{
+            background: `radial-gradient(680px 280px at ${heroPointer.x}% ${heroPointer.y}%, rgba(220, 38, 38, 0.42), transparent 70%)`,
+          }}
+        />
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-1/3 left-1/2 h-[420px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500/40 blur-3xl" />
+        </div>
+
+        {/* Particules animées - conteneur fixe non affecté par le curseur */}
+        <div className="absolute inset-0 pointer-events-none">
+          {particlePositions.map((pos, i) => (
+            <div
+              key={i}
+              ref={(el) => {
+                particlesRef.current[i] = el;
+              }}
+              className="absolute w-2 h-2 rounded-full bg-red-400/30"
+              style={{
+                left: `${pos.left}%`,
+                top: `${pos.top}%`,
+                willChange: 'transform, opacity',
+              }}
+            />
+          ))}
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium text-white/90 mb-8"
+            <div
+              ref={badgeRef}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium text-white/90 mb-8 opacity-0"
+              style={{ perspective: "1000px" }}
             >
               <Sparkles size={16} className="text-red-400" />
               Innovation & Expertise comptable
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-6 leading-[1.15]"
+            <h1
+              ref={titleRef}
+              className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-0 leading-[1.15]"
+              style={{ perspective: "1000px" }}
             >
-              Des services nouvelle <br />
-              <span className="bg-gradient-to-r from-red-300 to-red-100 bg-clip-text text-transparent">génération</span>
-            </motion.h1>
+              {"Des services nouvelle ".split("").map((char, i) => (
+                <span
+                  key={i}
+                  ref={(el) => {
+                    titleLettersRef.current[i] = el;
+                  }}
+                  className="inline-block"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+              <br />
+              <span
+                ref={gradientTextRef}
+                className="bg-gradient-to-r from-red-300 to-red-100 bg-clip-text text-transparent inline-block pb-7"
+              >
+                génération
+              </span>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-2xl text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto"
+            <p
+              ref={descRef}
+              className="text-lg md:text-2xl text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto opacity-0"
             >
               Technologie de pointe et expertise humaine pour transformer votre gestion comptable
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-10"
-            >
+            <div className="mt-10">
               <Link
+                ref={buttonRef}
                 href="/contact"
-                className="bg-white text-neutral-900 text-base font-medium px-10 py-4 rounded-full hover:bg-neutral-100 transition-all shadow-2xl inline-flex items-center gap-2"
+                className="bg-white text-neutral-900 text-base font-medium px-10 py-4 rounded-full hover:bg-neutral-100 transition-colors shadow-2xl inline-flex items-center gap-2 opacity-0"
               >
                 Démarrer maintenant
-                <ArrowRight size={20} />
+                <div ref={arrowRef} className="inline-block">
+                  <ArrowRight size={20} />
+                </div>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
