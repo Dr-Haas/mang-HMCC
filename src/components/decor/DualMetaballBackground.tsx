@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MarchingCube, MarchingCubes } from "@react-three/drei";
@@ -293,6 +293,7 @@ function MetaballSystem({
 export function DualMetaballBackground({
   className,
 }: DualMetaballBackgroundProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const leftInteractionRef = useRef<InteractionState>({
     hover: false,
     pressed: false,
@@ -307,72 +308,96 @@ export function DualMetaballBackground({
   const [leftPressed, setLeftPressed] = useState(false);
   const [rightPressed, setRightPressed] = useState(false);
 
-  useEffect(() => {
-    const updatePointer = (event: MouseEvent | TouchEvent) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const isTouch = event instanceof TouchEvent;
-      const clientX = isTouch ? event.touches[0]?.clientX ?? 0 : event.clientX;
-      const clientY = isTouch ? event.touches[0]?.clientY ?? 0 : event.clientY;
+  const updatePointer = (
+    event:
+      | MouseEvent
+      | TouchEvent
+      | React.MouseEvent<HTMLDivElement>
+      | React.TouchEvent<HTMLDivElement>,
+    side?: "left" | "right"
+  ) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
 
-      // Position absolue de la souris par rapport au container
-      const mouseX = clientX - rect.left;
-      const mouseY = clientY - rect.top;
+    let clientX = 0;
+    let clientY = 0;
 
-      // Zones approximatives des blobs (gauche et droite)
+    if ("touches" in event && event.touches.length > 0) {
+      clientX = event.touches[0]?.clientX ?? 0;
+      clientY = event.touches[0]?.clientY ?? 0;
+    } else if ("changedTouches" in event && event.changedTouches.length > 0) {
+      clientX = event.changedTouches[0]?.clientX ?? 0;
+      clientY = event.changedTouches[0]?.clientY ?? 0;
+    } else if ("clientX" in event && "clientY" in event) {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else {
+      return;
+    }
+
+    const mouseX = clientX - rect.left;
+    const mouseY = clientY - rect.top;
+    const interactionRadius = 250;
+
+    const updateLeft = side === undefined || side === "left";
+    const updateRight = side === undefined || side === "right";
+
+    if (updateLeft) {
       const leftBlobX = rect.width * 0.25;
       const leftBlobY = rect.height * 0.45;
-      const rightBlobX = rect.width * 0.75;
-      const rightBlobY = rect.height * 0.55;
-      const interactionRadius = 250;
+      const distToLeft = Math.hypot(mouseX - leftBlobX, mouseY - leftBlobY);
 
-      const distToLeft = Math.sqrt(
-        Math.pow(mouseX - leftBlobX, 2) + Math.pow(mouseY - leftBlobY, 2)
-      );
-      const distToRight = Math.sqrt(
-        Math.pow(mouseX - rightBlobX, 2) + Math.pow(mouseY - rightBlobY, 2)
-      );
-
-      // Activer l'interaction si on est dans le rayon
       if (distToLeft < interactionRadius) {
-        // Calculer la position relative normalisée (-1 à 1) avec une distance plus courte pour plus de sensibilité
-        const localX = (mouseX - leftBlobX) / 250;
-        const localY = -(mouseY - leftBlobY) / 250;
         leftInteractionRef.current.hover = true;
-        leftInteractionRef.current.pointer = { x: localX, y: localY };
+        leftInteractionRef.current.pointer = {
+          x: (mouseX - leftBlobX) / 250,
+          y: -(mouseY - leftBlobY) / 250,
+        };
         leftInteractionRef.current.pressed = true;
         setLeftPressed(true);
-      } else {
+      } else if (side === undefined) {
         leftInteractionRef.current.hover = false;
         leftInteractionRef.current.pointer = { x: 0, y: 0 };
         leftInteractionRef.current.pressed = false;
         setLeftPressed(false);
       }
+    }
+
+    if (updateRight) {
+      const rightBlobX = rect.width * 0.75;
+      const rightBlobY = rect.height * 0.55;
+      const distToRight = Math.hypot(mouseX - rightBlobX, mouseY - rightBlobY);
 
       if (distToRight < interactionRadius) {
-        // Calculer la position relative normalisée (-1 à 1) avec une distance plus courte pour plus de sensibilité
-        const localX = (mouseX - rightBlobX) / 250;
-        const localY = -(mouseY - rightBlobY) / 250;
         rightInteractionRef.current.hover = true;
-        rightInteractionRef.current.pointer = { x: localX, y: localY };
+        rightInteractionRef.current.pointer = {
+          x: (mouseX - rightBlobX) / 250,
+          y: -(mouseY - rightBlobY) / 250,
+        };
         rightInteractionRef.current.pressed = true;
         setRightPressed(true);
-      } else {
+      } else if (side === undefined) {
         rightInteractionRef.current.hover = false;
         rightInteractionRef.current.pointer = { x: 0, y: 0 };
         rightInteractionRef.current.pressed = false;
         setRightPressed(false);
       }
+    }
+  };
+
+  useEffect(() => {
+    const handleMove = (event: MouseEvent | TouchEvent) => {
+      updatePointer(event);
     };
 
-    window.addEventListener("mousemove", updatePointer);
-    window.addEventListener("touchmove", updatePointer);
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("touchmove", handleMove);
 
     return () => {
-      window.removeEventListener("mousemove", updatePointer);
-      window.removeEventListener("touchmove", updatePointer);
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("touchmove", handleMove);
     };
-  }, []);
+  }, [updatePointer]);
 
   return (
     <div
@@ -397,6 +422,7 @@ export function DualMetaballBackground({
 
         {/* Left metaball field */}
         <MetaballSystem
+          side="left"
           anchor={[-0.8, 0.06, 0]}
           colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
           interactionRef={leftInteractionRef}
@@ -405,6 +431,7 @@ export function DualMetaballBackground({
 
         {/* Right metaball field */}
         <MetaballSystem
+          side="right"
           anchor={[0.8, -0.08, 0]}
           colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
           interactionRef={rightInteractionRef}
