@@ -25,21 +25,19 @@ export function UnicornHeaderScene({
   width = "100%",
   height = "400px",
 }: UnicornHeaderSceneProps) {
-  const [shouldRenderUnicorn, setShouldRenderUnicorn] = useState(false);
+  const [shouldRenderUnicorn, setShouldRenderUnicorn] = useState(true);
+  const [profile, setProfile] = useState<"desktop" | "mobile">("desktop");
 
   useEffect(() => {
     const isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
     const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+    const isIOS =
+      /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
+      (window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
 
-    // Mobile Safari can be unstable with third-party WebGL embeds.
-    // Keep a static fallback there to avoid blank/partial pages.
-    if (isSmallScreen || isReducedMotion || isIOS) {
-      setShouldRenderUnicorn(false);
-      return;
-    }
-
-    setShouldRenderUnicorn(true);
+    // Unicorn stays enabled on mobile/iOS with reduced rendering profile.
+    setProfile(isSmallScreen || isIOS ? "mobile" : "desktop");
+    setShouldRenderUnicorn(!isReducedMotion);
 
     const initScene = () => {
       try {
@@ -72,7 +70,15 @@ export function UnicornHeaderScene({
     <div style={{ width, height }} className="relative overflow-hidden unicorn-scene-host">
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900/70 to-neutral-950" />
       {shouldRenderUnicorn && (
-        <div data-us-project={UNICORN_PROJECT_ID} className="absolute inset-0" />
+        <div
+          data-us-project={UNICORN_PROJECT_ID}
+          data-us-lazyload="true"
+          data-us-production="true"
+          data-us-scale={profile === "mobile" ? "0.45" : "1"}
+          data-us-dpi={profile === "mobile" ? "1" : "1.5"}
+          data-us-fps={profile === "mobile" ? "24" : "60"}
+          className="absolute inset-0"
+        />
       )}
     </div>
   );

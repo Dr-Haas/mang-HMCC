@@ -1,6 +1,20 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function NotFound() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      router.replace("/");
+    }, 1200);
+
+    return () => window.clearTimeout(timeout);
+  }, [router]);
+
   return (
     <main className="flex min-h-[70vh] items-center justify-center px-6 py-24">
       <div className="mx-auto max-w-2xl text-center">
@@ -9,7 +23,7 @@ export default function NotFound() {
           Page introuvable
         </h1>
         <p className="mb-10 text-lg font-light text-neutral-600">
-          La page que vous recherchez n&apos;existe pas ou a ete deplacee.
+          Redirection vers l&apos;accueil...
         </p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link

@@ -1,0 +1,18 @@
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Keep direct access to real files/folders (assets, exported routes, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Alias route requested by users
+  RewriteRule ^service/?$ /services/ [R=301,L]
+
+  # Unknown URLs -> homepage
+  RewriteRule . / [R=302,L]
+</IfModule>

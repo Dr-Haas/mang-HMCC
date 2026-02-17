@@ -9,6 +9,7 @@ const navItems = [
   { id: "accueil", label: "Accueil", href: "/" },
   { id: "services", label: "Services", href: "/services" },
   { id: "cabinet", label: "Le Cabinet", href: "/cabinet" },
+  { id: "blog", label: "Blog", href: "/blog" },
   { id: "facturation", label: "Facturation Électronique", href: "/facturation" },
   { id: "domiciliation", label: "Domiciliation", href: "/domiciliation" },
   { id: "contact", label: "Contact", href: "/contact" },
