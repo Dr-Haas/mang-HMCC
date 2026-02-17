@@ -52,20 +52,32 @@ function MetaBall({
     if (!cubeRef.current) return;
     const dt = Math.min(delta, 0.1);
     const time = performance.now() * 0.001;
-    
+
     // Mouvement organique avec plusieurs fréquences
-    const x = home[0] + 
-      Math.sin(time * offset.current.speedX + offset.current.x) * offset.current.amplitudeX +
-      Math.cos(time * offset.current.speedX * 0.5 + offset.current.x) * offset.current.amplitudeX * 0.5;
-    
-    const y = home[1] + 
-      Math.cos(time * offset.current.speedY + offset.current.y) * offset.current.amplitudeY +
-      Math.sin(time * offset.current.speedY * 0.7 + offset.current.y) * offset.current.amplitudeY * 0.6;
-    
-    const z = home[2] + 
-      Math.sin(time * offset.current.speedZ + offset.current.z) * offset.current.amplitudeZ +
-      Math.cos(time * offset.current.speedZ * 1.3 + offset.current.z) * offset.current.amplitudeZ * 0.4;
-    
+    const x =
+      home[0] +
+      Math.sin(time * offset.current.speedX + offset.current.x) *
+        offset.current.amplitudeX +
+      Math.cos(time * offset.current.speedX * 0.5 + offset.current.x) *
+        offset.current.amplitudeX *
+        0.5;
+
+    const y =
+      home[1] +
+      Math.cos(time * offset.current.speedY + offset.current.y) *
+        offset.current.amplitudeY +
+      Math.sin(time * offset.current.speedY * 0.7 + offset.current.y) *
+        offset.current.amplitudeY *
+        0.6;
+
+    const z =
+      home[2] +
+      Math.sin(time * offset.current.speedZ + offset.current.z) *
+        offset.current.amplitudeZ +
+      Math.cos(time * offset.current.speedZ * 1.3 + offset.current.z) *
+        offset.current.amplitudeZ *
+        0.4;
+
     cubeRef.current.position.set(x, y, z);
   });
 
@@ -94,7 +106,7 @@ function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
       target.current.set(
         interaction.pointer.x * 0.82,
         interaction.pointer.y * 0.58,
-        0,
+        0
       );
     } else {
       target.current.set(0, 0, -0.3);
@@ -105,12 +117,14 @@ function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
     if (!cubeRef.current) return;
     const dt = Math.min(delta, 0.1);
     const interaction = interactionRef.current;
-    
+
     // Deux vitesses différentes : rapide quand hover, lent quand retour
     const springStrength = interaction?.hover ? 8.2 : 2.5;
     const damping = interaction?.hover ? 0.86 : 0.92;
-    
-    spring.current.subVectors(target.current, position.current).multiplyScalar(springStrength * dt);
+
+    spring.current
+      .subVectors(target.current, position.current)
+      .multiplyScalar(springStrength * dt);
     velocity.current.add(spring.current);
     velocity.current.multiplyScalar(Math.pow(damping, dt * 60));
     position.current.addScaledVector(velocity.current, dt * 60);
@@ -134,17 +148,17 @@ function CentralBlob() {
   useFrame(() => {
     if (!cubeRef.current) return;
     const time = performance.now() * 0.001;
-    
+
     // Mouvement organique subtil pour le blob central
     const x = Math.sin(time * 0.2) * 0.02 + Math.cos(time * 0.15) * 0.015;
     const y = Math.cos(time * 0.18) * 0.018 + Math.sin(time * 0.22) * 0.012;
     const z = Math.sin(time * 0.16) * 0.015;
-    
+
     // Rotation subtile
     cubeRef.current.rotation.x = Math.sin(time * 0.12) * 0.05;
     cubeRef.current.rotation.y = Math.cos(time * 0.1) * 0.08;
     cubeRef.current.rotation.z = Math.sin(time * 0.14) * 0.04;
-    
+
     cubeRef.current.position.set(x, y, z);
   });
 
@@ -183,7 +197,7 @@ function MetaballSystem({
       { home: [0.32, -0.02, 0.06], hoverOffset: [0.84, 0.18, 0.06] },
       { home: [-0.32, 0.02, -0.06], hoverOffset: [-0.84, -0.18, -0.06] },
     ],
-    [],
+    []
   );
 
   return (
@@ -224,7 +238,9 @@ function MetaballSystem({
   );
 }
 
-export function DualMetaballBackground({ className }: DualMetaballBackgroundProps) {
+export function DualMetaballBackground({
+  className,
+}: DualMetaballBackgroundProps) {
   const leftInteractionRef = useRef<InteractionState>({
     hover: false,
     pressed: false,
@@ -247,7 +263,7 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
       const isTouch = event instanceof TouchEvent;
       const clientX = isTouch ? event.touches[0]?.clientX ?? 0 : event.clientX;
       const clientY = isTouch ? event.touches[0]?.clientY ?? 0 : event.clientY;
-      
+
       // Position absolue de la souris par rapport au container
       const mouseX = clientX - rect.left;
       const mouseY = clientY - rect.top;
@@ -298,28 +314,28 @@ export function DualMetaballBackground({ className }: DualMetaballBackgroundProp
       }
     };
 
-    window.addEventListener('mousemove', updatePointer);
-    window.addEventListener('touchmove', updatePointer);
+    window.addEventListener("mousemove", updatePointer);
+    window.addEventListener("touchmove", updatePointer);
 
     return () => {
-      window.removeEventListener('mousemove', updatePointer);
-      window.removeEventListener('touchmove', updatePointer);
+      window.removeEventListener("mousemove", updatePointer);
+      window.removeEventListener("touchmove", updatePointer);
     };
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`${className ?? ""} pointer-events-none`}
     >
       <Canvas
         className="absolute inset-0"
         dpr={[1, 1]}
-        gl={{ 
-          antialias: false, 
+        gl={{
+          antialias: false,
           powerPreference: "low-power",
           toneMapping: 0, // NoToneMapping
-          toneMappingExposure: 1
+          toneMappingExposure: 1,
         }}
         camera={{ position: [0, 0, 5], fov: 25 }}
         flat
