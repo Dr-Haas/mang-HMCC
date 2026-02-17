@@ -1,134 +1,107 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDownRight, Play } from "lucide-react";
+import { ArrowDownRight } from "lucide-react";
+import Player from "@vimeo/player";
+
+const VIMEO_OPTIONS = "title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0";
+const VIMEO_DESKTOP_SRC = `https://player.vimeo.com/video/1165656919?h=e9affce932&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
+const VIMEO_MOBILE_SRC = `https://player.vimeo.com/video/1165658777?h=f626d7d501&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
 
 interface VideoLoaderProps {
   onVideoEnd: () => void;
-  /**
-   * Chemin de la vidéo MP4 hébergée sur le site (ex: "/videos/intro.mp4").
-   * Si non fourni, utilise "/videos/intro.mp4" par défaut.
-   */
-  videoSrc?: string;
 }
 
-export function VideoLoader({ onVideoEnd, videoSrc }: VideoLoaderProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [visible, setVisible] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const finishedRef = useRef(false);
-
-  const src = videoSrc || "/videos/intro.mp4";
+  const desktopIframeRef = useRef<HTMLIFrameElement>(null);
+  const mobileIframeRef = useRef<HTMLIFrameElement>(null);
+  const playersRef = useRef<Player[]>([]);
 
   const finish = () => {
     if (finishedRef.current) return;
     finishedRef.current = true;
-    setIsPlaying(false);
-    setHasStarted(true);
-    // Laisse le temps à l'animation d'opacité de se jouer
     setTimeout(() => {
       setVisible(false);
       onVideoEnd();
     }, 500);
   };
 
-  // Failsafe: never block navigation indefinitely if media cannot start.
+  const handleZoneClick = () => {
+    playersRef.current.forEach((player) => {
+      player.play().catch(() => {});
+    });
+  };
+
   useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      if (!isPlaying) finish();
-    }, 8000);
-    return () => window.clearTimeout(timeout);
-  }, [isPlaying]);
+    if (!visible) return;
 
-  const handlePlayClick = () => {
-    if (isPlaying) return;
-    const el = videoRef.current;
-    if (!el) {
-      finish();
-      return;
-    }
+    const players: Player[] = [];
 
-    el
-      .play()
-      .then(() => {
-        setHasStarted(true);
-        setIsPlaying(true);
-      })
-      .catch(() => {
-        // Si la vidéo ne peut pas être lue, on passe directement à la home
-        finish();
-      });
-  };
+    const setupPlayer = (iframe: HTMLIFrameElement | null) => {
+      if (!iframe) return;
+      const player = new Player(iframe);
+      players.push(player);
+      player.on("ended", () => finish());
+    };
 
-  const handleEndedOrError = () => {
-    finish();
-  };
+    setupPlayer(desktopIframeRef.current);
+    setupPlayer(mobileIframeRef.current);
+    playersRef.current = players;
+
+    return () => {
+      playersRef.current = [];
+      players.forEach((p) => p.destroy().catch(() => {}));
+    };
+  }, [visible]);
 
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
           className="fixed inset-0 z-[100] overflow-hidden bg-black"
-          onClick={!isPlaying ? handlePlayClick : undefined}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Vidéo plein écran en background, sans contrôles */}
-          <video
-            ref={videoRef}
-            src={src}
-            className="absolute inset-0 h-full w-full object-contain md:object-cover"
-            onEnded={handleEndedOrError}
-            onError={handleEndedOrError}
-            playsInline
-            preload="auto"
-            // Pas de muted ici, on veut le son quand l'utilisateur clique
-            // muted
-            controls={false}
-          />
-
-          {/* Play action: visible and easy to hit on mobile */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none md:hidden">
-              <motion.button
-                type="button"
-                onClick={handlePlayClick}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                aria-label="Lancer la vidéo d'introduction"
-                className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/35 px-5 py-3 text-sm font-medium text-white backdrop-blur-sm"
-              >
-                <Play size={16} />
-                Lancer l&apos;intro
-              </motion.button>
-            </div>
-          )}
-
-          {/* Optional hotspot kept for legacy alignment while intro is idle */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-end pr-[8vw]">
-            <motion.button
-              style={{
-                width: "220px",
-                height: "140px",
-              }}
-              type="button"
-              onClick={handlePlayClick}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-              aria-label="Lancer la vidéo d'introduction"
-              className="cursor-pointer bg-transparent border-none outline-none"
+          {/* Desktop : iframe Vimeo (masqué sur mobile) */}
+          <div className="absolute inset-0 hidden md:block">
+            <iframe
+              ref={desktopIframeRef}
+              src={VIMEO_DESKTOP_SRC}
+              className="h-full w-full border-0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Intro HMCC desktop"
             />
           </div>
-          )}
+
+          {/* Mobile : iframe Vimeo (masqué sur desktop) */}
+          <div className="absolute inset-0 md:hidden">
+            <iframe
+              ref={mobileIframeRef}
+              src={VIMEO_MOBILE_SRC}
+              className="h-full w-full border-0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="HMCC Introduction mobile"
+            />
+          </div>
+
+          {/* Zone cliquable pour lancer la vidéo — fond rouge pour réglages (remplacer par bg-transparent en prod) */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleZoneClick}
+            onKeyDown={(e) => e.key === "Enter" && handleZoneClick()}
+            className={window.innerWidth < 768 ? "absolute inset-[15%] z-10 cursor-pointer md:inset-[80%] rotate-90" : "absolute inset-[15%] z-10 cursor-pointer md:inset-[20%] rotate-170"}
+            aria-label="Lancer la vidéo"
+          />
 
           {/* Skip action bottom-right */}
-          <div className="absolute bottom-6 right-6 z-10">
+          <div className="absolute bottom-6 right-6 z-20">
             <button
               type="button"
               onClick={finish}
@@ -138,12 +111,6 @@ export function VideoLoader({ onVideoEnd, videoSrc }: VideoLoaderProps) {
               <ArrowDownRight size={14} />
             </button>
           </div>
-
-          {!hasStarted && !isPlaying && (
-            <p className="absolute bottom-7 left-6 text-xs text-white/70">
-              Touchez l&apos;ecran pour lancer la video
-            </p>
-          )}
         </motion.div>
       )}
     </AnimatePresence>

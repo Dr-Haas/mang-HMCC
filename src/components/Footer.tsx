@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Linkedin, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_ADDRESS_PARIS } from "@/app/lib/constants";
 
@@ -8,8 +9,14 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
-            <Link href="/" className="inline-block font-bold text-2xl tracking-tighter text-neutral-900 mb-6">
-              HMCC<span className="text-red-600">.</span>
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/images/logo.png"
+                alt="HMCC"
+                width={120}
+                height={40}
+                className="h-8 w-auto object-contain"
+              />
             </Link>
             <p className="text-neutral-500 text-sm leading-relaxed mb-6">
               Cabinet d&apos;expertise comptable inscrit à l&apos;Ordre de Paris Île-de-France. L&apos;accompagnement moderne pour les entrepreneurs.
