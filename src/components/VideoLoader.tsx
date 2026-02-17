@@ -96,7 +96,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             tabIndex={0}
             onClick={handleZoneClick}
             onKeyDown={(e) => e.key === "Enter" && handleZoneClick()}
-            className={window.innerWidth < 768 ? "absolute inset-[15%] z-10 cursor-pointer md:inset-[80%] rotate-90" : "absolute inset-[15%] z-10 cursor-pointer md:inset-[20%] rotate-170"}
+            className="absolute inset-[15%] z-10 cursor-pointer md:inset-[20%]"
             aria-label="Lancer la vidéo"
           />
 

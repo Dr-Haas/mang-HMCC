@@ -186,8 +186,6 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
     </Link>
   );
 }
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
 
 const navItems = [
   { id: "accueil", label: "Accueil", href: "/" },
@@ -215,12 +213,6 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Modern Logo */}
         <Logo />
-        {/* Logo HMCC */}
-        <Link href="/" className="flex items-center gap-1 group font-bold text-2xl tracking-tighter group-hover:opacity-80 transition-opacity">
-          <span className="text-neutral-900">HM</span>
-          <span className="text-red-600">CC</span>
-          <span className="text-neutral-900">.</span>
-        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6">
