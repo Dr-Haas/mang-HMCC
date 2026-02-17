@@ -40,12 +40,12 @@ function MetaBall({
     x: Math.random() * Math.PI * 2,
     y: Math.random() * Math.PI * 2,
     z: Math.random() * Math.PI * 2,
-    speedX: 0.6 + Math.random() * 0.7,
-    speedY: 0.5 + Math.random() * 0.6,
-    speedZ: 0.4 + Math.random() * 0.5,
-    amplitudeX: 0.06 + Math.random() * 0.08,
-    amplitudeY: 0.05 + Math.random() * 0.07,
-    amplitudeZ: 0.04 + Math.random() * 0.06,
+    speedX: 0.3 + Math.random() * 0.3,
+    speedY: 0.25 + Math.random() * 0.25,
+    speedZ: 0.2 + Math.random() * 0.2,
+    amplitudeX: 0.03 + Math.random() * 0.03,
+    amplitudeY: 0.025 + Math.random() * 0.03,
+    amplitudeZ: 0.02 + Math.random() * 0.025,
   });
 
   useFrame((_, delta) => {
@@ -104,8 +104,8 @@ function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
     const interaction = interactionRef.current;
     if (interaction.hover) {
       target.current.set(
-        interaction.pointer.x * 0.82,
-        interaction.pointer.y * 0.58,
+        interaction.pointer.x * 1.5,
+        interaction.pointer.y * 1.3,
         0
       );
     } else {
@@ -134,9 +134,9 @@ function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
   return (
     <MarchingCube
       ref={cubeRef}
-      strength={pressed ? 1.0 : 0.85}
+      strength={pressed ? 0.65 : 0.55}
       subtract={9.8}
-      color={new THREE.Color("#ff6b6b")}
+      color={new THREE.Color("#ff0000")}
       position={[0, 0, -0.3]}
     />
   );
@@ -149,15 +149,15 @@ function CentralBlob() {
     if (!cubeRef.current) return;
     const time = performance.now() * 0.001;
 
-    // Mouvement organique subtil pour le blob central
-    const x = Math.sin(time * 0.2) * 0.02 + Math.cos(time * 0.15) * 0.015;
-    const y = Math.cos(time * 0.18) * 0.018 + Math.sin(time * 0.22) * 0.012;
-    const z = Math.sin(time * 0.16) * 0.015;
+    // Mouvement organique subtil pour le blob central (réduit)
+    const x = Math.sin(time * 0.15) * 0.01 + Math.cos(time * 0.1) * 0.008;
+    const y = Math.cos(time * 0.12) * 0.009 + Math.sin(time * 0.16) * 0.006;
+    const z = Math.sin(time * 0.1) * 0.008;
 
     // Rotation subtile
-    cubeRef.current.rotation.x = Math.sin(time * 0.12) * 0.05;
-    cubeRef.current.rotation.y = Math.cos(time * 0.1) * 0.08;
-    cubeRef.current.rotation.z = Math.sin(time * 0.14) * 0.04;
+    cubeRef.current.rotation.x = Math.sin(time * 0.08) * 0.03;
+    cubeRef.current.rotation.y = Math.cos(time * 0.07) * 0.04;
+    cubeRef.current.rotation.z = Math.sin(time * 0.09) * 0.02;
 
     cubeRef.current.position.set(x, y, z);
   });
@@ -167,7 +167,7 @@ function CentralBlob() {
       ref={cubeRef}
       strength={0.34}
       subtract={8.2}
-      color={new THREE.Color("#ff4d5a")}
+      color={new THREE.Color("#ff1a1a")}
       position={[0, 0, 0]}
     />
   );
@@ -210,17 +210,17 @@ function MetaballSystem({
     >
       <meshPhysicalMaterial
         vertexColors
-        roughness={0.05}
+        roughness={0.6}
         metalness={0}
         transparent
-        opacity={0.9}
-        transmission={0.9}
-        thickness={2}
-        clearcoat={0.8}
-        clearcoatRoughness={0.1}
-        ior={1.52}
-        reflectivity={0.5}
-        envMapIntensity={1}
+        opacity={0.95}
+        transmission={0.3}
+        thickness={1.5}
+        clearcoat={0.2}
+        clearcoatRoughness={0.5}
+        ior={1.3}
+        reflectivity={0.2}
+        envMapIntensity={0.6}
       />
       <CentralBlob />
       {clusters.map((cluster, index) => (
@@ -273,7 +273,7 @@ export function DualMetaballBackground({
       const leftBlobY = rect.height * 0.45;
       const rightBlobX = rect.width * 0.75;
       const rightBlobY = rect.height * 0.55;
-      const interactionRadius = 350;
+      const interactionRadius = 250;
 
       const distToLeft = Math.sqrt(
         Math.pow(mouseX - leftBlobX, 2) + Math.pow(mouseY - leftBlobY, 2)
@@ -284,9 +284,9 @@ export function DualMetaballBackground({
 
       // Activer l'interaction si on est dans le rayon
       if (distToLeft < interactionRadius) {
-        // Calculer la position relative normalisée (-1 à 1)
-        const localX = (mouseX - leftBlobX) / 350;
-        const localY = -(mouseY - leftBlobY) / 350;
+        // Calculer la position relative normalisée (-1 à 1) avec une distance plus courte pour plus de sensibilité
+        const localX = (mouseX - leftBlobX) / 250;
+        const localY = -(mouseY - leftBlobY) / 250;
         leftInteractionRef.current.hover = true;
         leftInteractionRef.current.pointer = { x: localX, y: localY };
         leftInteractionRef.current.pressed = true;
@@ -299,9 +299,9 @@ export function DualMetaballBackground({
       }
 
       if (distToRight < interactionRadius) {
-        // Calculer la position relative normalisée (-1 à 1)
-        const localX = (mouseX - rightBlobX) / 350;
-        const localY = -(mouseY - rightBlobY) / 350;
+        // Calculer la position relative normalisée (-1 à 1) avec une distance plus courte pour plus de sensibilité
+        const localX = (mouseX - rightBlobX) / 250;
+        const localY = -(mouseY - rightBlobY) / 250;
         rightInteractionRef.current.hover = true;
         rightInteractionRef.current.pointer = { x: localX, y: localY };
         rightInteractionRef.current.pressed = true;
@@ -346,13 +346,13 @@ export function DualMetaballBackground({
         <pointLight intensity={0.8} position={[0, 2, 2]} color="#ffffff" />
         <MetaballSystem
           anchor={[-0.8, 0.06, 0]}
-          colors={["#ff4d5a", "#ff5563", "#ff5f6c", "#ff4555"]}
+          colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
           interactionRef={leftInteractionRef}
           pressed={leftPressed}
         />
         <MetaballSystem
           anchor={[0.8, -0.08, 0]}
-          colors={["#ff4d5a", "#ff5563", "#ff5f6c", "#ff4555"]}
+          colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
           interactionRef={rightInteractionRef}
           pressed={rightPressed}
         />
