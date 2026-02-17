@@ -157,7 +157,7 @@ export function PageLoader({ onComplete }: { onComplete?: () => void }) {
       <div
         ref={textRef}
         className="absolute inset-0 flex items-center justify-center"
-        style={{ willChange: "transform, opacity" }}
+        style={{ willChange: "transform, opacity", backgroundColor: "#A40D0D" }}
       >
         <h1 className="text-white text-[20vw] md:text-[18vw] font-bold tracking-[0.3em] leading-none select-none">
           HMCC
