@@ -26,7 +26,7 @@ export function Header() {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-neutral-100 glass-panel transition-all duration-300">
+    <nav className="fixed top-0 z-50 w-full border-b border-neutral-100 bg-white/95 transition-all duration-300 md:bg-white/80 md:backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Modern Logo */}
         <Link href="/" className="flex items-center gap-1 group">
