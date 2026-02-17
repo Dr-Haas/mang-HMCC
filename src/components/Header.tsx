@@ -186,11 +186,14 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
     </Link>
   );
 }
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   { id: "accueil", label: "Accueil", href: "/" },
   { id: "services", label: "Services", href: "/services" },
   { id: "cabinet", label: "Le Cabinet", href: "/cabinet" },
+  { id: "blog", label: "Blog", href: "/blog" },
   { id: "facturation", label: "Facturation Électronique", href: "/facturation" },
   { id: "domiciliation", label: "Domiciliation", href: "/domiciliation" },
   { id: "contact", label: "Contact", href: "/contact" },
@@ -208,10 +211,16 @@ export function Header() {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-neutral-100 glass-panel transition-all duration-300">
+    <nav className="fixed top-0 z-50 w-full border-b border-neutral-100 bg-white/95 transition-all duration-300 md:bg-white/80 md:backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Modern Logo */}
         <Logo />
+        {/* Logo HMCC */}
+        <Link href="/" className="flex items-center gap-1 group font-bold text-2xl tracking-tighter group-hover:opacity-80 transition-opacity">
+          <span className="text-neutral-900">HM</span>
+          <span className="text-red-600">CC</span>
+          <span className="text-neutral-900">.</span>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6">
@@ -228,7 +237,12 @@ export function Header() {
 
         {/* CTA */}
         <div className="flex items-center gap-4">
-          <ButtonLink href="/contact">Prendre RDV</ButtonLink>
+          <Link
+            href="/contact"
+            className="bg-red-600 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-red-700 transition-all shadow-sm shadow-red-200 hover:shadow-red-300"
+          >
+            Prendre RDV
+          </Link>
 
           {/* Mobile Menu Button */}
           <button

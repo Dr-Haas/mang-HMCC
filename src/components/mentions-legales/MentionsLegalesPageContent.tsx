@@ -2,9 +2,15 @@
 
 import { FileText } from "lucide-react";
 import { motion } from "framer-motion";
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_ADDRESS_PARIS_12 } from "@/app/lib/constants";
 
 export function MentionsLegalesPageContent() {
+  const introParagraphs = [
+    "La société HMCC (Hervé Miniou Conseil Comptabilité), soucieuse des droits des individus, notamment au regard des traitements automatisés et dans une volonté de transparence avec ses clients, a mis en place une politique reprenant l'ensemble de ces traitements, des finalités poursuivies par ces derniers ainsi que des moyens d'actions à la disposition des individus afin qu'ils puissent au mieux exercer leurs droits.",
+    "Pour toute information complémentaire sur la protection des données personnelles, nous vous invitons à consulter le site : https://www.cnil.fr/",
+    "La poursuite de la navigation sur ce site vaut acceptation sans réserve des dispositions et conditions d'utilisation qui suivent.",
+    "La version actuellement en ligne de ces conditions d'utilisation est la seule opposable pendant toute la durée d'utilisation du site et jusqu'à ce qu'une nouvelle version la remplace.",
+  ];
+
   const sections = [
     {
       number: 1,
@@ -16,7 +22,7 @@ export function MentionsLegalesPageContent() {
         },
         {
           subtitle: "1.2 Éditeur (ci-après « l'éditeur »)",
-          text: `HMCC (Hervé Miniou Conseil Comptabilité) SARL au capital de 227 911 €\n\nSiège social : ${CONTACT_ADDRESS_PARIS_12}\n\nReprésentée par Alan et Hervé MINIOU, en leur qualité d'associés\n\nImmatriculée au RCS de Paris 419 753 736\n\nTéléphone : ${CONTACT_PHONE}\n\nEmail : ${CONTACT_EMAIL}\n\nDirecteur de la publication : Alan MINIOU`,
+          text: "HMCC (Hervé Miniou Conseil Comptabilité) SARL au capital de 227 911 €\n\nDont le siège social est situé : 42 boulevard de la bastille, 75012 Paris.\n\nReprésentée par Alan et Hervé MINIOU, en leur qualité d'associés,\n\nImmatriculée au RCS de Paris 419 753 736.\n\nN° de téléphone : 0143445222\n\nAdresse mail : contact@hmcc.fr\n\nDirecteur de la publication : Alan MINIOU",
         },
         {
           subtitle: "1.3 Hébergeur (ci-après « l'hébergeur »)",
@@ -98,6 +104,126 @@ export function MentionsLegalesPageContent() {
         {
           text: "L'éditeur est libre de refuser cette autorisation sans avoir à justifier de quelque manière que ce soit sa décision. Dans le cas où l'éditeur accorderait son autorisation, celle-ci n'est dans tous les cas que temporaire et pourra être retirée à tout moment, sans obligation de justification à la charge de l'éditeur.",
         },
+        {
+          text: "Toute information accessible via un lien vers d'autres sites n'est pas publiée par l'éditeur. L'éditeur ne dispose d'aucun droit sur le contenu présent dans ledit lien.",
+        },
+      ],
+    },
+    {
+      number: 7,
+      title: "Collecte et protection des données",
+      content: [
+        {
+          text: "La société HMCC (Hervé Miniou Conseil Comptabilité) ne collecte pas de données personnelles.",
+        },
+      ],
+    },
+    {
+      number: 8,
+      title: "Droit d'accès, de rectification et de déréférencement de vos données",
+      content: [],
+    },
+    {
+      number: 9,
+      title: "Utilisation des données",
+      content: [
+        {
+          text: "Les données personnelles collectées auprès des utilisateurs ont pour objectif la mise à disposition des services de la Plateforme, leur amélioration et le maintien d'un environnement sécurisé. La base légale des traitements est l'exécution du contrat entre l'utilisateur et la Plateforme.",
+        },
+      ],
+    },
+    {
+      number: 10,
+      title: "Politique de conservation des données",
+      content: [
+        {
+          text: "La Plateforme conserve vos données pour la durée nécessaire pour vous fournir ses services ou son assistance.",
+        },
+        {
+          text: "Dans la mesure raisonnablement nécessaire ou requise pour satisfaire aux obligations légales ou réglementaires, régler des litiges, empêcher les fraudes et abus ou appliquer nos modalités et conditions.",
+        },
+      ],
+    },
+    {
+      number: 11,
+      title: "Partage des données personnelles avec des tiers",
+      content: [],
+    },
+    {
+      number: 12,
+      title: "Offres commerciales",
+      content: [
+        {
+          text: "Si, lors de la consultation du site, vous accédez à des données à caractère personnel, vous devez vous abstenir de toute collecte, de toute utilisation non autorisée et de tout acte pouvant constituer une atteinte à la vie privée ou à la réputation des personnes. L'éditeur décline toute responsabilité à cet égard.",
+        },
+        {
+          text: "Les données sont conservées et utilisées pour une durée conforme à la législation en vigueur.",
+        },
+      ],
+    },
+    {
+      number: 13,
+      title: "Cookies",
+      content: [
+        {
+          subtitle: "Qu'est-ce qu'un « cookie » ?",
+          text: "Un « Cookie » ou traceur est un fichier électronique déposé sur un terminal (ordinateur, tablette, smartphone,...) et lu par exemple lors de la consultation d'un site internet, de la lecture d'un courrier électronique, de l'installation ou de l'utilisation d'un logiciel ou d'une application mobile et ce, quel que soit le type de terminal utilisé (source : https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi).",
+        },
+        {
+          text: "En naviguant sur ce site, des « cookies » émanant de la société responsable du site concerné et/ou des sociétés tiers pourront être déposés sur votre terminal.",
+        },
+        {
+          text: "Lors de la première navigation sur ce site, une bannière explicative sur l'utilisation des « cookies » apparaîtra. Dès lors, en poursuivant la navigation, le client et/ou prospect sera réputé informé et avoir accepté l'utilisation desdits « cookies ». Le consentement donné sera valable pour une période de treize (13) mois. L'utilisateur a la possibilité de désactiver les cookies à partir des paramètres de son navigateur.",
+        },
+        {
+          text: "Toutes les informations collectées ne seront utilisées que pour suivre le volume, le type et la configuration du trafic utilisant ce site, pour en développer la conception et l'agencement et à d'autres fins administratives et de planification et plus généralement pour améliorer le service que nous vous offrons.",
+        },
+        {
+          text: "Les cookies suivants sont présents sur ce site :",
+        },
+        {
+          subtitle: "Cookies Google",
+          list: [
+            "Google analytics : permet de mesurer l'audience du site",
+            "Google tag manager : facilite l'implémentation des tags sur les pages et permet de gérer les balises Google",
+            "Google Adsense : régie publicitaire de Google utilisant les sites web ou les vidéos YouTube comme support pour ses annonces",
+            "Google Dynamic Remarketing : permet de vous proposer de la publicité dynamique en fonction des précédentes recherches",
+            "Google Adwords Conversion : outil de suivi des campagnes publicitaires adwords",
+          ],
+        },
+        {
+          text: "La durée de vie de ces cookies est de treize mois.",
+        },
+        {
+          text: "Pour plus d'informations sur l'utilisation, la gestion et la suppression des « cookies », pour tout type de navigateur, nous vous invitons à consulter le lien suivant : https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser.",
+        },
+      ],
+    },
+    {
+      number: 14,
+      title: "Photographies et représentation des produits",
+      content: [
+        {
+          text: "Les photographies de produits, accompagnant leur description, ne sont pas contractuelles et n'engagent pas l'éditeur.",
+        },
+      ],
+    },
+    {
+      number: 15,
+      title: "Loi applicable",
+      content: [
+        {
+          text: "Les présentes conditions d'utilisation du site sont régies par la loi française et soumises à la compétence des tribunaux du siège social de l'éditeur, sous réserve d'une attribution de compétence spécifique découlant d'un texte de loi ou réglementaire particulier.",
+        },
+      ],
+    },
+    {
+      number: 16,
+      title: "Contactez-nous",
+      content: [
+        {
+          text: "Pour toute question, information sur les produits présentés sur le site, ou concernant le site lui-même, vous pouvez laisser un message à l'adresse suivante : contact@hmcc.fr.",
+        },
       ],
     },
   ];
@@ -124,8 +250,21 @@ export function MentionsLegalesPageContent() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-5xl md:text-7xl font-semibold tracking-tight text-neutral-900 mb-6 leading-[1.1]"
             >
-              Mentions légales
+              Mentions légales et politiques de confidentialités
             </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mx-auto mt-8 max-w-3xl space-y-4 text-left"
+            >
+              {introParagraphs.map((paragraph, index) => (
+                <p key={index} className="text-neutral-600 font-light leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MarchingCube, MarchingCubes } from "@react-three/drei";
@@ -28,6 +28,13 @@ interface PointerCubeProps {
   pressed: boolean;
 }
 
+/**
+ * One metaball particle.
+ *
+ * This is NOT where the global silhouette is defined.
+ * The silhouette (shape design) comes from the `clusters` array in `MetaballSystem`.
+ * Here we only apply motion rules (spring attraction + swirl on hover).
+ */
 function MetaBall({
   color,
   home,
@@ -92,6 +99,13 @@ function MetaBall({
   );
 }
 
+/**
+ * Extra kinematic metaball driven by pointer.
+ *
+ * Acts like a local magnet/perturbation:
+ * - when hover is active, it follows pointer
+ * - when hover ends, it moves back behind the field (z = -6)
+ */
 function PointerCube({ interactionRef, pressed }: PointerCubeProps) {
   const cubeRef = useRef<THREE.Group | null>(null);
   const position = useRef(new THREE.Vector3(0, 0, -0.3));
@@ -173,19 +187,58 @@ function CentralBlob() {
   );
 }
 
+/**
+ * One complete metaball field (left OR right).
+ *
+ * CRITICAL: `clusters` is where we DESIGN the geometry.
+ * Each entry is a "control metaball" that sculpts the final merged silhouette.
+ *
+ * - `home`: base position in local field space (the static geometry)
+ * - `hoverOffset`: motion vector applied around pointer during interaction
+ *
+ * If you want to change the shape to match a design, edit `clusters` first.
+ * Tuning `strength/subtract` changes fusion softness, but cluster placement defines the form.
+ */
 function MetaballSystem({
+  side,
   anchor,
   colors,
   interactionRef,
   pressed,
 }: {
+  side: "left" | "right";
   anchor: [number, number, number];
   colors: string[];
   interactionRef: React.RefObject<InteractionState>;
   pressed: boolean;
 }) {
-  const clusters = useMemo(
-    () => [
+  // Geometry authoring zone:
+  // This array is the "shape blueprint" for each side.
+  // Move/add/remove points here to redesign the silhouette.
+  const clusters = useMemo(() => {
+    if (side === "left") {
+      // LEFT SHAPE BLUEPRINT:
+      // Rounded top + inward waist + vertical leg.
+      return [
+        { home: [-0.78, 0.64, 0.08], hoverOffset: [-0.94, 0.7, 0.08] },
+        { home: [-0.58, 0.76, -0.05], hoverOffset: [-0.74, 0.84, -0.05] },
+        { home: [-0.32, 0.68, 0.06], hoverOffset: [-0.12, 0.78, 0.06] },
+        { home: [-0.86, 0.34, -0.06], hoverOffset: [-1.02, 0.38, -0.06] },
+        { home: [-0.62, 0.32, 0.06], hoverOffset: [-0.82, 0.28, 0.06] },
+        { home: [-0.2, 0.28, -0.06], hoverOffset: [0.06, 0.24, -0.06] },
+        { home: [-0.92, -0.02, 0.08], hoverOffset: [-1.1, -0.04, 0.08] },
+        { home: [-0.64, -0.02, -0.05], hoverOffset: [-0.82, -0.08, -0.05] },
+        { home: [-0.26, -0.06, 0.05], hoverOffset: [0.1, -0.16, 0.05] },
+        { home: [-0.88, -0.34, -0.06], hoverOffset: [-1.08, -0.4, -0.06] },
+        { home: [-0.66, -0.46, 0.06], hoverOffset: [-0.86, -0.56, 0.06] },
+        { home: [-0.46, -0.62, -0.05], hoverOffset: [-0.58, -0.78, -0.05] },
+        { home: [-0.7, -0.78, 0.05], hoverOffset: [-0.88, -0.96, 0.05] },
+      ];
+    }
+
+    // RIGHT SHAPE BLUEPRINT:
+    // Smoother, more compact right blob.
+    return [
       { home: [0.12, 0.24, 0.08], hoverOffset: [0.56, 0.28, 0.08] },
       { home: [-0.18, 0.22, -0.07], hoverOffset: [-0.58, 0.22, -0.07] },
       { home: [0.22, 0.06, 0.04], hoverOffset: [0.68, -0.14, 0.04] },
@@ -251,7 +304,6 @@ export function DualMetaballBackground({
     pressed: false,
     pointer: { x: 0, y: 0 },
   });
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const [leftPressed, setLeftPressed] = useState(false);
   const [rightPressed, setRightPressed] = useState(false);
@@ -340,16 +392,19 @@ export function DualMetaballBackground({
         camera={{ position: [0, 0, 5], fov: 25 }}
         flat
       >
-        <ambientLight intensity={0.9} />
-        <directionalLight intensity={1.2} position={[1.6, 1.1, 2.4]} />
-        <directionalLight intensity={0.4} position={[-1.2, -0.4, 1.8]} />
-        <pointLight intensity={0.8} position={[0, 2, 2]} color="#ffffff" />
+        <ambientLight intensity={1} />
+        <directionalLight intensity={1.15} position={[1.6, 1.1, 2.4]} />
+        <directionalLight intensity={0.35} position={[-1.2, -0.4, 1.8]} />
+
+        {/* Left metaball field */}
         <MetaballSystem
           anchor={[-0.8, 0.06, 0]}
           colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
           interactionRef={leftInteractionRef}
           pressed={leftPressed}
         />
+
+        {/* Right metaball field */}
         <MetaballSystem
           anchor={[0.8, -0.08, 0]}
           colors={["#ff0000", "#ff1a1a", "#ff3333", "#cc0000"]}
@@ -357,6 +412,100 @@ export function DualMetaballBackground({
           pressed={rightPressed}
         />
       </Canvas>
+
+      {/* Left interaction hitbox: drives only left system */}
+      <div
+        className="pointer-events-auto absolute -top-52 -left-[280px] h-[1000px] w-[640px] md:-left-[320px] md:h-[1040px] md:w-[680px]"
+        onMouseEnter={(event) => {
+          leftInteractionRef.current.hover = true;
+          leftInteractionRef.current.pressed = true;
+          updatePointer(event, "left");
+          setLeftPressed(true);
+        }}
+        onMouseMove={(event) => {
+          leftInteractionRef.current.hover = true;
+          leftInteractionRef.current.pressed = true;
+          setLeftPressed(true);
+          updatePointer(event, "left");
+        }}
+        onMouseLeave={() => {
+          leftInteractionRef.current.hover = false;
+          leftInteractionRef.current.pressed = false;
+          setLeftPressed(false);
+        }}
+        onMouseDown={() => {
+          leftInteractionRef.current.pressed = true;
+          setLeftPressed(true);
+        }}
+        onMouseUp={() => {
+          leftInteractionRef.current.pressed = false;
+          setLeftPressed(false);
+        }}
+        onTouchStart={(event) => {
+          leftInteractionRef.current.hover = true;
+          leftInteractionRef.current.pressed = true;
+          setLeftPressed(true);
+          updatePointer(event, "left");
+        }}
+        onTouchMove={(event) => {
+          leftInteractionRef.current.hover = true;
+          leftInteractionRef.current.pressed = true;
+          setLeftPressed(true);
+          updatePointer(event, "left");
+        }}
+        onTouchEnd={() => {
+          leftInteractionRef.current.hover = false;
+          leftInteractionRef.current.pressed = false;
+          setLeftPressed(false);
+        }}
+      />
+
+      {/* Right interaction hitbox: drives only right system */}
+      <div
+        className="pointer-events-auto absolute -bottom-62 -right-[270px] h-[980px] w-[640px] md:-right-[320px] md:h-[1020px] md:w-[660px]"
+        onMouseEnter={(event) => {
+          rightInteractionRef.current.hover = true;
+          rightInteractionRef.current.pressed = true;
+          updatePointer(event, "right");
+          setRightPressed(true);
+        }}
+        onMouseMove={(event) => {
+          rightInteractionRef.current.hover = true;
+          rightInteractionRef.current.pressed = true;
+          setRightPressed(true);
+          updatePointer(event, "right");
+        }}
+        onMouseLeave={() => {
+          rightInteractionRef.current.hover = false;
+          rightInteractionRef.current.pressed = false;
+          setRightPressed(false);
+        }}
+        onMouseDown={() => {
+          rightInteractionRef.current.pressed = true;
+          setRightPressed(true);
+        }}
+        onMouseUp={() => {
+          rightInteractionRef.current.pressed = false;
+          setRightPressed(false);
+        }}
+        onTouchStart={(event) => {
+          rightInteractionRef.current.hover = true;
+          rightInteractionRef.current.pressed = true;
+          setRightPressed(true);
+          updatePointer(event, "right");
+        }}
+        onTouchMove={(event) => {
+          rightInteractionRef.current.hover = true;
+          rightInteractionRef.current.pressed = true;
+          setRightPressed(true);
+          updatePointer(event, "right");
+        }}
+        onTouchEnd={() => {
+          rightInteractionRef.current.hover = false;
+          rightInteractionRef.current.pressed = false;
+          setRightPressed(false);
+        }}
+      />
     </div>
   );
 }
