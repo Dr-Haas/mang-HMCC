@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { User, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   { id: "accueil", label: "Accueil", href: "/" },
@@ -54,13 +54,6 @@ export function Header() {
 
         {/* CTA */}
         <div className="flex items-center gap-4">
-          <a
-            href="#"
-            className="hidden md:flex items-center gap-2 text-sm font-medium text-neutral-900 hover:text-red-600 transition-colors"
-          >
-            <User size={20} />
-            Espace Client
-          </a>
           <Link
             href="/contact"
             className="bg-red-600 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-red-700 transition-all shadow-sm shadow-red-200 hover:shadow-red-300"
