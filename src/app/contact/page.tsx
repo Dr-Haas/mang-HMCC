@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/app/lib/constants";
+import { buildPageMetadata } from "@/app/lib/seo";
 import { ContactPageContent } from "@/components/contact/ContactPageContent";
 
-export const metadata: Metadata = {
-  title: `Contact | ${SITE_NAME}`,
+export const metadata: Metadata = buildPageMetadata({
+  title: "Contact",
   description:
-    "Contactez HMCC par formulaire, téléphone ou email. Prenez rendez-vous avec nos équipes.",
-};
+    "Contactez HMCC par formulaire, telephone ou email et prenez rendez-vous avec nos equipes.",
+  path: "/contact",
+  keywords: ["contact HMCC", "rendez-vous expert-comptable", "cabinet comptable Paris"],
+});
 
 export default function ContactPage() {
   return (

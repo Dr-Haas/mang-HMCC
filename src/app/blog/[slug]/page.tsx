@@ -33,14 +33,24 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     };
   }
 
+  const metaTitle = article.metaTitle ?? article.title;
+  const metaDescription = article.metaDescription ?? article.excerpt ?? `Découvrez l'article ${article.title} sur le blog ${SITE_NAME}.`;
+  const primaryImage = article.images[0];
+
   return {
-    title: `${article.title} | ${SITE_NAME}`,
-    description: article.excerpt ?? `Découvrez l'article ${article.title} sur le blog ${SITE_NAME}.`,
+    title: metaTitle,
+    description: metaDescription,
     openGraph: {
-      title: article.title,
-      description: article.excerpt ?? `Découvrez l'article ${article.title}.`,
-      images: article.images.map((url) => ({ url })),
+      title: metaTitle,
+      description: metaDescription,
+      images: primaryImage ? [{ url: primaryImage }] : undefined,
       type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metaTitle,
+      description: metaDescription,
+      images: primaryImage ? [primaryImage] : undefined,
     },
   };
 }

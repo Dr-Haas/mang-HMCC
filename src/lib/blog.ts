@@ -9,6 +9,8 @@ export type BlogArticle = {
   id: string;
   slug: string;
   title: string;
+  metaTitle: string | null;
+  metaDescription: string | null;
   excerpt: string | null;
   content: string | null;
   contentHtml: string | null;
@@ -80,7 +82,7 @@ function getPublicationStatus(row: ArticleRow): "published" | "pending" | "draft
 }
 
 function isLikelyUrl(value: string): boolean {
-  return /^https?:\/\//i.test(value) || value.startsWith("/");
+  return /^(https?:\/\/|\/|data:image\/|blob:)/i.test(value);
 }
 
 function collectImageUrlsFromValue(value: unknown): string[] {
@@ -167,6 +169,8 @@ function slugify(value: string): string {
 
 function normalizeArticle(row: ArticleRow, index: number): BlogArticle {
   const title = getString(row, ["title", "titre", "name"]) ?? `Article ${index + 1}`;
+  const metaTitle = getString(row, ["meta_title", "seo_title", "title_meta", "og_title"]);
+  const metaDescription = getString(row, ["meta_description", "seo_description", "description_meta", "og_description"]);
 
   const rawId = row.id ?? row.uuid ?? row.article_id ?? row.post_id;
   const id = typeof rawId === "string" || typeof rawId === "number" ? String(rawId) : `${index}`;
@@ -196,6 +200,8 @@ function normalizeArticle(row: ArticleRow, index: number): BlogArticle {
     id,
     slug,
     title,
+    metaTitle,
+    metaDescription,
     excerpt: getString(row, ["excerpt", "summary", "description", "chapo", "meta_description"]),
     content: getString(row, ["content", "body", "texte", "markdown", "content_markdown"]),
     contentHtml: getString(row, ["content_html", "html", "body_html"]),
