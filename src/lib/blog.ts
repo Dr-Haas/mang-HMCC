@@ -1,6 +1,9 @@
 import { createPublicServerClient } from "@/lib/supabase/server-public";
+import { unstable_cache } from "next/cache";
 
 type ArticleRow = Record<string, unknown>;
+export const BLOG_CACHE_TAG = "blog-articles";
+export const BLOG_REVALIDATE_SECONDS = 300;
 
 export type BlogArticle = {
   id: string;
@@ -150,7 +153,7 @@ function getArticleImages(row: ArticleRow): string[] {
   const urls = allKeys.flatMap((key) => collectImageUrlsFromValue(row[key]));
   const deduped = [...new Set(urls)];
 
-  return deduped.slice(0, 3);
+  return deduped;
 }
 
 function slugify(value: string): string {
@@ -221,13 +224,18 @@ async function getRawArticles(): Promise<ArticleRow[]> {
   return data ?? [];
 }
 
+const getRawArticlesCached = unstable_cache(getRawArticles, ["blog-articles-all"], {
+  revalidate: BLOG_REVALIDATE_SECONDS,
+  tags: [BLOG_CACHE_TAG],
+});
+
 export async function getPublishedArticles(): Promise<BlogArticle[]> {
-  const rows = await getRawArticles();
+  const rows = await getRawArticlesCached();
   return rows.map(normalizeArticle).filter((item) => item.isPublished).sort(byMostRecent);
 }
 
 export async function getArticleBySlug(slug: string): Promise<BlogArticle | null> {
-  const rows = await getRawArticles();
+  const rows = await getRawArticlesCached();
   const articles = rows.map(normalizeArticle);
   return articles.find((item) => item.slug === slug) ?? null;
 }
