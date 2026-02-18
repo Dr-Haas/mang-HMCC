@@ -97,7 +97,7 @@ function MetaBall({
       position={home}
     />
   );
-}
+} 
 
 /**
  * Extra kinematic metaball driven by pointer.
