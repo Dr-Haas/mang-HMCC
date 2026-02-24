@@ -249,9 +249,8 @@ function MetaballSystem({
       { home: [-0.04, 0.32, -0.05], hoverOffset: [-0.18, 0.66, -0.05] },
       { home: [0.32, -0.02, 0.06], hoverOffset: [0.84, 0.18, 0.06] },
       { home: [-0.32, 0.02, -0.06], hoverOffset: [-0.84, -0.18, -0.06] },
-    ],
-    []
-  );
+    ];
+  }, [side]);
 
   return (
     <MarchingCubes

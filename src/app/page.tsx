@@ -1,21 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { VideoLoader } from "@/components/VideoLoader";
 import { PageLoader } from "@/components/PageLoader";
 import { HomePageContent } from "@/components/home/HomePageContent";
 
-export default function Home() {
-  const [showContent, setShowContent] = useState(false);
-  const [hasSeenVideo, setHasSeenVideo] = useState(false);
-  const [showPageLoader, setShowPageLoader] = useState(false);
-
-  // Vérifier si l'utilisateur a déjà vu la vidéo (localStorage)
-  useEffect(() => {
-    const seen = localStorage.getItem("hmcc-video-seen");
-    if (seen === "true") {
-      setHasSeenVideo(true);
-      setShowPageLoader(true);
 const HOME_LOADER_SEEN_KEY = "hmcc_home_loader_seen";
 
 export default function Home() {
@@ -25,6 +14,17 @@ export default function Home() {
     }
     return window.sessionStorage.getItem(HOME_LOADER_SEEN_KEY) === "1";
   });
+  const [hasSeenVideo, setHasSeenVideo] = useState(false);
+  const [showPageLoader, setShowPageLoader] = useState(false);
+
+  // Vérifier si l'utilisateur a déjà vu la vidéo (localStorage)
+  useEffect(() => {
+    const seen = localStorage.getItem("hmcc-video-seen");
+    if (seen === "true") {
+      setHasSeenVideo(true);
+      setShowPageLoader(true);
+    }
+  }, []);
 
   const handleVideoEnd = () => {
     localStorage.setItem("hmcc-video-seen", "true");

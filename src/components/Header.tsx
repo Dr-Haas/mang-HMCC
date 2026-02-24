@@ -186,8 +186,6 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
     </Link>
   );
 }
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
 
 const navItems = [
   { id: "accueil", label: "Accueil", href: "/" },
