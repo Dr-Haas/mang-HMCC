@@ -7,11 +7,11 @@ import { CONTACT_EMAIL, CONTACT_PHONE } from "@/app/lib/constants";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const DualMetaballBackground = dynamic(
+const BlobBackground = dynamic(
   () =>
-    import("@/components/decor/DualMetaballBackground").then(
-      (module) => module.DualMetaballBackground
-    ),
+    import("@/components/decor/BlobBackground").then((module) => ({
+      default: module.default,
+    })),
   { ssr: false }
 );
 
@@ -54,7 +54,7 @@ export function ContactPageContent() {
       >
         {/* Animated Filaments Background */}
         <div className="absolute inset-0 pointer-events-none overflow-visible -left-[10%] -right-[10%] w-[120%]">
-          <DualMetaballBackground className="absolute inset-0" />
+          <BlobBackground />
 
           {/* Gradient Orbs */}
           <div className="absolute top-0 left-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>

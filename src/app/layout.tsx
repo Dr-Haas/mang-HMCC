@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_URL, SITE_NAME } from "./lib/constants";
 import { Layout } from "@/components/Layout";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,8 +21,7 @@ export const metadata: Metadata = {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Site HMCC. Découvrez nos services et contenus.",
+  description: "Site HMCC. Découvrez nos services et contenus.",
   keywords: ["HMCC"],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
@@ -75,7 +75,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Layout>{children}</Layout>
+        <SmoothScrollProvider>
+          <Layout>{children}</Layout>
+        </SmoothScrollProvider>
       </body>
     </html>
   );

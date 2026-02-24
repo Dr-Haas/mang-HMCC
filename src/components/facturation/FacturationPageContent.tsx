@@ -1,43 +1,270 @@
 "use client";
 
-import { FileText, ArrowRight, Check, X, CheckCircle, AlertCircle, Calendar, Users, Zap, Shield, TrendingUp, Download, Upload, RefreshCw, Database } from "lucide-react";
+import {
+  FileText,
+  ArrowRight,
+  Check,
+  X,
+  CheckCircle,
+  AlertCircle,
+  Calendar,
+  Users,
+  Zap,
+  Shield,
+  TrendingUp,
+  Download,
+  Upload,
+  RefreshCw,
+  Database,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import Link from "next/link";
 import { CONTACT_PHONE } from "@/app/lib/constants";
+import BlobBackground from "@/components/decor/BlobBackground";
 
 export function FacturationPageContent() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const wordsRef = useRef<HTMLDivElement[]>([]);
+  const annotationsRef = useRef<HTMLDivElement[]>([]);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const ctaLineRef = useRef<HTMLDivElement>(null);
+  const ctaArrowRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const heroHeight = hero.offsetHeight;
+
+      // Calculer l'opacité en fonction du scroll (commence à disparaître après 20% du scroll)
+      const fadeStart = heroHeight * 0.2;
+      const fadeEnd = heroHeight * 0.8;
+
+      let opacity = 1;
+      if (scrollY > fadeStart) {
+        const fadeProgress = (scrollY - fadeStart) / (fadeEnd - fadeStart);
+        opacity = Math.max(0, 1 - fadeProgress);
+      }
+
+      gsap.to(hero, {
+        opacity: opacity,
+        duration: 0.1,
+        ease: "none",
+      });
+
+      // Effet locomotive scroll - déplace les textes horizontalement
+      const scrollProgress = Math.min(scrollY / heroHeight, 1);
+
+      // Configuration du déplacement pour chaque mot (direction d'où il vient)
+      const wordScrollEffects = [
+        { index: 0, direction: 1, intensity: 150 }, // Facturation → droite
+        { index: 1, direction: -1, intensity: 150 }, // Électronique → gauche
+        { index: 2, direction: 1, intensity: 100 }, // Obligatoire → droite
+      ];
+
+      wordScrollEffects.forEach(({ index, direction, intensity }) => {
+        const wordElement = wordsRef.current[index];
+        if (wordElement) {
+          const xOffset = scrollProgress * intensity * direction;
+          gsap.to(wordElement, {
+            x: xOffset,
+            duration: 0.1,
+            ease: "none",
+          });
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Animation GSAP pour les mots qui apparaissent progressivement
+  useEffect(() => {
+    if (wordsRef.current.length === 0) return;
+
+    const timeline = gsap.timeline();
+
+    // Configuration des directions de slide pour chaque mot
+    const wordAnimations = [
+      { element: wordsRef.current[0], fromX: 100 }, // Facturation (droite → gauche)
+      { element: wordsRef.current[1], fromX: -100 }, // Électronique (gauche → droite)
+      { element: wordsRef.current[2], fromX: 50 }, // Obligatoire (droite → gauche)
+    ];
+
+    // Animer les mots principaux
+    wordAnimations.forEach((anim, index) => {
+      if (anim.element) {
+        timeline.fromTo(
+          anim.element.querySelector("h1, h2, h3"),
+          {
+            opacity: 0,
+            x: anim.fromX,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          index * 0.25
+        );
+
+        // Animer l'annotation qui apparaît du bas après le mot
+        const annotation = annotationsRef.current[index];
+        if (annotation) {
+          timeline.fromTo(
+            annotation,
+            {
+              opacity: 0,
+              y: 15,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            index * 0.25 + 0.4 // Commence 0.4s après le début du mot
+          );
+        }
+      }
+    });
+
+    // Animer la description
+    if (wordsRef.current[3]) {
+      timeline.fromTo(
+        wordsRef.current[3],
+        {
+          opacity: 0,
+          y: 30,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        0.9
+      );
+    }
+
+    // Animation sophistiquée du CTA
+    if (ctaRef.current && ctaLineRef.current && ctaArrowRef.current) {
+      // Texte principal fade in + slide
+      timeline.fromTo(
+        ctaRef.current,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power4.out",
+        },
+        1.1
+      );
+
+      // Ligne qui se dessine de gauche à droite
+      timeline.fromTo(
+        ctaLineRef.current,
+        {
+          scaleX: 0,
+          transformOrigin: "left",
+        },
+        {
+          scaleX: 1,
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
+        1.3
+      );
+
+      // Flèche qui slide de la gauche
+      timeline.fromTo(
+        ctaArrowRef.current,
+        {
+          opacity: 0,
+          x: -10,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        1.4
+      );
+    }
+
+    return () => {
+      timeline.kill();
+    };
+  }, []);
 
   const timeline = [
     {
       date: "1er septembre 2026",
       title: "Réception obligatoire",
-      description: "Toutes les entreprises doivent pouvoir recevoir des factures électroniques",
+      description:
+        "Toutes les entreprises doivent pouvoir recevoir des factures électroniques",
       audience: "Toutes entreprises",
       color: "red",
     },
     {
       date: "1er septembre 2026",
       title: "Émission - Grandes entreprises",
-      description: "Les grandes entreprises et ETI doivent émettre des factures électroniques",
+      description:
+        "Les grandes entreprises et ETI doivent émettre des factures électroniques",
       audience: "GE & ETI",
       color: "violet",
     },
     {
       date: "1er septembre 2027",
       title: "Émission - PME & TPE",
-      description: "Les PME, TPE et micro-entreprises doivent émettre des factures électroniques",
+      description:
+        "Les PME, TPE et micro-entreprises doivent émettre des factures électroniques",
       audience: "PME, TPE & Micro",
       color: "blue",
     },
   ];
 
   const workflow = [
-    { step: 1, title: "Émission", icon: Upload, description: "Votre entreprise émet une facture", color: "red" },
-    { step: 2, title: "Plateforme Agréée", icon: RefreshCw, description: "Conversion et validation", color: "violet" },
-    { step: 3, title: "Administration", icon: Database, description: "Transmission des données à la DGFiP", color: "blue" },
-    { step: 4, title: "Réception", icon: Download, description: "Le client reçoit la facture", color: "emerald" },
+    {
+      step: 1,
+      title: "Émission",
+      icon: Upload,
+      description: "Votre entreprise émet une facture",
+      color: "red",
+    },
+    {
+      step: 2,
+      title: "Plateforme Agréée",
+      icon: RefreshCw,
+      description: "Conversion et validation",
+      color: "violet",
+    },
+    {
+      step: 3,
+      title: "Administration",
+      icon: Database,
+      description: "Transmission des données à la DGFiP",
+      color: "blue",
+    },
+    {
+      step: 4,
+      title: "Réception",
+      icon: Download,
+      description: "Le client reçoit la facture",
+      color: "emerald",
+    },
   ];
 
   const differences = [
@@ -81,23 +308,28 @@ export function FacturationPageContent() {
   const faqs = [
     {
       question: "Un PDF envoyé par email suffit-il ?",
-      answer: "Non. Un simple PDF ou une facture scannée n'est plus conforme. La facture doit être normée (UBL, CII ou Factur-X) et transmise via une Plateforme Agréée.",
+      answer:
+        "Non. Un simple PDF ou une facture scannée n'est plus conforme. La facture doit être normée (UBL, CII ou Factur-X) et transmise via une Plateforme Agréée.",
     },
     {
       question: "Quelles nouvelles mentions sont obligatoires ?",
-      answer: "En plus des mentions habituelles : n° SIREN fournisseur et client, date d'émission, adresse de livraison complète, nature de l'opération, identifiant de la PA.",
+      answer:
+        "En plus des mentions habituelles : n° SIREN fournisseur et client, date d'émission, adresse de livraison complète, nature de l'opération, identifiant de la PA.",
     },
     {
       question: "Qui est concerné par cette réforme ?",
-      answer: "Toutes les entreprises assujetties à la TVA, quelle que soit leur taille : grandes entreprises, ETI, PME, TPE et micro-entrepreneurs.",
+      answer:
+        "Toutes les entreprises assujetties à la TVA, quelle que soit leur taille : grandes entreprises, ETI, PME, TPE et micro-entrepreneurs.",
     },
     {
       question: "Qu'est-ce qu'une Plateforme Agréée (PA) ?",
-      answer: "C'est un opérateur validé par l'administration fiscale qui assure l'émission, la transmission, la réception des factures et la transmission des données à la DGFiP.",
+      answer:
+        "C'est un opérateur validé par l'administration fiscale qui assure l'émission, la transmission, la réception des factures et la transmission des données à la DGFiP.",
     },
     {
       question: "Quel est le coût de cette transition ?",
-      answer: "Le coût varie selon votre volume de factures et la PA choisie. Il inclut l'abonnement à la PA, la formation des équipes et éventuellement l'audit préalable. C'est un investissement qui génère un ROI via l'automatisation.",
+      answer:
+        "Le coût varie selon votre volume de factures et la PA choisie. Il inclut l'abonnement à la PA, la formation des équipes et éventuellement l'audit préalable. C'est un investissement qui génère un ROI via l'automatisation.",
     },
   ];
 
@@ -129,70 +361,148 @@ export function FacturationPageContent() {
   ];
 
   return (
-    <div className="pt-20">
+    <div className="pt-20 relative">
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-sm font-medium text-red-600 mb-8"
-            >
-              <Calendar size={16} />
-              Obligatoire dès septembre 2026
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-semibold tracking-tight text-neutral-900 mb-6 leading-[1.1]"
-            >
-              Du papier au numérique : <br />
-              <span className="text-red-600">la facture change</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-xl text-neutral-600 font-light leading-relaxed mb-12"
-            >
-              La facturation électronique devient obligatoire pour toutes les entreprises françaises. Découvrez comment vous préparer à cette révolution digitale.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center gap-4 justify-center"
-            >
-              <Link
-                href="/contact"
-                className="w-full sm:w-auto bg-red-600 text-white text-base font-medium px-8 py-3.5 rounded-full hover:bg-red-700 transition-all shadow-lg shadow-red-100/50 flex items-center justify-center gap-2"
-              >
-                Être accompagné
-                <ArrowRight size={20} />
-              </Link>
-              <button
-                onClick={() => {
-                  const element = document.getElementById("faq");
-                  if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-                className="w-full sm:w-auto bg-white border-2 border-neutral-200 text-neutral-900 text-base font-medium px-8 py-3.5 rounded-full hover:bg-neutral-50 transition-all flex items-center justify-center gap-2"
-              >
-                Questions fréquentes
-              </button>
-            </motion.div>
-          </div>
+      <section
+        ref={heroRef}
+        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh]"
+      >
+        {/* Blob Background */}
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          <BlobBackground />
         </div>
 
-        {/* Decorative gradient */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-red-50 to-transparent blur-3xl opacity-50 -z-10"></div>
+        {/* Grid Container - En haut de la page, non centré */}
+        <div className="max-w-7xl mx-auto px-6 relative z-10 pt-20 md:pt-32">
+          {/* Grid 12 colonnes */}
+          <div className="grid grid-cols-12 gap-4">
+            {/* Ligne 1 - Facturation avec annotation */}
+            <div
+              ref={(el) => {
+                if (el) wordsRef.current[0] = el;
+              }}
+              className="col-start-5 col-span-7 pointer-events-auto relative"
+            >
+              <div
+                ref={(el) => {
+                  if (el) annotationsRef.current[0] = el;
+                }}
+                className="absolute -top-8 left-0 text-sm text-neutral-500 font-light"
+              >
+                Réforme 2026
+              </div>
+              <h1 className="text-8xl md:text-9xl lg:text-9xl font-light text-neutral-900 leading-none">
+                Facturation
+              </h1>
+            </div>
+
+            {/* Ligne 2 - Électronique avec annotation */}
+            <div
+              ref={(el) => {
+                if (el) wordsRef.current[1] = el;
+              }}
+              className="col-start-2 col-span-7 pointer-events-auto mt-8 relative"
+            >
+              <div
+                ref={(el) => {
+                  if (el) annotationsRef.current[1] = el;
+                }}
+                className="absolute -top-8 left-0 text-sm text-neutral-500 font-light"
+              >
+                Dématérialisation complète
+              </div>
+              <h2 className="text-8xl md:text-9xl lg:text-9xl font-light text-neutral-600 leading-none">
+                Électronique
+              </h2>
+            </div>
+
+            {/* Ligne 3 - Obligatoire avec annotation */}
+            <div
+              ref={(el) => {
+                if (el) wordsRef.current[2] = el;
+              }}
+              className="col-start-6 col-span-6 pointer-events-auto mt-6 relative"
+            >
+              <div
+                ref={(el) => {
+                  if (el) annotationsRef.current[2] = el;
+                }}
+                className="absolute -top-8 left-0 text-sm text-red-500 font-medium"
+              >
+                Toutes entreprises
+              </div>
+              <h3 className="text-8xl md:text-9xl lg:text-9xl font-light text-red-600 leading-none">
+                Obligatoire
+              </h3>
+            </div>
+
+            {/* Ligne 4 - Description courte */}
+            <div
+              ref={(el) => {
+                if (el) wordsRef.current[3] = el;
+              }}
+              className="col-start-6 col-span-6 pointer-events-auto mt-16"
+            >
+              <p className="text-lg md:text-xl text-neutral-600 font-light leading-relaxed">
+                Préparez votre entreprise à la révolution de la facturation
+                numérique
+              </p>
+            </div>
+
+            {/* Ligne 5 - CTA Élégant */}
+            <div className="col-start-3 col-span-5 pointer-events-auto mt-12 relative z-30">
+              <Link
+                ref={ctaRef}
+                href="/contact"
+                className="group inline-block relative"
+                onMouseEnter={() => {
+                  if (ctaArrowRef.current) {
+                    gsap.to(ctaArrowRef.current, {
+                      x: 5,
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                  if (ctaLineRef.current) {
+                    gsap.to(ctaLineRef.current, {
+                      scaleX: 1.05,
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (ctaArrowRef.current) {
+                    gsap.to(ctaArrowRef.current, {
+                      x: 0,
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                  if (ctaLineRef.current) {
+                    gsap.to(ctaLineRef.current, {
+                      scaleX: 1,
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                }}
+              >
+                <span className="flex items-center gap-3 text-neutral-900 text-xl md:text-2xl font-light tracking-wide">
+                  Être accompagné
+                  <span ref={ctaArrowRef} className="inline-block">
+                    <ArrowRight size={24} className="stroke-[1.5]" />
+                  </span>
+                </span>
+                <div
+                  ref={ctaLineRef}
+                  className="h-[1px] bg-neutral-900 mt-2 origin-left"
+                  style={{ transform: "scaleX(0)" }}
+                />
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* What Changes Section */}
@@ -203,7 +513,8 @@ export function FacturationPageContent() {
               Ce qui change vraiment
             </h2>
             <p className="text-neutral-600 font-light text-lg max-w-2xl mx-auto">
-              Une facture électronique n&apos;est pas un simple PDF. Voici les différences clés.
+              Une facture électronique n&apos;est pas un simple PDF. Voici les
+              différences clés.
             </p>
           </div>
 
@@ -222,8 +533,12 @@ export function FacturationPageContent() {
                   <div className="absolute -top-3 -right-3 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                     <X className="text-red-600" size={20} />
                   </div>
-                  <p className="text-neutral-500 text-sm mb-2">❌ Non conforme</p>
-                  <p className="text-lg font-medium text-neutral-900">{diff.incorrect}</p>
+                  <p className="text-neutral-500 text-sm mb-2">
+                    ❌ Non conforme
+                  </p>
+                  <p className="text-lg font-medium text-neutral-900">
+                    {diff.incorrect}
+                  </p>
                 </div>
 
                 {/* Correct */}
@@ -231,8 +546,12 @@ export function FacturationPageContent() {
                   <div className="absolute -top-3 -right-3 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                     <Check className="text-green-600" size={20} />
                   </div>
-                  <p className="text-neutral-500 text-sm mb-2">✅ Conforme 2026</p>
-                  <p className="text-lg font-medium text-neutral-900">{diff.correct}</p>
+                  <p className="text-neutral-500 text-sm mb-2">
+                    ✅ Conforme 2026
+                  </p>
+                  <p className="text-lg font-medium text-neutral-900">
+                    {diff.correct}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -247,7 +566,9 @@ export function FacturationPageContent() {
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
               Le nouveau parcours de la facture
             </h2>
-            <p className="text-neutral-600 font-light text-lg">Visualisez le flux automatisé de bout en bout</p>
+            <p className="text-neutral-600 font-light text-lg">
+              Visualisez le flux automatisé de bout en bout
+            </p>
           </div>
 
           <div className="relative max-w-5xl mx-auto">
@@ -281,12 +602,20 @@ export function FacturationPageContent() {
                       </div>
 
                       {/* Icon with gradient */}
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colorMap[step.color]} flex items-center justify-center mb-4 mx-auto`}>
+                      <div
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${
+                          colorMap[step.color]
+                        } flex items-center justify-center mb-4 mx-auto`}
+                      >
                         <Icon className="text-white" size={32} />
                       </div>
 
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-2 text-center">{step.title}</h3>
-                      <p className="text-sm text-neutral-600 font-light text-center">{step.description}</p>
+                      <h3 className="text-lg font-semibold text-neutral-900 mb-2 text-center">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm text-neutral-600 font-light text-center">
+                        {step.description}
+                      </p>
                     </div>
                   </motion.div>
                 );
@@ -303,15 +632,32 @@ export function FacturationPageContent() {
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
               Calendrier de mise en œuvre
             </h2>
-            <p className="text-neutral-600 font-light text-lg">Les dates clés à retenir pour être conforme</p>
+            <p className="text-neutral-600 font-light text-lg">
+              Les dates clés à retenir pour être conforme
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {timeline.map((event, index) => {
-              const colorMap: Record<string, { bg: string; text: string; border: string }> = {
-                red: { bg: "bg-red-50", text: "text-red-600", border: "border-red-200" },
-                violet: { bg: "bg-violet-50", text: "text-violet-600", border: "border-violet-200" },
-                blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-200" },
+              const colorMap: Record<
+                string,
+                { bg: string; text: string; border: string }
+              > = {
+                red: {
+                  bg: "bg-red-50",
+                  text: "text-red-600",
+                  border: "border-red-200",
+                },
+                violet: {
+                  bg: "bg-violet-50",
+                  text: "text-violet-600",
+                  border: "border-violet-200",
+                },
+                blue: {
+                  bg: "bg-blue-50",
+                  text: "text-blue-600",
+                  border: "border-blue-200",
+                },
               };
               const colors = colorMap[event.color];
 
@@ -324,12 +670,20 @@ export function FacturationPageContent() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={`bg-white rounded-3xl p-8 border-2 ${colors.border} hover:shadow-xl transition-all`}
                 >
-                  <div className={`inline-block px-4 py-2 ${colors.bg} ${colors.text} rounded-full text-sm font-semibold mb-6`}>
+                  <div
+                    className={`inline-block px-4 py-2 ${colors.bg} ${colors.text} rounded-full text-sm font-semibold mb-6`}
+                  >
                     {event.date}
                   </div>
-                  <h3 className="text-2xl font-semibold text-neutral-900 mb-3">{event.title}</h3>
-                  <p className="text-neutral-600 mb-4 font-light">{event.description}</p>
-                  <div className={`inline-block px-3 py-1 ${colors.bg} ${colors.text} rounded-full text-xs font-medium`}>
+                  <h3 className="text-2xl font-semibold text-neutral-900 mb-3">
+                    {event.title}
+                  </h3>
+                  <p className="text-neutral-600 mb-4 font-light">
+                    {event.description}
+                  </p>
+                  <div
+                    className={`inline-block px-3 py-1 ${colors.bg} ${colors.text} rounded-full text-xs font-medium`}
+                  >
                     {event.audience}
                   </div>
                 </motion.div>
@@ -346,7 +700,9 @@ export function FacturationPageContent() {
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
               Pourquoi cette réforme ?
             </h2>
-            <p className="text-neutral-600 font-light text-lg">Des bénéfices concrets pour votre entreprise</p>
+            <p className="text-neutral-600 font-light text-lg">
+              Des bénéfices concrets pour votre entreprise
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -365,8 +721,12 @@ export function FacturationPageContent() {
                   <div className="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-4">
                     <Icon className="text-red-600" size={28} />
                   </div>
-                  <h3 className="text-lg font-semibold text-neutral-900 mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-neutral-600 font-light">{benefit.description}</p>
+                  <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-sm text-neutral-600 font-light">
+                    {benefit.description}
+                  </p>
                 </motion.div>
               );
             })}
@@ -381,7 +741,9 @@ export function FacturationPageContent() {
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
               Notre accompagnement
             </h2>
-            <p className="text-neutral-600 font-light text-lg">4 étapes pour une transition réussie</p>
+            <p className="text-neutral-600 font-light text-lg">
+              4 étapes pour une transition réussie
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -401,8 +763,12 @@ export function FacturationPageContent() {
                       {step.number}
                     </div>
                     <Icon className="text-red-600 mb-4 mt-4" size={32} />
-                    <h3 className="text-xl font-semibold text-neutral-900 mb-3">{step.title}</h3>
-                    <p className="text-neutral-600 font-light">{step.description}</p>
+                    <h3 className="text-xl font-semibold text-neutral-900 mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-neutral-600 font-light">
+                      {step.description}
+                    </p>
                   </div>
                 </motion.div>
               );
@@ -428,7 +794,9 @@ export function FacturationPageContent() {
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
               Questions fréquentes
             </h2>
-            <p className="text-neutral-600 font-light text-lg">Tout ce que vous devez savoir sur la réforme</p>
+            <p className="text-neutral-600 font-light text-lg">
+              Tout ce que vous devez savoir sur la réforme
+            </p>
           </div>
 
           <div className="space-y-4">
@@ -442,12 +810,22 @@ export function FacturationPageContent() {
                 className="bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden hover:shadow-lg transition-all"
               >
                 <button
-                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                  onClick={() =>
+                    setActiveFaq(activeFaq === index ? null : index)
+                  }
                   className="w-full flex items-center justify-between p-6 text-left"
                 >
-                  <span className="text-lg font-semibold text-neutral-900 pr-4">{faq.question}</span>
-                  <motion.div animate={{ rotate: activeFaq === index ? 180 : 0 }} transition={{ duration: 0.3 }}>
-                    <ArrowRight className="text-red-600 transform rotate-90" size={20} />
+                  <span className="text-lg font-semibold text-neutral-900 pr-4">
+                    {faq.question}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: activeFaq === index ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ArrowRight
+                      className="text-red-600 transform rotate-90"
+                      size={20}
+                    />
                   </motion.div>
                 </button>
                 <motion.div
@@ -459,7 +837,9 @@ export function FacturationPageContent() {
                   transition={{ duration: 0.3 }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 pb-6 text-neutral-600 font-light leading-relaxed">{faq.answer}</div>
+                  <div className="px-6 pb-6 text-neutral-600 font-light leading-relaxed">
+                    {faq.answer}
+                  </div>
                 </motion.div>
               </motion.div>
             ))}
@@ -501,7 +881,8 @@ export function FacturationPageContent() {
             transition={{ delay: 0.2 }}
             className="text-xl text-neutral-300 font-light leading-relaxed mb-10"
           >
-            Notre cabinet vous accompagne pour auditer vos flux, choisir la meilleure plateforme et assurer votre conformité dans les délais.
+            Notre cabinet vous accompagne pour auditer vos flux, choisir la
+            meilleure plateforme et assurer votre conformité dans les délais.
           </motion.p>
 
           <motion.div
