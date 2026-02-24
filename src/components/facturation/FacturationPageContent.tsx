@@ -367,31 +367,31 @@ export function FacturationPageContent() {
         ref={heroRef}
         className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh]"
       >
-        {/* Blob Background */}
-        <div className="absolute inset-0 z-20 pointer-events-none">
+        {/* Blob Background - Uniquement sur desktop */}
+        <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
           <BlobBackground />
         </div>
 
         {/* Grid Container - En haut de la page, non centré */}
         <div className="max-w-7xl mx-auto px-6 relative z-10 pt-20 md:pt-32">
-          {/* Grid 12 colonnes */}
-          <div className="grid grid-cols-12 gap-4">
+          {/* Grid 12 colonnes desktop, simple sur mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-4">
             {/* Ligne 1 - Facturation avec annotation */}
             <div
               ref={(el) => {
                 if (el) wordsRef.current[0] = el;
               }}
-              className="col-start-5 col-span-7 pointer-events-auto relative"
+              className="col-span-1 md:col-start-5 md:col-span-7 pointer-events-auto relative text-center md:text-left ml-4 md:ml-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[0] = el;
                 }}
-                className="absolute -top-8 left-0 text-sm text-neutral-500 font-light"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-neutral-500 font-light"
               >
                 Réforme 2026
               </div>
-              <h1 className="text-8xl md:text-9xl lg:text-9xl font-light text-neutral-900 leading-none">
+              <h1 className="text-5xl md:text-8xl lg:text-9xl font-light text-neutral-900 leading-none">
                 Facturation
               </h1>
             </div>
@@ -401,17 +401,17 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[1] = el;
               }}
-              className="col-start-2 col-span-7 pointer-events-auto mt-8 relative"
+              className="col-span-1 md:col-start-2 md:col-span-7 pointer-events-auto mt-6 md:mt-8 relative text-center md:text-left -ml-2 md:ml-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[1] = el;
                 }}
-                className="absolute -top-8 left-0 text-sm text-neutral-500 font-light"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-neutral-500 font-light"
               >
                 Dématérialisation complète
               </div>
-              <h2 className="text-8xl md:text-9xl lg:text-9xl font-light text-neutral-600 leading-none">
+              <h2 className="text-5xl md:text-8xl lg:text-9xl font-light text-neutral-600 leading-none">
                 Électronique
               </h2>
             </div>
@@ -421,17 +421,17 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[2] = el;
               }}
-              className="col-start-6 col-span-6 pointer-events-auto mt-6 relative"
+              className="col-span-1 md:col-start-6 md:col-span-6 pointer-events-auto mt-4 md:mt-6 relative text-center md:text-left mr-3 md:mr-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[2] = el;
                 }}
-                className="absolute -top-8 left-0 text-sm text-red-500 font-medium"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-red-500 font-medium"
               >
                 Toutes entreprises
               </div>
-              <h3 className="text-8xl md:text-9xl lg:text-9xl font-light text-red-600 leading-none">
+              <h3 className="text-5xl md:text-8xl lg:text-9xl font-light text-red-600 leading-none">
                 Obligatoire
               </h3>
             </div>
@@ -441,16 +441,16 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[3] = el;
               }}
-              className="col-start-6 col-span-6 pointer-events-auto mt-16"
+              className="col-span-1 md:col-start-6 md:col-span-6 pointer-events-auto mt-12 md:mt-16 text-center md:text-left px-4 md:px-0"
             >
-              <p className="text-lg md:text-xl text-neutral-600 font-light leading-relaxed">
+              <p className="text-base md:text-lg lg:text-xl text-neutral-600 font-light leading-relaxed max-w-md mx-auto md:max-w-none md:mx-0">
                 Préparez votre entreprise à la révolution de la facturation
                 numérique
               </p>
             </div>
 
             {/* Ligne 5 - CTA Élégant */}
-            <div className="col-start-3 col-span-5 pointer-events-auto mt-12 relative z-30">
+            <div className="col-span-1 md:col-start-3 md:col-span-5 pointer-events-auto mt-10 md:mt-12 relative z-30 text-center md:text-left">
               <Link
                 ref={ctaRef}
                 href="/contact"
