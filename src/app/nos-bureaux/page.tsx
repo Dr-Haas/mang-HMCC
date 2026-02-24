@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/app/lib/constants";
+import { buildPageMetadata } from "@/app/lib/seo";
 import { BureauxSection } from "@/components/home/BureauxSection";
 
-export const metadata: Metadata = {
-  title: `Nos bureaux | ${SITE_NAME}`,
-  description: "Découvrez nos deux bureaux à Paris 12ème et Arpajon (Essonne).",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "Nos bureaux",
+  description: "Decouvrez nos bureaux a Paris 12e et Arpajon (Essonne).",
+  path: "/nos-bureaux",
+  keywords: ["cabinet comptable Paris", "cabinet comptable Arpajon", "HMCC bureaux"],
+});
 
 export default function NosBureauxPage() {
   return (

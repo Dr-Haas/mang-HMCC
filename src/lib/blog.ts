@@ -1,11 +1,16 @@
 import { createPublicServerClient } from "@/lib/supabase/server-public";
+import { unstable_cache } from "next/cache";
 
 type ArticleRow = Record<string, unknown>;
+export const BLOG_CACHE_TAG = "blog-articles";
+export const BLOG_REVALIDATE_SECONDS = 300;
 
 export type BlogArticle = {
   id: string;
   slug: string;
   title: string;
+  metaTitle: string | null;
+  metaDescription: string | null;
   excerpt: string | null;
   content: string | null;
   contentHtml: string | null;
@@ -77,7 +82,7 @@ function getPublicationStatus(row: ArticleRow): "published" | "pending" | "draft
 }
 
 function isLikelyUrl(value: string): boolean {
-  return /^https?:\/\//i.test(value) || value.startsWith("/");
+  return /^(https?:\/\/|\/|data:image\/|blob:)/i.test(value);
 }
 
 function collectImageUrlsFromValue(value: unknown): string[] {
@@ -150,7 +155,7 @@ function getArticleImages(row: ArticleRow): string[] {
   const urls = allKeys.flatMap((key) => collectImageUrlsFromValue(row[key]));
   const deduped = [...new Set(urls)];
 
-  return deduped.slice(0, 3);
+  return deduped;
 }
 
 function slugify(value: string): string {
@@ -164,6 +169,8 @@ function slugify(value: string): string {
 
 function normalizeArticle(row: ArticleRow, index: number): BlogArticle {
   const title = getString(row, ["title", "titre", "name"]) ?? `Article ${index + 1}`;
+  const metaTitle = getString(row, ["meta_title", "seo_title", "title_meta", "og_title"]);
+  const metaDescription = getString(row, ["meta_description", "seo_description", "description_meta", "og_description"]);
 
   const rawId = row.id ?? row.uuid ?? row.article_id ?? row.post_id;
   const id = typeof rawId === "string" || typeof rawId === "number" ? String(rawId) : `${index}`;
@@ -193,6 +200,8 @@ function normalizeArticle(row: ArticleRow, index: number): BlogArticle {
     id,
     slug,
     title,
+    metaTitle,
+    metaDescription,
     excerpt: getString(row, ["excerpt", "summary", "description", "chapo", "meta_description"]),
     content: getString(row, ["content", "body", "texte", "markdown", "content_markdown"]),
     contentHtml: getString(row, ["content_html", "html", "body_html"]),
@@ -221,13 +230,18 @@ async function getRawArticles(): Promise<ArticleRow[]> {
   return data ?? [];
 }
 
+const getRawArticlesCached = unstable_cache(getRawArticles, ["blog-articles-all"], {
+  revalidate: BLOG_REVALIDATE_SECONDS,
+  tags: [BLOG_CACHE_TAG],
+});
+
 export async function getPublishedArticles(): Promise<BlogArticle[]> {
-  const rows = await getRawArticles();
+  const rows = await getRawArticlesCached();
   return rows.map(normalizeArticle).filter((item) => item.isPublished).sort(byMostRecent);
 }
 
 export async function getArticleBySlug(slug: string): Promise<BlogArticle | null> {
-  const rows = await getRawArticles();
+  const rows = await getRawArticlesCached();
   const articles = rows.map(normalizeArticle);
   return articles.find((item) => item.slug === slug) ?? null;
 }

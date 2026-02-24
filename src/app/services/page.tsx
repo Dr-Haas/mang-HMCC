@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/app/lib/constants";
+import { buildPageMetadata } from "@/app/lib/seo";
 import { ServicesPageContent } from "@/components/services/ServicesPageContent";
 
-export const metadata: Metadata = {
-  title: `Services | ${SITE_NAME}`,
+export const metadata: Metadata = buildPageMetadata({
+  title: "Services comptables et conseil",
   description:
-    "Comptabilité, conseil, paie & social, création d'entreprise. Découvrez l'ensemble de nos services pour les TPE, PME et indépendants.",
-};
+    "Comptabilite, conseil, paie et social, creation d'entreprise : decouvrez les services HMCC pour TPE, PME et independants.",
+  path: "/services",
+  keywords: ["services comptables", "creation entreprise", "paie", "conseil fiscal", "HMCC"],
+});
 
 export default function ServicesPage() {
   return (

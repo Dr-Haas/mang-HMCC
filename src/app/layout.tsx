@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} - Accueil`,
+    default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
   description:
@@ -48,6 +48,14 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
+  },
+  icons: {
+    icon: [
+      { url: "/vercel.svg", type: "image/svg+xml" },
+      { url: "/vercel.svg", type: "image/svg+xml", sizes: "any" },
+    ],
+    shortcut: ["/vercel.svg"],
+    apple: ["/vercel.svg"],
   },
   verification: {
     // À remplir quand vous avez les identifiants Google Search Console

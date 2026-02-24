@@ -3,7 +3,8 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDownRight } from "lucide-react";
-import Player from "@vimeo/player";
+
+type VimeoPlayer = import("@vimeo/player").default;
 
 const VIMEO_OPTIONS = "title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0";
 const VIMEO_DESKTOP_SRC = `https://player.vimeo.com/video/1165656919?h=e9affce932&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
@@ -18,7 +19,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const finishedRef = useRef(false);
   const desktopIframeRef = useRef<HTMLIFrameElement>(null);
   const mobileIframeRef = useRef<HTMLIFrameElement>(null);
-  const playersRef = useRef<Player[]>([]);
+  const playersRef = useRef<VimeoPlayer[]>([]);
 
   const finish = () => {
     if (finishedRef.current) return;
@@ -38,22 +39,31 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   useEffect(() => {
     if (!visible) return;
 
-    const players: Player[] = [];
+    let cancelled = false;
 
-    const setupPlayer = (iframe: HTMLIFrameElement | null) => {
-      if (!iframe) return;
-      const player = new Player(iframe);
-      players.push(player);
-      player.on("ended", () => finish());
-    };
+    void (async () => {
+      const { default: Player } = await import("@vimeo/player");
+      if (cancelled) return;
 
-    setupPlayer(desktopIframeRef.current);
-    setupPlayer(mobileIframeRef.current);
-    playersRef.current = players;
+      const players: VimeoPlayer[] = [];
+
+      const setupPlayer = (iframe: HTMLIFrameElement | null) => {
+        if (!iframe) return;
+        const player = new Player(iframe);
+        players.push(player);
+        player.on("ended", () => finish());
+      };
+
+      setupPlayer(desktopIframeRef.current);
+      setupPlayer(mobileIframeRef.current);
+      playersRef.current = players;
+    })();
 
     return () => {
+      cancelled = true;
+      const current = playersRef.current;
       playersRef.current = [];
-      players.forEach((p) => p.destroy().catch(() => {}));
+      current.forEach((p) => p.destroy().catch(() => {}));
     };
   }, [visible]);
 
@@ -96,7 +106,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             tabIndex={0}
             onClick={handleZoneClick}
             onKeyDown={(e) => e.key === "Enter" && handleZoneClick()}
-            className={window.innerWidth < 768 ? "absolute inset-[15%] z-10 cursor-pointer md:inset-[80%] rotate-90" : "absolute inset-[15%] z-10 cursor-pointer md:inset-[20%] rotate-170"}
+            className="absolute inset-[15%] z-10 cursor-pointer md:inset-[20%] md:rotate-170 max-md:rotate-90"
             aria-label="Lancer la vidéo"
           />
 
