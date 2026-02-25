@@ -391,7 +391,7 @@ export function FacturationPageContent() {
               >
                 Réforme 2026
               </div>
-              <h1 className="text-5xl md:text-8xl lg:text-9xl font-light text-neutral-900 leading-none">
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-medium text-neutral-900 leading-none">
                 Facturation
               </h1>
             </div>
@@ -411,7 +411,7 @@ export function FacturationPageContent() {
               >
                 Dématérialisation complète
               </div>
-              <h2 className="text-5xl md:text-8xl lg:text-9xl font-light text-neutral-600 leading-none">
+              <h2 className="text-4xl md:text-7xl lg:text-8xl font-medium text-neutral-600 leading-none">
                 Électronique
               </h2>
             </div>
@@ -431,7 +431,7 @@ export function FacturationPageContent() {
               >
                 Toutes entreprises
               </div>
-              <h3 className="text-5xl md:text-8xl lg:text-9xl font-light text-red-600 leading-none">
+              <h3 className="text-4xl md:text-7xl lg:text-8xl font-medium text-red-600 leading-none">
                 Obligatoire
               </h3>
             </div>
@@ -448,9 +448,13 @@ export function FacturationPageContent() {
                 numérique
               </p>
             </div>
+          </div>
+        </div>
 
-            {/* Ligne 5 - CTA Élégant */}
-            <div className="col-span-1 md:col-start-3 md:col-span-5 pointer-events-auto mt-10 md:mt-12 relative z-30 text-center md:text-left">
+        {/* CTA Button - Position absolue au-dessus du canvas */}
+        <div className="absolute top-2/5 md:top-3/5 left-0 right-0 z-50 pointer-events-auto">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="md:ml-[16.666%]">
               <Link
                 ref={ctaRef}
                 href="/contact"

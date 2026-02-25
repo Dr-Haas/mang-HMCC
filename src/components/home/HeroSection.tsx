@@ -29,9 +29,18 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
     const timeline = gsap.timeline({ delay: 0.2 });
 
     // Initialiser les éléments avec des transformations initiales
-    gsap.set([subtitleRef.current, titleRef.current, descriptionRef.current, ctaRef.current, scrollIndicatorRef.current], {
-      opacity: 0
-    });
+    gsap.set(
+      [
+        subtitleRef.current,
+        titleRef.current,
+        descriptionRef.current,
+        ctaRef.current,
+        scrollIndicatorRef.current,
+      ],
+      {
+        opacity: 0,
+      }
+    );
 
     // Animation du sous-titre avec effet de révélation élégant
     timeline
@@ -158,7 +167,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
 
     return () => {
       timeline.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [startAnimation]);
 
@@ -215,7 +224,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [startAnimation]);
 
@@ -232,9 +241,9 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         duration: 0.6,
         ease: "elastic.out(1, 0.3)",
       });
-      
+
       // Animation de la flèche
-      gsap.to(cta.querySelector('svg'), {
+      gsap.to(cta.querySelector("svg"), {
         x: 8,
         y: -8,
         rotation: 5,
@@ -251,9 +260,9 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         duration: 0.8,
         ease: "elastic.out(1, 0.4)",
       });
-      
+
       // Retour de la flèche
-      gsap.to(cta.querySelector('svg'), {
+      gsap.to(cta.querySelector("svg"), {
         x: 0,
         y: 0,
         rotation: 0,
@@ -272,61 +281,59 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
   }, []);
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center px-6 py-32 overflow-hidden"
     >
       {/* Dégradé de fond subtil */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-white -z-10" />
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-red-50/30 rounded-full blur-3xl -z-10" />
-      
+
       <div className="max-w-4xl mx-auto text-center space-y-8">
         {/* Sous-titre */}
-        <h2 
+        <h2
           ref={subtitleRef}
           className="text-sm tracking-[0.3em] text-neutral-400 uppercase opacity-0"
         >
           Cabinet d'expertise comptable
         </h2>
-        
+
         {/* Titre principal */}
-        <h1 
+        <h1
           ref={titleRef}
-          className="text-6xl md:text-8xl lg:text-9xl tracking-tight text-neutral-900 leading-none opacity-0 mt-16"
-          style={{ fontWeight: 300 }}
+          className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-neutral-900 leading-none opacity-0 mt-16"
         >
           HMCC
-          <span className="block text-4xl md:text-6xl lg:text-7xl text-red-600 mt-4" style={{ fontWeight: 300 }}>
+          <span className="block text-3xl md:text-5xl lg:text-6xl text-red-600 mt-4 font-medium">
             Expertise moderne
           </span>
         </h1>
-        
+
         {/* Description */}
-        <p 
+        <p
           ref={descriptionRef}
-          className="text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed opacity-0"
-          style={{ fontWeight: 300 }}
+          className="text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed opacity-0 font-light"
         >
-          Nous transformons vos obligations comptables en opportunités stratégiques. 
-          Une approche digitale et humaine pour les entrepreneurs exigeants.
+          Nous transformons vos obligations comptables en opportunités
+          stratégiques. Une approche digitale et humaine pour les entrepreneurs
+          exigeants.
         </p>
-        
+
         {/* CTA simple */}
         <div className="pt-8">
           <Link
             ref={ctaRef}
             href="/contact"
-            className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0"
-            style={{ fontWeight: 300 }}
+            className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 font-light"
           >
             Prendre contact
             <ArrowDown size={20} className="transform rotate-[-45deg]" />
           </Link>
         </div>
       </div>
-      
+
       {/* Indicateur de scroll */}
-      <div 
+      <div
         ref={scrollIndicatorRef}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0"
       >

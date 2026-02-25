@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/app/lib/constants";
 import Link from "next/link";
+import BlobBackground from "@/components/decor/BlobBackground";
 
 export function ContactPageContent() {
   const [formData, setFormData] = useState({
@@ -22,10 +23,25 @@ export function ContactPageContent() {
   };
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden hero-gradient">
-        <div className="max-w-7xl mx-auto px-6">
+    <div>
+      {/* Contact Section fusionnée */}
+      <section
+        id="contact"
+        className="pt-20 py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-visible"
+      >
+        {/* Conteneur full-width pour le blob */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <BlobBackground />
+        </div>
+
+        {/* Gradient Orbs */}
+        <div className="absolute inset-0 pointer-events-none overflow-visible z-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-20"></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto px-6 relative z-20 mb-16 pointer-events-none">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1]">
               Contactez-nous
@@ -36,27 +52,17 @@ export function ContactPageContent() {
             </p>
           </div>
         </div>
-      </section>
 
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-visible"
-      >
-        {/* Gradient Orbs */}
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-20"></div>
-        </div>
+        {/* Contact Form Content */}
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 relative z-20 pointer-events-none">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left Side - Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="space-y-8"
+              className="space-y-8 pointer-events-none"
             >
               <div>
                 <motion.div
@@ -96,7 +102,7 @@ export function ContactPageContent() {
                         </h3>
                         <a
                           href={`mailto:${CONTACT_EMAIL}`}
-                          className="text-neutral-600 hover:text-red-600 transition-colors"
+                          className="text-neutral-600 hover:text-red-600 transition-colors pointer-events-auto"
                         >
                           {CONTACT_EMAIL}
                         </a>
@@ -121,7 +127,7 @@ export function ContactPageContent() {
                         </h3>
                         <a
                           href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
-                          className="text-neutral-600 hover:text-red-600 transition-colors"
+                          className="text-neutral-600 hover:text-red-600 transition-colors pointer-events-auto"
                         >
                           {CONTACT_PHONE}
                         </a>
@@ -146,7 +152,7 @@ export function ContactPageContent() {
                         </h3>
                         <Link
                           href="/nos-bureaux"
-                          className="text-neutral-600 hover:text-red-600 transition-colors text-sm"
+                          className="text-neutral-600 hover:text-red-600 transition-colors text-sm pointer-events-auto"
                         >
                           Paris 12ème & Arpajon (91)
                         </Link>
@@ -187,7 +193,7 @@ export function ContactPageContent() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-xl shadow-neutral-200/50"
+              className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-xl shadow-neutral-200/50 pointer-events-auto"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

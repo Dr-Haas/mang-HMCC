@@ -123,7 +123,7 @@ function CustomShaderMaterial() {
       // Légère saturation pour vivacité
       finalColor = finalColor * 1.05;
       
-      gl_FragColor = vec4(finalColor, 0.95);
+      gl_FragColor = vec4(finalColor, 0.98);
     }
   `;
 
@@ -168,7 +168,7 @@ function Pointer({ vec = new THREE.Vector3() }) {
     ref.current.position.lerp(targetPos.current, 0.15);
 
     // Effet de déformation basé sur la vitesse
-    const baseScale = 1;
+    const baseScale = 1.5;
     const stretchScale = 1 + Math.min(speed * 0.5, 0.5);
     ref.current.scale.setScalar(baseScale + (stretchScale - baseScale) * 0.3);
   });
@@ -176,9 +176,9 @@ function Pointer({ vec = new THREE.Vector3() }) {
   return (
     <mesh ref={ref}>
       <MarchingCube
-        strength={0.12}
+        strength={0.22}
         subtract={8}
-        color={new THREE.Color("#ffffff")}
+        color={new THREE.Color("#e54444")}
       />
     </mesh>
   );
@@ -209,14 +209,14 @@ export default function BlobBackground() {
           {/* Grand blob en haut à gauche - forme en L retourné */}
           {/* Boules du haut - partie horizontale */}
           <MetaBall
-            color="#ffffff"
+            color="#e54444"
             position={[-0.75, 0.75, -1]}
             offset={[0, 0, 0]}
             speed={0.2}
             strength={0.6}
           />
           <MetaBall
-            color="#ffffff"
+            color="#d33333"
             position={[-0.85, 0.73, -0.98]}
             offset={[1, 2, 1]}
             speed={0.25}
@@ -224,7 +224,7 @@ export default function BlobBackground() {
           />
           {/* Boule de jonction au coin */}
           <MetaBall
-            color="#ffe6e6"
+            color="#e55555"
             position={[-0.92, 0.71, -0.99]}
             offset={[0.5, 1.5, 2.5]}
             speed={0.23}
@@ -232,21 +232,21 @@ export default function BlobBackground() {
           />
           {/* Boules de gauche - partie verticale */}
           <MetaBall
-            color="#fff5f5"
+            color="#e56666"
             position={[-0.95, 0.63, -0.97]}
             offset={[3, 3, 0]}
             speed={0.27}
             strength={0.62}
           />
           <MetaBall
-            color="#fff0f0"
+            color="#e54444"
             position={[-0.97, 0.55, -0.98]}
             offset={[2.5, 0.8, 1.5]}
             speed={0.21}
             strength={0.6}
           />
           <MetaBall
-            color="#ffebeb"
+            color="#e55555"
             position={[-0.99, 0.47, -0.99]}
             offset={[4.2, 1.3, 2.1]}
             speed={0.24}
@@ -256,21 +256,21 @@ export default function BlobBackground() {
           {/* Grand blob en bas à droite - plus sur la droite */}
           {/* Boules de droite - partie verticale (principale) */}
           <MetaBall
-            color="#ffffff"
+            color="#d33333"
             position={[0.95, 0.02, -1]}
             offset={[4, 4, 3]}
             speed={0.2}
             strength={0.45}
           />
           <MetaBall
-            color="#fff5f5"
+            color="#e54444"
             position={[0.96, -0.04, -0.98]}
             offset={[5, 3, 4]}
             speed={0.25}
             strength={0.43}
           />
           <MetaBall
-            color="#fff0f0"
+            color="#e55555"
             position={[0.97, -0.1, -0.99]}
             offset={[6, 4, 3]}
             speed={0.27}
@@ -278,7 +278,7 @@ export default function BlobBackground() {
           />
           {/* Boule de jonction */}
           <MetaBall
-            color="#ffe6e6"
+            color="#e56666"
             position={[0.91, -0.13, -0.97]}
             offset={[5.5, 3.5, 5.5]}
             speed={0.23}
@@ -286,7 +286,7 @@ export default function BlobBackground() {
           />
           {/* Boule du bas */}
           <MetaBall
-            color="#ffebeb"
+            color="#e54444"
             position={[0.85, -0.15, -0.98]}
             offset={[4.5, 5.8, 3.5]}
             speed={0.21}

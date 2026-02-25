@@ -1,34 +1,36 @@
 "use client";
 
-import { Calculator, Users, Scale, TrendingUp, FileText, Briefcase, Check, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Calculator,
+  Users,
+  Scale,
+  TrendingUp,
+  FileText,
+  Briefcase,
+  Check,
+  ArrowRight,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import BlobBackground from "../decor/BlobBackground";
+
+// Enregistrer ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function ServicesPageContent() {
   const [activeService, setActiveService] = useState(0);
-  const [heroPointer, setHeroPointer] = useState({ x: 50, y: 50 });
-  
-  // Refs pour les animations GSAP du hero
-  const heroRef = useRef<HTMLElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const titleLettersRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const gradientTextRef = useRef<HTMLSpanElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const buttonRef = useRef<HTMLAnchorElement>(null);
-  const arrowRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<(HTMLDivElement | null)[]>([]);
-  const mousePos = useRef({ x: 0, y: 0 });
 
-  // Positions fixes des particules pour qu'elles ne bougent pas au re-render
-  const particlePositions = useMemo(() => {
-    return [...Array(20)].map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-    }));
-  }, []);
+  // Refs pour les animations GSAP du nouveau hero minimaliste
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
 
   const services = [
     {
@@ -38,7 +40,8 @@ export function ServicesPageContent() {
       color: "from-red-500 to-orange-500",
       bgColor: "bg-red-50",
       iconColor: "text-red-600",
-      description: "Tenue de comptabilité rigoureuse, établissement des bilans et compte de résultat.",
+      description:
+        "Tenue de comptabilité rigoureuse, établissement des bilans et compte de résultat.",
       features: [
         "Tenue comptable complète automatisée",
         "Bilans et comptes de résultat en temps réel",
@@ -55,7 +58,8 @@ export function ServicesPageContent() {
       color: "from-violet-500 to-purple-500",
       bgColor: "bg-violet-50",
       iconColor: "text-violet-600",
-      description: "Stratégies personnalisées pour optimiser votre fiscalité en toute légalité.",
+      description:
+        "Stratégies personnalisées pour optimiser votre fiscalité en toute légalité.",
       features: [
         "Analyse approfondie de votre situation",
         "Simulation d'optimisation fiscale",
@@ -72,7 +76,8 @@ export function ServicesPageContent() {
       color: "from-blue-500 to-cyan-500",
       bgColor: "bg-blue-50",
       iconColor: "text-blue-600",
-      description: "Externalisation complète de votre gestion de paie et obligations sociales.",
+      description:
+        "Externalisation complète de votre gestion de paie et obligations sociales.",
       features: [
         "Bulletins de paie digitaux",
         "Déclarations sociales automatiques (DSN)",
@@ -89,7 +94,8 @@ export function ServicesPageContent() {
       color: "from-emerald-500 to-green-500",
       bgColor: "bg-emerald-50",
       iconColor: "text-emerald-600",
-      description: "Missions légales et contractuelles de certification des comptes.",
+      description:
+        "Missions légales et contractuelles de certification des comptes.",
       features: [
         "Commissariat aux comptes légal",
         "Audit d'acquisition digital",
@@ -106,7 +112,8 @@ export function ServicesPageContent() {
       color: "from-amber-500 to-yellow-500",
       bgColor: "bg-amber-50",
       iconColor: "text-amber-600",
-      description: "Accompagnement dans toutes les démarches juridiques de votre entreprise.",
+      description:
+        "Accompagnement dans toutes les démarches juridiques de votre entreprise.",
       features: [
         "Création de société clé en main",
         "Secrétariat juridique digitalisé",
@@ -123,7 +130,8 @@ export function ServicesPageContent() {
       color: "from-pink-500 to-rose-500",
       bgColor: "bg-pink-50",
       iconColor: "text-pink-600",
-      description: "Accompagnement complet dans votre projet de création d'entreprise.",
+      description:
+        "Accompagnement complet dans votre projet de création d'entreprise.",
       features: [
         "Choix optimal de la structure",
         "Business plan et prévisionnels interactifs",
@@ -135,112 +143,97 @@ export function ServicesPageContent() {
     },
   ];
 
-  // Animations d'entrée GSAP
+  // Animations d'entrée GSAP élégantes inspirées de home
   useEffect(() => {
-    const timeline = gsap.timeline();
+    const timeline = gsap.timeline({ delay: 0.3 });
 
-    // Badge avec effet d'explosion
-    timeline.fromTo(
-      badgeRef.current,
+    // Initialiser les éléments
+    gsap.set(
+      [titleRef.current, subtitleRef.current, descRef.current, ctaRef.current],
       {
-        scale: 0,
-        rotation: -180,
         opacity: 0,
-      },
-      {
-        scale: 1,
-        rotation: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "back.out(2)",
       }
     );
 
-    // Lettres du titre avec effet cascade
-    timeline.fromTo(
-      titleLettersRef.current.filter(Boolean),
-      {
-        y: 100,
-        opacity: 0,
-        rotationX: 90,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.03,
-        ease: "power3.out",
-      },
-      "-=0.4"
-    );
+    // Animation du titre principal
+    timeline
+      .fromTo(
+        titleRef.current,
+        {
+          opacity: 0,
+          y: 80,
+          rotationX: 15,
+          scale: 0.95,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          scale: 1,
+          duration: 1.6,
+          ease: "power4.out",
+        }
+      )
+      // Animation du sous-titre avec décalage créatif
+      .fromTo(
+        subtitleRef.current,
+        {
+          opacity: 0,
+          y: 40,
+          rotationY: 15,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotationY: 0,
+          duration: 1.4,
+          ease: "power3.out",
+        },
+        "-=1.2"
+      )
+      // Animation de la description
+      .fromTo(
+        descRef.current,
+        {
+          opacity: 0,
+          y: 60,
+          rotationX: 45,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          duration: 1.5,
+          ease: "power3.out",
+        },
+        "-=1.0"
+      )
+      // Animation du CTA subtil
+      .fromTo(
+        ctaRef.current,
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.9,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.2,
+          ease: "back.out(1.7)",
+        },
+        "-=0.8"
+      );
 
-    // Texte gradient avec effet de slide
-    timeline.fromTo(
-      gradientTextRef.current,
-      {
-        x: -100,
-        opacity: 0,
-        scale: 0.8,
-      },
-      {
-        x: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: "power3.out",
-      },
-      "-=0.5"
-    );
-
-    // Description avec blur
-    timeline.fromTo(
-      descRef.current,
-      {
-        y: 50,
-        opacity: 0,
-        filter: "blur(10px)",
-      },
-      {
-        y: 0,
-        opacity: 1,
-        filter: "blur(0px)",
-        duration: 0.8,
-        ease: "power2.out",
-      },
-      "-=0.4"
-    );
-
-    // Bouton avec bounce
-    timeline.fromTo(
-      buttonRef.current,
-      {
-        scale: 0,
-        rotation: 180,
-      },
-      {
-        scale: 1,
-        rotation: 0,
-        duration: 0.6,
-        ease: "back.out(2.5)",
-      },
-      "-=0.3"
-    );
-
-    // Particules animées en continu (indépendantes du curseur)
-    particlesRef.current.forEach((particle, i) => {
-      if (!particle) return;
-      gsap.to(particle, {
-        y: `random(-50, 50)`,
-        x: `random(-50, 50)`,
-        rotation: `random(-180, 180)`,
-        scale: `random(0.5, 1.5)`,
-        duration: `random(3, 6)`,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: i * 0.2,
-      });
+    // Animation continue subtile pour le titre
+    gsap.to(titleRef.current, {
+      scale: 1.01,
+      duration: 5,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: -1,
+      delay: 2,
     });
 
     return () => {
@@ -248,219 +241,140 @@ export function ServicesPageContent() {
     };
   }, []);
 
-  // Effet magnétique sur le titre avec le curseur
+  // Effet parallax au scroll
   useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
+    // Parallax pour le titre principal
+    gsap.to(titleRef.current, {
+      yPercent: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+      },
+    });
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = hero.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      mousePos.current = { x, y };
+    // Parallax pour le sous-titre
+    gsap.to(subtitleRef.current, {
+      yPercent: -20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 2,
+      },
+    });
 
-      // Déplacement magnétique du titre
-      const moveX = (x - centerX) * 0.02;
-      const moveY = (y - centerY) * 0.02;
-      
-      gsap.to(titleRef.current, {
-        x: moveX,
-        y: moveY,
-        rotation: moveX * 0.05,
-        duration: 1,
-        ease: "power2.out",
-      });
+    // Parallax pour la description
+    gsap.to(descRef.current, {
+      yPercent: -15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 2.5,
+      },
+    });
 
-      // Badge qui suit le curseur
-      gsap.to(badgeRef.current, {
-        x: (x - centerX) * 0.03,
-        y: (y - centerY) * 0.03,
-        rotation: (x - centerX) * 0.01,
-        duration: 0.8,
-        ease: "power2.out",
-      });
-
-      // Description avec effet parallaxe inverse
-      gsap.to(descRef.current, {
-        x: -(x - centerX) * 0.015,
-        y: -(y - centerY) * 0.015,
-        duration: 1.2,
-        ease: "power2.out",
-      });
-    };
-
-    const handleMouseLeave = () => {
-      // Retour à la position initiale
-      gsap.to([titleRef.current, badgeRef.current, descRef.current], {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        duration: 1,
-        ease: "power2.out",
-      });
-    };
-
-    hero.addEventListener("mousemove", handleMouseMove);
-    hero.addEventListener("mouseleave", handleMouseLeave);
+    // Parallax pour le CTA
+    gsap.to(ctaRef.current, {
+      yPercent: -10,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 3,
+      },
+    });
 
     return () => {
-      hero.removeEventListener("mousemove", handleMouseMove);
-      hero.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  // Animation du bouton au hover
-  useEffect(() => {
-    const button = buttonRef.current;
-    const arrow = arrowRef.current;
-    if (!button || !arrow) return;
-
-    const handleEnter = () => {
-      gsap.to(button, {
-        scale: 1.05,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-
-      gsap.to(arrow, {
-        x: 5,
-        rotation: -45,
-        scale: 1.2,
-        duration: 0.4,
-        ease: "back.out(2)",
-      });
-    };
-
-    const handleLeave = () => {
-      gsap.to(button, {
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-
-      gsap.to(arrow, {
-        x: 0,
-        rotation: 0,
-        scale: 1,
-        duration: 0.4,
-        ease: "power2.out",
-      });
-    };
-
-    button.addEventListener("mouseenter", handleEnter);
-    button.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      button.removeEventListener("mouseenter", handleEnter);
-      button.removeEventListener("mouseleave", handleLeave);
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="relative py-28 md:py-36 overflow-hidden"
-        onMouseMove={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * 100;
-          const y = ((event.clientY - rect.top) / rect.height) * 100;
-          setHeroPointer({ x, y });
-        }}
-        onMouseLeave={() => setHeroPointer({ x: 50, y: 50 })}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-red-900 to-neutral-900" />
-        <div
-          className="absolute inset-0 transition-all duration-300 ease-out"
-          style={{
-            background: `radial-gradient(680px 280px at ${heroPointer.x}% ${heroPointer.y}%, rgba(220, 38, 38, 0.42), transparent 70%)`,
-          }}
-        />
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-1/3 left-1/2 h-[420px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500/40 blur-3xl" />
+    <div>
+      {/* Container principal avec blob background - Structure identique à facturation */}
+      <div className="relative h-[130vh] overflow-hidden">
+        {/* Blob Background Canvas */}
+        <div className="absolute inset-0 z-20 hidden lg:block pointer-events-none">
+          <BlobBackground />
         </div>
 
-        {/* Particules animées - conteneur fixe non affecté par le curseur */}
-        <div className="absolute inset-0 pointer-events-none">
-          {particlePositions.map((pos, i) => (
-            <div
-              key={i}
-              ref={(el) => {
-                particlesRef.current[i] = el;
-              }}
-              className="absolute w-2 h-2 rounded-full bg-red-400/30"
-              style={{
-                left: `${pos.left}%`,
-                top: `${pos.top}%`,
-                willChange: 'transform, opacity',
-              }}
-            />
-          ))}
-        </div>
+        {/* Hero Section */}
+        <section
+          ref={heroRef}
+          className="relative min-h-screen flex items-center justify-center px-6 py-16 overflow-hidden pointer-events-none"
+        >
+          {/* Dégradé de fond subtil inspiré de home */}
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-white -z-10" />
+          <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-red-50/20 rounded-full blur-3xl -z-10" />
+          <div className="absolute bottom-1/3 right-1/4 w-[300px] h-[300px] bg-violet-50/15 rounded-full blur-3xl -z-10" />
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div
-              ref={badgeRef}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium text-white/90 mb-8 opacity-0"
-              style={{ perspective: "1000px" }}
-            >
-              <Sparkles size={16} className="text-red-400" />
-              Innovation & Expertise comptable
+          <div className="max-w-5xl mx-auto text-center space-y-8 pointer-events-auto">
+            {/* Sous-titre élégant */}
+            <div className="text-sm tracking-[0.3em] text-neutral-400 uppercase">
+              Expertise comptable nouvelle génération
             </div>
 
-            <h1
-              ref={titleRef}
-              className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-0 leading-[1.15]"
-              style={{ perspective: "1000px" }}
-            >
-              {"Des services nouvelle ".split("").map((char, i) => (
-                <span
-                  key={i}
-                  ref={(el) => {
-                    titleLettersRef.current[i] = el;
-                  }}
-                  className="inline-block"
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              ))}
-              <br />
-              <span
-                ref={gradientTextRef}
-                className="bg-gradient-to-r from-red-300 to-red-100 bg-clip-text text-transparent inline-block pb-7"
+            {/* Titre principal avec décalage créatif */}
+            <div className="space-y-6">
+              <h1
+                ref={titleRef}
+                className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-neutral-900 leading-none opacity-0"
               >
-                génération
-              </span>
-            </h1>
+                Services
+              </h1>
 
+              <h2
+                ref={subtitleRef}
+                className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-red-600 leading-none opacity-0"
+              >
+                Innovants
+              </h2>
+            </div>
+
+            {/* Description élégante */}
             <p
               ref={descRef}
-              className="text-lg md:text-2xl text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto opacity-0"
+              className="text-lg md:text-xl text-neutral-500 max-w-3xl mx-auto leading-relaxed font-light opacity-0 mt-16"
             >
-              Technologie de pointe et expertise humaine pour transformer votre gestion comptable
+              Technologie avancée et expertise humaine combinées
+              <br />
+              pour transformer votre gestion comptable et fiscale
             </p>
 
-            <div className="mt-10">
+            {/* CTA subtil */}
+            <div className="pt-12">
               <Link
-                ref={buttonRef}
+                ref={ctaRef}
                 href="/contact"
-                className="bg-white text-neutral-900 text-base font-medium px-10 py-4 rounded-full hover:bg-neutral-100 transition-colors shadow-2xl inline-flex items-center gap-2 opacity-0"
+                className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 font-light group pointer-events-auto"
               >
-                Démarrer maintenant
-                <div ref={arrowRef} className="inline-block">
-                  <ArrowRight size={20} />
-                </div>
-              </Link>
-            </div>
+              Découvrir nos expertises
+              <ArrowRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
+          </div>
+        </div>
+
+        {/* Indicateur de scroll */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
+          <div className="flex flex-col items-center space-y-2">
+            <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">
+              Services
+            </span>
+            <div className="w-[1px] h-12 bg-gradient-to-b from-neutral-400 to-transparent" />
           </div>
         </div>
       </section>
+      </div>
 
       {/* Interactive Services Grid */}
       <section className="py-24 bg-white">
@@ -488,24 +402,46 @@ export function ServicesPageContent() {
                     }`}
                   >
                     {/* Gradient overlay on hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    ></div>
 
                     {/* Animated icon */}
                     <motion.div
-                      animate={isActive ? { scale: [1, 1.1, 1], rotate: [0, 5, 0] } : {}}
+                      animate={
+                        isActive
+                          ? { scale: [1, 1.1, 1], rotate: [0, 5, 0] }
+                          : {}
+                      }
                       transition={{ duration: 0.5 }}
                       className={`relative w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${
-                        isActive ? service.bgColor : "bg-white border border-neutral-200"
+                        isActive
+                          ? service.bgColor
+                          : "bg-white border border-neutral-200"
                       }`}
                     >
-                      <Icon className={`${service.iconColor} transition-all duration-300 ${isActive ? "scale-110" : ""}`} size={32} strokeWidth={1.5} />
+                      <Icon
+                        className={`${
+                          service.iconColor
+                        } transition-all duration-300 ${
+                          isActive ? "scale-110" : ""
+                        }`}
+                        size={32}
+                        strokeWidth={1.5}
+                      />
                     </motion.div>
 
                     {/* Content */}
                     <div className="relative z-10">
-                      <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-2">{service.tagline}</div>
-                      <h3 className="text-2xl font-semibold text-neutral-900 mb-3 tracking-tight">{service.title}</h3>
-                      <p className="text-neutral-600 text-sm font-light leading-relaxed mb-6">{service.description}</p>
+                      <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-2">
+                        {service.tagline}
+                      </div>
+                      <h3 className="text-2xl font-semibold text-neutral-900 mb-3 tracking-tight">
+                        {service.title}
+                      </h3>
+                      <p className="text-neutral-600 text-sm font-light leading-relaxed mb-6">
+                        {service.description}
+                      </p>
 
                       {/* Features list */}
                       <ul className="space-y-2">
@@ -513,11 +449,18 @@ export function ServicesPageContent() {
                           <motion.li
                             key={idx}
                             initial={{ opacity: 0, x: -10 }}
-                            animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0.6, x: 0 }}
+                            animate={
+                              isActive
+                                ? { opacity: 1, x: 0 }
+                                : { opacity: 0.6, x: 0 }
+                            }
                             transition={{ duration: 0.3, delay: idx * 0.1 }}
                             className="flex items-start gap-2 text-sm text-neutral-700"
                           >
-                            <Check className={`flex-shrink-0 mt-0.5 ${service.iconColor}`} size={16} />
+                            <Check
+                              className={`flex-shrink-0 mt-0.5 ${service.iconColor}`}
+                              size={16}
+                            />
                             <span>{feature}</span>
                           </motion.li>
                         ))}
@@ -555,18 +498,43 @@ export function ServicesPageContent() {
               Une technologie au service de votre réussite
             </motion.h2>
             <p className="text-neutral-500 font-light text-lg max-w-2xl mx-auto">
-              Nos outils digitaux vous permettent de piloter votre entreprise en temps réel
+              Nos outils digitaux vous permettent de piloter votre entreprise en
+              temps réel
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: "Dashboard en temps réel", description: "Visualisez vos KPI instantanément", icon: "📊" },
-              { title: "IA & Automatisation", description: "Scan automatique de vos factures", icon: "🤖" },
-              { title: "Mobile First", description: "Accédez à vos données partout", icon: "📱" },
-              { title: "Sécurité bancaire", description: "Cryptage et protection maximale", icon: "🔒" },
-              { title: "Collaboration", description: "Échangez avec votre expert en direct", icon: "💬" },
-              { title: "Reporting avancé", description: "Rapports personnalisables et exports", icon: "📈" },
+              {
+                title: "Dashboard en temps réel",
+                description: "Visualisez vos KPI instantanément",
+                icon: "📊",
+              },
+              {
+                title: "IA & Automatisation",
+                description: "Scan automatique de vos factures",
+                icon: "🤖",
+              },
+              {
+                title: "Mobile First",
+                description: "Accédez à vos données partout",
+                icon: "📱",
+              },
+              {
+                title: "Sécurité bancaire",
+                description: "Cryptage et protection maximale",
+                icon: "🔒",
+              },
+              {
+                title: "Collaboration",
+                description: "Échangez avec votre expert en direct",
+                icon: "💬",
+              },
+              {
+                title: "Reporting avancé",
+                description: "Rapports personnalisables et exports",
+                icon: "📈",
+              },
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -578,8 +546,12 @@ export function ServicesPageContent() {
                 className="bg-white rounded-2xl p-6 border border-neutral-200 hover:shadow-xl transition-all duration-300"
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold text-neutral-900 mb-2">{feature.title}</h3>
-                <p className="text-sm text-neutral-600 font-light">{feature.description}</p>
+                <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-neutral-600 font-light">
+                  {feature.description}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -608,7 +580,8 @@ export function ServicesPageContent() {
             transition={{ delay: 0.1 }}
             className="text-xl text-neutral-300 font-light leading-relaxed mb-10"
           >
-            Discutons de vos besoins et découvrez comment notre approche tech peut transformer votre gestion.
+            Discutons de vos besoins et découvrez comment notre approche tech
+            peut transformer votre gestion.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
