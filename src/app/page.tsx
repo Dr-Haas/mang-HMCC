@@ -11,6 +11,6 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default function Home() {
-  return <HomePageClient />;
+  return <HomePageClient />; 
 }
 
