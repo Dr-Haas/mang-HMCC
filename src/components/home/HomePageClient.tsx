@@ -2,22 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { VideoLoader } from "@/components/VideoLoader";
-import { PageLoader } from "@/components/PageLoader";
 import { HomePageContent } from "@/components/home/HomePageContent";
+import { motion, AnimatePresence } from "framer-motion";
 
 const HOME_INTRO_SEEN_KEY = "hmcc_home_intro_seen";
 
 export function HomePageClient() {
   const [showContent, setShowContent] = useState(false);
   const [hasSeenVideo, setHasSeenVideo] = useState(false);
-  const [showPageLoader, setShowPageLoader] = useState(false);
+  const [showWhiteTransition, setShowWhiteTransition] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const hasSeenIntro = sessionStorage.getItem(HOME_INTRO_SEEN_KEY) === "1";
     if (hasSeenIntro) {
       setHasSeenVideo(true);
-      setShowPageLoader(false);
       setShowContent(true);
     }
     setHydrated(true);
@@ -25,12 +24,16 @@ export function HomePageClient() {
 
   const handleVideoEnd = () => {
     setHasSeenVideo(true);
-    setShowPageLoader(true);
-  };
+    setShowWhiteTransition(true);
 
-  const handlePageLoaderComplete = () => {
-    sessionStorage.setItem(HOME_INTRO_SEEN_KEY, "1");
-    setShowContent(true);
+    // Démarrer le fade out de la page blanche après un court délai
+    setTimeout(() => {
+      setShowWhiteTransition(false);
+      setTimeout(() => {
+        setShowContent(true);
+        sessionStorage.setItem(HOME_INTRO_SEEN_KEY, "1");
+      }, 100);
+    }, 500);
   };
 
   if (!hydrated) {
@@ -40,7 +43,19 @@ export function HomePageClient() {
   return (
     <>
       {!hasSeenVideo && <VideoLoader onVideoEnd={handleVideoEnd} />}
-      {showPageLoader && !showContent && <PageLoader onComplete={handlePageLoaderComplete} />}
+
+      {/* Page blanche de transition */}
+      <AnimatePresence>
+        {showWhiteTransition && (
+          <motion.div
+            className="fixed inset-0 z-[99] bg-white"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
       <HomePageContent showContent={showContent} />
     </>
   );

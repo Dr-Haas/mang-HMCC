@@ -31,6 +31,7 @@ export function ServicesPageContent() {
   const subtitleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
+  const blobRef = useRef<HTMLDivElement>(null);
 
   const services = [
     {
@@ -144,6 +145,38 @@ export function ServicesPageContent() {
   ];
 
   // Animations d'entrée GSAP élégantes inspirées de home
+  useEffect(() => {
+    const hero = heroRef.current;
+    const blob = blobRef.current;
+    if (!hero || !blob) return;
+
+    // Fade out au scroll - exactement comme la page facturation
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const heroHeight = hero.offsetHeight;
+
+      // Calculer l'opacité en fonction du scroll (commence à disparaître après 20% du scroll)
+      const fadeStart = heroHeight * 0.2;
+      const fadeEnd = heroHeight * 0.8;
+
+      let opacity = 1;
+      if (scrollY > fadeStart) {
+        const fadeProgress = (scrollY - fadeStart) / (fadeEnd - fadeStart);
+        opacity = Math.max(0, 1 - fadeProgress);
+      }
+
+      // Animer spécifiquement le blob
+      gsap.to(blob, {
+        opacity: opacity,
+        duration: 0.1,
+        ease: "none",
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     const timeline = gsap.timeline({ delay: 0.3 });
 
@@ -301,7 +334,7 @@ export function ServicesPageContent() {
       {/* Container principal avec blob background - Structure identique à facturation */}
       <div className="relative h-[130vh] overflow-hidden">
         {/* Blob Background Canvas */}
-        <div className="absolute inset-0 z-20 hidden lg:block pointer-events-none">
+        <div ref={blobRef} className="absolute inset-0 z-20 hidden lg:block pointer-events-none">
           <BlobBackground />
         </div>
 
@@ -347,22 +380,7 @@ export function ServicesPageContent() {
               <br />
               pour transformer votre gestion comptable et fiscale
             </p>
-
-            {/* CTA subtil */}
-            <div className="pt-12">
-              <Link
-                ref={ctaRef}
-                href="/contact"
-                className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 font-light group pointer-events-auto"
-              >
-              Découvrir nos expertises
-              <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </Link>
           </div>
-        </div>
 
         {/* Indicateur de scroll */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
@@ -374,6 +392,23 @@ export function ServicesPageContent() {
           </div>
         </div>
       </section>
+
+        {/* CTA Button - Position absolue au-dessus du canvas */}
+        <div className="absolute top-2/3 left-0 right-0 z-50 pointer-events-auto">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <Link
+              ref={ctaRef}
+              href="/contact"
+              className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 font-light group"
+            >
+              Découvrir nos expertises
+              <ArrowRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Interactive Services Grid */}

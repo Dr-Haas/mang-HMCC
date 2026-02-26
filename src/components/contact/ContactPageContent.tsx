@@ -27,7 +27,7 @@ export function ContactPageContent() {
       {/* Contact Section fusionnée */}
       <section
         id="contact"
-        className="pt-20 py-24 bg-gradient-to-b from-white to-neutral-50 relative overflow-visible"
+        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh]"
       >
         {/* Conteneur full-width pour le blob */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -43,7 +43,7 @@ export function ContactPageContent() {
         {/* Hero Content */}
         <div className="max-w-7xl mx-auto px-6 relative z-20 mb-16 pointer-events-none">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1]">
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1] pt-40">
               Contactez-nous
             </h1>
             <p className="text-lg md:text-xl text-neutral-500 font-light leading-relaxed">
