@@ -185,8 +185,8 @@ export default function BlobBackground() {
         }}
       >
         <MarchingCubes
-          resolution={85}
-          maxPolyCount={100000}
+          resolution={70}
+          maxPolyCount={30000}
           enableUvs={false}
           enableColors
         >
