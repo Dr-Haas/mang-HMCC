@@ -334,7 +334,10 @@ export function ServicesPageContent() {
       {/* Container principal avec blob background - Structure identique à facturation */}
       <div className="relative h-[130vh] overflow-hidden">
         {/* Blob Background Canvas */}
-        <div ref={blobRef} className="absolute inset-0 z-20 hidden lg:block pointer-events-none">
+        <div
+          ref={blobRef}
+          className="absolute inset-0 z-20 hidden lg:block pointer-events-none"
+        >
           <BlobBackground />
         </div>
 
@@ -382,16 +385,16 @@ export function ServicesPageContent() {
             </p>
           </div>
 
-        {/* Indicateur de scroll */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
-          <div className="flex flex-col items-center space-y-2">
-            <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">
-              Services
-            </span>
-            <div className="w-[1px] h-12 bg-gradient-to-b from-neutral-400 to-transparent" />
+          {/* Indicateur de scroll */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
+            <div className="flex flex-col items-center space-y-2">
+              <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">
+                Services
+              </span>
+              <div className="w-[1px] h-12 bg-gradient-to-b from-neutral-400 to-transparent" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         {/* CTA Button - Position absolue au-dessus du canvas */}
         <div className="absolute top-2/3 left-0 right-0 z-50 pointer-events-auto">

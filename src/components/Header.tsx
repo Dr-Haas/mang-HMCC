@@ -258,9 +258,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div
-          className="lg:hidden border-t border-neutral-100 bg-white"
-        >
+        <div className="lg:hidden border-t border-neutral-100 bg-white">
           <div className="px-6 py-4 space-y-4">
             {navItems.map((item) => (
               <Link

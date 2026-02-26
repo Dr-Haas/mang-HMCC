@@ -62,8 +62,12 @@ export function CabinetTimelineSection() {
                       <p className="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold leading-none text-red-700">
                         {event.year}
                       </p>
-                      <h3 className="mb-2 text-lg sm:text-xl font-semibold text-neutral-900">{event.title}</h3>
-                      <p className="text-sm sm:text-base font-light text-neutral-600">{event.description}</p>
+                      <h3 className="mb-2 text-lg sm:text-xl font-semibold text-neutral-900">
+                        {event.title}
+                      </h3>
+                      <p className="text-sm sm:text-base font-light text-neutral-600">
+                        {event.description}
+                      </p>
                     </div>
                   </div>
 

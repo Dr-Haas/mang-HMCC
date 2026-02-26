@@ -177,7 +177,6 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             title="Intro HMCC desktop"
-            preload="metadata"
           />
 
           {/* Mobile */}
@@ -195,7 +194,6 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             title="HMCC Introduction mobile"
-            preload="metadata"
           />
 
           {/* Zone cliquable (seulement visible quand vidéo révélée) */}
