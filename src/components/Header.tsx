@@ -259,23 +259,15 @@ export function Header() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div
-          className={`lg:hidden ${
-            hasScrolled
-              ? "border-t border-neutral-100 bg-white"
-              : "bg-white/95 backdrop-blur-md"
-          }`}
+          className="lg:hidden border-t border-neutral-100 bg-white"
         >
           <div className="px-6 py-4 space-y-4">
             {navItems.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
+                className="block text-lg font-medium text-neutral-900 hover:text-red-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
-                className={`block w-full text-left text-sm font-medium transition-colors ${
-                  isActive(item.href)
-                    ? "text-red-600"
-                    : "text-neutral-600 hover:text-red-600"
-                }`}
               >
                 {item.label}
               </Link>
