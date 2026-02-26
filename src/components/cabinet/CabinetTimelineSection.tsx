@@ -28,13 +28,13 @@ const timelineEvents = [
 
 export function CabinetTimelineSection() {
   return (
-    <section className="border-b border-neutral-200 bg-white py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-red-700 md:text-5xl">
+    <section className="border-b border-neutral-200 bg-white py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-12 md:mb-16 text-center">
+          <h2 className="mb-3 md:mb-4 text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-red-700">
             Notre histoire
           </h2>
-          <p className="mx-auto max-w-3xl text-lg font-light text-neutral-500">
+          <p className="mx-auto max-w-3xl text-base sm:text-lg font-light text-neutral-500">
             Plus de 25 ans d&apos;evolution et d&apos;innovation continue
           </p>
         </div>
@@ -42,7 +42,7 @@ export function CabinetTimelineSection() {
         <div className="relative mx-auto max-w-6xl">
           <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-gradient-to-b from-red-200 via-red-600 to-red-200 md:block" />
 
-          <div className="space-y-10">
+          <div className="space-y-8 md:space-y-10">
             {timelineEvents.map((event, index) => {
               const isLeft = index % 2 === 0;
 
@@ -55,15 +55,15 @@ export function CabinetTimelineSection() {
                 >
                   <div className="w-full md:w-[calc(50%-2rem)]">
                     <div
-                      className={`rounded-2xl border border-neutral-200 bg-neutral-50 p-6 md:p-8 ${
+                      className={`rounded-xl md:rounded-2xl border border-neutral-200 bg-neutral-50 p-4 sm:p-6 md:p-8 ${
                         isLeft ? "text-left md:text-right" : "text-left"
                       }`}
                     >
-                      <p className="mb-2 text-4xl font-bold leading-none text-red-700">
+                      <p className="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold leading-none text-red-700">
                         {event.year}
                       </p>
-                      <h3 className="mb-2 text-xl font-semibold text-neutral-900">{event.title}</h3>
-                      <p className="text-base font-light text-neutral-600">{event.description}</p>
+                      <h3 className="mb-2 text-lg sm:text-xl font-semibold text-neutral-900">{event.title}</h3>
+                      <p className="text-sm sm:text-base font-light text-neutral-600">{event.description}</p>
                     </div>
                   </div>
 

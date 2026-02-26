@@ -115,8 +115,11 @@ export function NewCabinetHero() {
     };
   }, []);
 
-  // Effets parallax simples
+  // Effets parallax simples - UNIQUEMENT sur desktop
   useEffect(() => {
+    // Désactiver sur mobile pour les performances
+    if (window.innerWidth < 768) return;
+
     // Parallax pour le titre principal - décale vers la gauche
     gsap.to(titleRef.current, {
       yPercent: -60,
@@ -190,29 +193,29 @@ export function NewCabinetHero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center px-6 py-16"
+      className="relative min-h-screen flex items-center px-4 sm:px-6 py-12 sm:py-16"
     >
       {/* Fond blanc simple */}
       <div className="absolute inset-0 bg-white -z-10" />
 
       {/* Contenu principal avec layout asymétrique */}
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid grid-cols-12 gap-8 h-full items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 h-full items-center">
           {/* Section gauche : titre + description */}
-          <div className="col-span-12 md:col-span-6 lg:col-span-6 md:col-start-2 lg:col-start-2">
-            <div className="space-y-12">
+          <div className="col-span-1 md:col-span-6 lg:col-span-6 md:col-start-2 lg:col-start-2">
+            <div className="space-y-8 md:space-y-12">
               {/* Titres alignés */}
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div
                   ref={titleRef}
-                  className="text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-neutral-900 leading-none"
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-neutral-900 leading-none"
                 >
                   Cabinet
                 </div>
 
                 <div
                   ref={subtitleRef}
-                  className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-red-600 leading-none"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-red-600 leading-none"
                 >
                   Indépendant
                 </div>
@@ -221,7 +224,7 @@ export function NewCabinetHero() {
               {/* Description alignée avec les titres */}
               <p
                 ref={descRef}
-                className="text-lg md:text-xl text-neutral-600 leading-relaxed font-light max-w-2xl"
+                className="text-base sm:text-lg md:text-xl text-neutral-600 leading-relaxed font-light max-w-2xl"
               >
                 Plus de 25 ans d'expertise au service des entrepreneurs,
                 associations et dirigeants. Un cabinet indépendant qui
@@ -231,14 +234,14 @@ export function NewCabinetHero() {
           </div>
 
           {/* Section droite : année + CTA */}
-          <div className="col-span-12 md:col-span-4 lg:col-span-3 md:col-start-8 lg:col-start-9">
-            <div className="space-y-16 text-right md:text-center">
+          <div className="col-span-1 md:col-span-4 lg:col-span-3 md:col-start-8 lg:col-start-9 mt-8 md:mt-0">
+            <div className="space-y-8 md:space-y-16 text-center md:text-right lg:text-center">
               {/* Année */}
               <div ref={yearRef}>
-                <div className="text-4xl md:text-5xl font-light text-neutral-400">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-light text-neutral-400">
                   1998
                 </div>
-                <div className="text-sm tracking-[0.2em] text-neutral-500 uppercase mt-2">
+                <div className="text-xs sm:text-sm tracking-[0.2em] text-neutral-500 uppercase mt-1 md:mt-2">
                   Depuis
                 </div>
               </div>
@@ -255,12 +258,12 @@ export function NewCabinetHero() {
                       nextSection.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 font-light group cursor-pointer"
+                  className="inline-flex items-center gap-2 md:gap-3 text-neutral-900 text-base md:text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 font-light group cursor-pointer"
                 >
                   Découvrir notre histoire
                   <ArrowRight
-                    size={20}
-                    className="group-hover:translate-x-1 transition-transform"
+                    size={18}
+                    className="md:w-5 md:h-5 group-hover:translate-x-1 transition-transform"
                   />
                 </button>
               </div>
@@ -270,12 +273,12 @@ export function NewCabinetHero() {
       </div>
 
       {/* Indicateur de scroll */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
-        <div className="flex flex-col items-center space-y-2">
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 opacity-30">
+        <div className="flex flex-col items-center space-y-1 md:space-y-2">
           <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">
             Cabinet
           </span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-neutral-400 to-transparent" />
+          <div className="w-[1px] h-8 md:h-12 bg-gradient-to-b from-neutral-400 to-transparent" />
         </div>
       </div>
     </section>
