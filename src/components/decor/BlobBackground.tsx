@@ -150,33 +150,19 @@ function Pointer({ vec = new THREE.Vector3() }) {
   useFrame(({ pointer, viewport }) => {
     if (!ref.current) return;
     const { width, height } = viewport.getCurrentViewport();
-    // Ajuster pour la profondeur Z=-1 (même plan que les autres blobs)
     const depthScale = 4.5 / 3.5;
-
-    // Position cible
     targetPos.current.set(
       pointer.x * (width / 2) * depthScale,
       pointer.y * (height / 2) * depthScale,
       -1
     );
-
-    // Calculer la vélocité pour l'effet de déformation
-    velocity.current.subVectors(targetPos.current, ref.current.position);
-    const speed = velocity.current.length();
-
-    // Interpolation smooth (lerp)
     ref.current.position.lerp(targetPos.current, 0.15);
-
-    // Effet de déformation basé sur la vitesse
-    const baseScale = 1.5;
-    const stretchScale = 1 + Math.min(speed * 0.5, 0.5);
-    ref.current.scale.setScalar(baseScale + (stretchScale - baseScale) * 0.3);
   });
 
   return (
     <mesh ref={ref}>
       <MarchingCube
-        strength={0.22}
+        strength={0.5} // valeur augmentée (ex: 0.7 ou plus)
         subtract={8}
         color={new THREE.Color("#e54444")}
       />
