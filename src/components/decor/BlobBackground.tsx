@@ -162,8 +162,8 @@ function Pointer({ vec = new THREE.Vector3() }) {
   return (
     <mesh ref={ref}>
       <MarchingCube
-        strength={0.5} // valeur augmentée (ex: 0.7 ou plus)
-        subtract={8}
+        strength={0.45} // valeur augmentée (ex: 0.7 ou plus)
+        subtract={0.5}
         color={new THREE.Color("#e54444")}
       />
     </mesh>
