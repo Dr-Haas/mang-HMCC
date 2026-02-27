@@ -27,10 +27,10 @@ export function ContactPageContent() {
       {/* Contact Section fusionnée */}
       <section
         id="contact"
-        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh]"
+        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh] pb-32 sm:pb-0"
       >
-        {/* Conteneur full-width pour le blob */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
+        {/* Conteneur full-width pour le blob - caché sur mobile */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden hidden sm:block">
           <BlobBackground />
         </div>
 

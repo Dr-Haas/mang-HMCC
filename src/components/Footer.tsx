@@ -5,7 +5,7 @@ import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_ADDRESS_PARIS } from "@/app/lib/c
 
 export function Footer() {
   return (
-    <footer className="bg-neutral-50 pt-20 pb-10 border-t border-neutral-200">
+    <footer className="bg-neutral-50 pt-[170vh] sm:pt-20 pb-10 border-t border-neutral-200">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">

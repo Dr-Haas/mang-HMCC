@@ -397,7 +397,7 @@ export function ServicesPageContent() {
         </section>
 
         {/* CTA Button - Position absolue au-dessus du canvas */}
-        <div className="absolute top-2/3 left-0 right-0 z-50 pointer-events-auto">
+        <div className="absolute left-0 right-0 z-40 pointer-events-auto top-[58%] sm:top-[60%] md:top-[60%]">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <Link
               ref={ctaRef}

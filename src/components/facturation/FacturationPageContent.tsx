@@ -365,7 +365,7 @@ export function FacturationPageContent() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh]"
+        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[100vh] md:h-[130vh]"
       >
         {/* Blob Background - Uniquement sur desktop */}
         <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
@@ -381,13 +381,13 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[0] = el;
               }}
-              className="col-span-1 md:col-start-5 md:col-span-7 pointer-events-auto relative text-center md:text-left ml-4 md:ml-0"
+              className="col-span-1 md:col-start-5 md:col-span-7 pointer-events-auto relative text-center md:text-left ml-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[0] = el;
                 }}
-                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-neutral-500 font-light"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-neutral-500 font-light text-center"
               >
                 Réforme 2026
               </div>
@@ -401,13 +401,13 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[1] = el;
               }}
-              className="col-span-1 md:col-start-2 md:col-span-7 pointer-events-auto mt-6 md:mt-8 relative text-center md:text-left -ml-2 md:ml-0"
+              className="col-span-1 md:col-start-2 md:col-span-7 pointer-events-auto mt-6 md:mt-8 relative text-center md:text-left ml-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[1] = el;
                 }}
-                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-neutral-500 font-light"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-xs md:text-sm text-neutral-500 font-light whitespace-nowrap text-center"
               >
                 Dématérialisation complète
               </div>
@@ -421,13 +421,13 @@ export function FacturationPageContent() {
               ref={(el) => {
                 if (el) wordsRef.current[2] = el;
               }}
-              className="col-span-1 md:col-start-6 md:col-span-6 pointer-events-auto mt-4 md:mt-6 relative text-center md:text-left mr-3 md:mr-0"
+              className="col-span-1 md:col-start-6 md:col-span-6 pointer-events-auto mt-4 md:mt-6 relative text-center md:text-left mr-0"
             >
               <div
                 ref={(el) => {
                   if (el) annotationsRef.current[2] = el;
                 }}
-                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-red-500 font-medium"
+                className="absolute -top-6 md:-top-8 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 text-sm text-red-500 font-medium text-center"
               >
                 Toutes entreprises
               </div>
@@ -452,7 +452,7 @@ export function FacturationPageContent() {
         </div>
 
         {/* CTA Button - Position absolue au-dessus du canvas */}
-        <div className="absolute top-2/5 md:top-3/5 left-0 right-0 z-50 pointer-events-auto">
+        <div className="absolute top-[52%] md:top-3/5 left-0 right-0 z-50 pointer-events-auto">
           <div className="max-w-7xl mx-auto px-6">
             <div className="md:ml-[16.666%]">
               <Link
