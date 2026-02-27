@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_URL, SITE_NAME } from "./lib/constants";
 import { Layout } from "@/components/Layout";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import { LenisScrollToTopOnRouteChange } from "@/components/providers/LenisScrollToTopOnRouteChange";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -76,7 +77,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SmoothScrollProvider>
-          <Layout>{children}</Layout>
+          <LenisScrollToTopOnRouteChange>
+            <Layout>{children}</Layout>
+          </LenisScrollToTopOnRouteChange>
         </SmoothScrollProvider>
       </body>
     </html>

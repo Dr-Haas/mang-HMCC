@@ -17,6 +17,9 @@ export function SmoothScrollProvider({
       touchMultiplier: 2,
     });
 
+    // Register Lenis globally for scroll-to-top usage
+    (window as any).lenis = lenis;
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -26,6 +29,7 @@ export function SmoothScrollProvider({
 
     return () => {
       lenis.destroy();
+      delete (window as any).lenis;
     };
   }, []);
 
