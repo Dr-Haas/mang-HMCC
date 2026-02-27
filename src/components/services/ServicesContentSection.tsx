@@ -25,7 +25,7 @@ export function ServicesContentSection() {
     <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <AnimateOnScroll animation="fade-up">
-          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
+          <h2 className="text-2xl sm:text-3xl typography-section-title text-foreground">
             Ce que nous proposons
           </h2>
         </AnimateOnScroll>
@@ -36,7 +36,7 @@ export function ServicesContentSection() {
               className="rounded-lg border border-foreground/10 bg-background p-6"
             >
               <h3 className="font-semibold text-foreground">{item.title}</h3>
-              <p className="mt-2 text-foreground/70">{item.description}</p>
+              <p className="mt-2 typography-hero-desc text-foreground/70">{item.description}</p>
             </li>
           ))}
         </StaggerScroll>

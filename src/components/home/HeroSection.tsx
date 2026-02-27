@@ -293,7 +293,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         {/* Sous-titre */}
         <h2
           ref={subtitleRef}
-          className="text-sm tracking-[0.3em] text-neutral-400 uppercase opacity-0"
+          className="typography-hero-label text-neutral-400 opacity-0"
         >
           Cabinet d'expertise comptable
         </h2>
@@ -301,10 +301,10 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         {/* Titre principal */}
         <h1
           ref={titleRef}
-          className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-neutral-900 leading-none opacity-0 mt-16"
+          className="text-5xl md:text-7xl lg:text-8xl typography-hero-title text-neutral-900 opacity-0 mt-16"
         >
           HMCC
-          <span className="block text-3xl md:text-5xl lg:text-6xl text-red-600 mt-4 font-medium">
+          <span className="block text-3xl md:text-5xl lg:text-6xl typography-hero-title text-red-600 mt-4">
             Expertise moderne
           </span>
         </h1>
@@ -312,7 +312,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         {/* Description */}
         <p
           ref={descriptionRef}
-          className="text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed opacity-0 font-light"
+          className="text-lg md:text-xl typography-hero-desc text-neutral-500 max-w-2xl mx-auto opacity-0"
         >
           Nous transformons vos obligations comptables en opportunités
           stratégiques. Une approche digitale et humaine pour les entrepreneurs
@@ -324,7 +324,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
           <Link
             ref={ctaRef}
             href="/contact"
-            className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 font-light"
+            className="inline-flex items-center gap-3 text-neutral-900 text-lg tracking-wide border-b border-neutral-300 pb-1 hover:border-red-600 transition-colors duration-300 opacity-0 typography-hero-desc"
           >
             Prendre contact
             <ArrowDown size={20} className="transform rotate-[-45deg]" />

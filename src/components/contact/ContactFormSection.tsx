@@ -11,10 +11,10 @@ export function ContactFormSection() {
     <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <AnimateOnScroll animation="fade-up">
         <div className="mx-auto max-w-xl">
-        <h2 className="text-xl font-bold text-foreground sm:text-2xl">
+        <h2 className="text-xl sm:text-2xl typography-section-title text-foreground">
           Nous écrire
         </h2>
-        <p className="mt-2 text-foreground/70">
+        <p className="mt-2 typography-hero-desc text-foreground/70">
           Email :{" "}
           <a
             href={`mailto:${CONTACT_EMAIL}`}

@@ -43,10 +43,10 @@ export function ContactPageContent() {
         {/* Hero Content */}
         <div className="max-w-7xl mx-auto px-6 relative z-20 mb-16 pointer-events-none">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1] pt-40">
+            <h1 className="text-4xl md:text-6xl typography-hero-title text-red-600 mb-6 pt-40">
               Contactez-nous
             </h1>
-            <p className="text-lg md:text-xl text-neutral-500 font-light leading-relaxed">
+            <p className="text-lg md:text-xl typography-hero-desc text-neutral-500">
               Notre équipe est à votre disposition pour répondre à toutes vos
               questions.
             </p>
@@ -75,10 +75,10 @@ export function ContactPageContent() {
                   Contact
                 </motion.div>
 
-                <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-red-600 mb-6 leading-[1.1]">
+                <h2 className="text-4xl md:text-5xl typography-section-title text-red-600 mb-6">
                   Parlons de votre projet
                 </h2>
-                <p className="text-neutral-600 font-light text-lg leading-relaxed mb-8">
+                <p className="text-neutral-600 typography-hero-desc text-lg mb-8">
                   Le premier rendez-vous de conseil est offert. Discutons de vos
                   besoins autour d&apos;un café ou en visio.
                 </p>

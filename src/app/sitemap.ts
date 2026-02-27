@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "./lib/constants";
+import { getAllServiceSlugs } from "@/lib/services-data";
 
 /** Nécessaire pour l'export statique (output: 'export'). */
 export const dynamic = "force-static";
@@ -9,6 +10,13 @@ export const dynamic = "force-static";
  * Ajoutez ici les URLs de vos pages (ou générez-les dynamiquement).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
+  const servicePages = getAllServiceSlugs().map((slug) => ({
+    url: `${SITE_URL}/services/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.85,
+  }));
+
   return [
     {
       url: SITE_URL,
@@ -22,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...servicePages,
     {
       url: `${SITE_URL}/nos-bureaux`,
       lastModified: new Date(),

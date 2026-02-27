@@ -29,7 +29,7 @@ export function CabinetHeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight text-white md:text-6xl"
+            className="mb-6 text-4xl md:text-6xl typography-hero-title text-white"
           >
             Un cabinet indépendant, <br />
             <span className="bg-gradient-to-r from-red-300 to-red-100 bg-clip-text text-transparent">
@@ -41,7 +41,7 @@ export function CabinetHeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto max-w-2xl text-lg font-light leading-relaxed text-neutral-200 md:text-2xl"
+            className="mx-auto max-w-2xl text-lg md:text-2xl typography-hero-desc text-neutral-200"
           >
             Plus de 25 ans d&apos;accompagnement des entrepreneurs, associations
             et dirigeants.

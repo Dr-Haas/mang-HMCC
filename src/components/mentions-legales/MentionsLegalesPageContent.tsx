@@ -248,7 +248,7 @@ export function MentionsLegalesPageContent() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-semibold tracking-tight text-neutral-900 mb-6 leading-[1.1]"
+              className="text-5xl md:text-7xl typography-hero-title text-neutral-900 mb-6"
             >
               Mentions légales et politiques de confidentialités
             </motion.h1>
@@ -260,7 +260,7 @@ export function MentionsLegalesPageContent() {
               className="mx-auto mt-8 max-w-3xl space-y-4 text-left"
             >
               {introParagraphs.map((paragraph, index) => (
-                <p key={index} className="text-neutral-600 font-light leading-relaxed">
+                <p key={index} className="text-neutral-600 typography-hero-desc">
                   {paragraph}
                 </p>
               ))}
@@ -286,22 +286,22 @@ export function MentionsLegalesPageContent() {
                   <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center text-red-600">
                     <span className="text-xl font-bold">{section.number}</span>
                   </div>
-                  <h2 className="text-2xl font-semibold text-neutral-900">{section.title}</h2>
+                  <h2 className="text-2xl typography-section-title text-neutral-900">{section.title}</h2>
                 </div>
 
                 <div className="space-y-6">
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex} className="space-y-3">
                       {"subtitle" in item && item.subtitle && (
-                        <h3 className="text-lg font-semibold text-neutral-900">{item.subtitle}</h3>
+                        <h3 className="text-lg typography-section-title text-neutral-900">{item.subtitle}</h3>
                       )}
                       {"text" in item && item.text && (
-                        <p className="text-neutral-600 font-light leading-relaxed whitespace-pre-line">
+                        <p className="text-neutral-600 typography-hero-desc whitespace-pre-line">
                           {item.text}
                         </p>
                       )}
                       {"list" in item && item.list && (
-                        <ul className="list-disc list-inside space-y-2 text-neutral-600 font-light">
+                        <ul className="list-disc list-inside space-y-2 text-neutral-600 typography-hero-desc">
                           {item.list.map((listItem, listIndex) => (
                             <li key={listIndex}>{listItem}</li>
                           ))}

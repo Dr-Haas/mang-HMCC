@@ -35,6 +35,7 @@ export function ServicesPageContent() {
 
   const services = [
     {
+      slug: "comptabilite-gestion-fiscale",
       icon: Calculator,
       title: "Comptabilité & Gestion Fiscale",
       tagline: "Automatisez votre comptabilité",
@@ -53,6 +54,7 @@ export function ServicesPageContent() {
       ],
     },
     {
+      slug: "conseil-fiscal-optimisation",
       icon: TrendingUp,
       title: "Conseil Fiscal & Optimisation",
       tagline: "Maximisez votre rentabilité",
@@ -71,6 +73,7 @@ export function ServicesPageContent() {
       ],
     },
     {
+      slug: "paie-gestion-sociale",
       icon: Users,
       title: "Paie & Gestion Sociale",
       tagline: "Simplifiez vos RH",
@@ -89,6 +92,7 @@ export function ServicesPageContent() {
       ],
     },
     {
+      slug: "audit-commissariat",
       icon: FileText,
       title: "Audit & Commissariat",
       tagline: "Sécurisez vos comptes",
@@ -107,6 +111,7 @@ export function ServicesPageContent() {
       ],
     },
     {
+      slug: "conseil-juridique",
       icon: Scale,
       title: "Conseil Juridique",
       tagline: "Sécurisez votre structure",
@@ -125,6 +130,7 @@ export function ServicesPageContent() {
       ],
     },
     {
+      slug: "creation-entreprise",
       icon: Briefcase,
       title: "Création d'Entreprise",
       tagline: "Lancez-vous sereinement",
@@ -507,7 +513,7 @@ export function ServicesPageContent() {
                       {/* Arrow indicator */}
                       <motion.div animate={isActive ? { x: 5 } : { x: 0 }}>
                         <Link
-                          href="/contact"
+                          href={`/services/${service.slug}`}
                           className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-neutral-400 group-hover:text-red-600 transition-colors"
                         >
                           En savoir plus
