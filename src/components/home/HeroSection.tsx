@@ -22,9 +22,12 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const iconsRef = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     if (!startAnimation) return;
+
+    console.log("🎬 Starting entrance animations for icons");
 
     const timeline = gsap.timeline({ delay: 0.2 });
 
@@ -165,6 +168,63 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
       delay: 4,
     });
 
+    // Initialiser immédiatement les images hors écran pour éviter le flash
+    iconsRef.current.forEach((icon, index) => {
+      if (!icon) {
+        console.log(`⚠️ Icon ${index} not found for entrance animation`);
+        return;
+      }
+
+      console.log(`✨ Setting up entrance animation for icon ${index}`);
+
+      let startX = 0;
+      let startY = 0;
+
+      // Pen en haut à gauche (0)
+      if (index === 0) {
+        startX = -400;
+        startY = -200;
+      }
+      // Calculator en haut à droite (1)
+      else if (index === 1) {
+        startX = 400;
+        startY = -200;
+      }
+      // Notebook en bas à gauche (2)
+      else if (index === 2) {
+        startX = -400;
+        startY = 200;
+      }
+      // Pins en bas à droite (3)
+      else if (index === 3) {
+        startX = 400;
+        startY = 200;
+      }
+      // Pin en bas à gauche (4)
+      else if (index === 4) {
+        startX = -400;
+        startY = 200;
+      }
+
+      // Animation d'entrée avec fromTo pour forcer les valeurs de départ
+      gsap.fromTo(
+        icon,
+        {
+          x: startX,
+          y: startY,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 0.5 + index * 0.1,
+        }
+      );
+    });
+
     return () => {
       timeline.kill();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -221,6 +281,78 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         end: "bottom top",
         scrub: 2.5,
       },
+    });
+
+    // Parallax simple - les images sortent sur les côtés au scroll
+    console.log(
+      "🎯 Setting up parallax for icons, found:",
+      iconsRef.current.length
+    );
+
+    iconsRef.current.forEach((icon, index) => {
+      if (!icon) {
+        console.log(`⚠️ Icon ${index} is null`);
+        return;
+      }
+
+      console.log(`✅ Icon ${index} found, setting up parallax`);
+
+      let moveX = 0;
+      let moveY = 0;
+      let scrubValue = 1;
+
+      // Variation pour chaque image pour un effet organique
+      const variations = [
+        { x: -450, y: -100, scrub: 0.9 }, // Pen - haut gauche
+        { x: 500, y: -80, scrub: 1.1 }, // Calculator - haut droite
+        { x: -480, y: 150, scrub: 1.2 }, // Notebook - bas gauche
+        { x: 520, y: 120, scrub: 0.95 }, // Pins - bas droite
+        { x: -420, y: 180, scrub: 1.0 }, // Pin - bas gauche
+      ];
+
+      if (variations[index]) {
+        moveX = variations[index].x;
+        moveY = variations[index].y;
+        scrubValue = variations[index].scrub;
+      }
+
+      console.log(
+        `📍 Icon ${index}: will move to x: ${moveX}, y: ${moveY}, scrub: ${scrubValue}`
+      );
+
+      gsap.fromTo(
+        icon,
+        {
+          x: 0,
+          y: 0,
+        },
+        {
+          x: moveX,
+          y: moveY,
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: scrubValue,
+            onUpdate: (self) => {
+              console.log(
+                `📊 Icon ${index} progress: ${(self.progress * 100).toFixed(
+                  0
+                )}%`
+              );
+            },
+            onEnter: () =>
+              console.log(`▶️ Icon ${index} ScrollTrigger ENTERED`),
+            onLeave: () => console.log(`⏹️ Icon ${index} ScrollTrigger LEFT`),
+            onEnterBack: () =>
+              console.log(`◀️ Icon ${index} ScrollTrigger ENTER BACK`),
+            onLeaveBack: () =>
+              console.log(`⏪ Icon ${index} ScrollTrigger LEAVE BACK`),
+          },
+        }
+      );
     });
 
     return () => {
@@ -288,6 +420,62 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
       {/* Dégradé de fond subtil */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-white -z-10" />
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-red-50/30 rounded-full blur-3xl -z-10" />
+
+      {/* Images décoratives - Bureau désordonné */}
+      {/* Pen - Haut à gauche */}
+      <img
+        ref={(el) => {
+          iconsRef.current[0] = el;
+        }}
+        src="/images/hero/pen-left-top.png"
+        alt=""
+        className="absolute left-[-12%] top-[-18%] w-32 h-32 md:w-48 md:h-48 lg:w-[28rem] lg:h-[28rem] opacity-0 pointer-events-none rotate-[25deg]"
+        aria-hidden="true"
+      />
+
+      {/* Calculator - Haut à droite */}
+      <img
+        ref={(el) => {
+          iconsRef.current[1] = el;
+        }}
+        src="/images/hero/calculator-right-top.png"
+        alt=""
+        className="absolute right-[-12%] top-[-4%] w-28 h-28 md:w-44 md:h-44 lg:w-[24rem] lg:h-[24rem] opacity-0 pointer-events-none rotate-[-8deg]"
+        aria-hidden="true"
+      />
+
+      {/* Notebook - Bas à gauche */}
+      <img
+        ref={(el) => {
+          iconsRef.current[2] = el;
+        }}
+        src="/images/hero/notebook-left-bottom.png"
+        alt=""
+        className="absolute left-[-24%] bottom-[1%] w-40 h-40 md:w-64 md:h-64 lg:w-[36rem] lg:h-[36rem] opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Pins - Bas à droite */}
+      <img
+        ref={(el) => {
+          iconsRef.current[3] = el;
+        }}
+        src="/images/hero/pins-right-botttom.png"
+        alt=""
+        className="absolute right-[-14%] bottom-[3%] w-32 h-32 md:w-52 md:h-52 lg:w-[28rem] lg:h-[28rem] opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Pin - Bas à gauche */}
+      <img
+        ref={(el) => {
+          iconsRef.current[4] = el;
+        }}
+        src="/images/hero/pin-bottom-left.png"
+        alt=""
+        className="absolute left-[8%] bottom-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-24 lg:h-24 opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
 
       <div className="max-w-4xl mx-auto text-center space-y-8">
         {/* Sous-titre */}

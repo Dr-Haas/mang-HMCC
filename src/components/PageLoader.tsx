@@ -119,37 +119,37 @@ export function PageLoader({ onComplete }: { onComplete?: () => void }) {
       <div
         ref={band1Ref}
         className="absolute inset-y-0 bg-black"
-        style={{ 
-          left: '0%',
-          width: 'calc(25% + 1px)',
-          willChange: "transform" 
+        style={{
+          left: "0%",
+          width: "calc(25% + 1px)",
+          willChange: "transform",
         }}
       />
       <div
         ref={band2Ref}
         className="absolute inset-y-0 bg-black"
-        style={{ 
-          left: 'calc(25% - 1px)',
-          width: 'calc(25% + 2px)',
-          willChange: "transform" 
+        style={{
+          left: "calc(25% - 1px)",
+          width: "calc(25% + 2px)",
+          willChange: "transform",
         }}
       />
       <div
         ref={band3Ref}
         className="absolute inset-y-0 bg-black"
-        style={{ 
-          left: 'calc(50% - 1px)',
-          width: 'calc(25% + 2px)',
-          willChange: "transform" 
+        style={{
+          left: "calc(50% - 1px)",
+          width: "calc(25% + 2px)",
+          willChange: "transform",
         }}
       />
       <div
         ref={band4Ref}
         className="absolute inset-y-0 bg-black"
-        style={{ 
-          left: 'calc(75% - 1px)',
-          width: 'calc(25% + 1px)',
-          willChange: "transform" 
+        style={{
+          left: "calc(75% - 1px)",
+          width: "calc(25% + 1px)",
+          willChange: "transform",
         }}
       />
 

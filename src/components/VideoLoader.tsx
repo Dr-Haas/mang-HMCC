@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
+import { Canvas3D } from "@/components/Canvas3D";
 
 type VimeoPlayer = import("@vimeo/player").default;
 
@@ -19,12 +20,12 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [showPreIntro, setShowPreIntro] = useState(true);
   const [visible, setVisible] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
+  const [playersReady, setPlayersReady] = useState(false);
   const finishedRef = useRef(false);
   const desktopIframeRef = useRef<HTMLIFrameElement>(null);
   const mobileIframeRef = useRef<HTMLIFrameElement>(null);
   const playersRef = useRef<VimeoPlayer[]>([]);
   const preIntroRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
 
   // Bloquer le scroll du body pendant que le VideoLoader est visible
   useEffect(() => {
@@ -55,48 +56,6 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     onVideoEnd();
   };
 
-  // Animation d'entrée du texte pré-intro
-  useEffect(() => {
-    if (!showPreIntro || !textRef.current) return;
-
-    const timeline = gsap.timeline();
-
-    timeline
-      .fromTo(
-        textRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          scale: 0.9,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.6,
-          ease: "power3.out",
-          delay: 0.1,
-        }
-      )
-      // Animation de respiration rapide
-      .to(textRef.current, {
-        scale: 1.02,
-        duration: 1.5,
-        ease: "power2.inOut",
-        yoyo: true,
-        repeat: 1,
-      })
-      // Fondu de l'écran blanc pour révéler la vidéo derrière
-      .to(preIntroRef.current, {
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        onComplete: () => {
-          setShowPreIntro(false);
-        },
-      });
-  }, [showPreIntro]);
-
   const handleZoneClick = () => {
     // Empêcher la relecture si la vidéo a déjà commencé
     if (hasStarted) return;
@@ -109,8 +68,33 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     });
   };
 
+  const handleSwitchClick = () => {
+    if (!preIntroRef.current || !playersReady) return;
+
+    // Lancer la vidéo (en arrière-plan pendant le zoom)
+    setHasStarted(true);
+    playersRef.current.forEach((player) => {
+      player.setVolume(1);
+      player.setCurrentTime(0);
+      player.play().catch(() => {});
+    });
+
+    // Attendre que le zoom soit quasi terminé puis fade out
+    setTimeout(() => {
+      gsap.to(preIntroRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          setShowPreIntro(false);
+        },
+      });
+    }, 800);
+  };
+
+  // Initialiser les players dès que le composant est visible
   useEffect(() => {
-    if (!visible || showPreIntro) return;
+    if (!visible) return;
 
     let cancelled = false;
 
@@ -119,6 +103,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       if (cancelled) return;
 
       const players: VimeoPlayer[] = [];
+      const readyPromises: Promise<void>[] = [];
 
       const setupPlayer = (iframe: HTMLIFrameElement | null) => {
         if (!iframe) return;
@@ -126,7 +111,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
         players.push(player);
 
         // Configuration simple pour afficher la première frame de la vidéo
-        player
+        const readyPromise = player
           .ready()
           .then(() => {
             player.setLoop(false).catch(() => {});
@@ -136,12 +121,19 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
           })
           .catch(() => {});
 
+        readyPromises.push(readyPromise);
         player.on("ended", () => finish());
       };
 
       setupPlayer(desktopIframeRef.current);
       setupPlayer(mobileIframeRef.current);
       playersRef.current = players;
+
+      // Attendre que tous les players soient prêts
+      await Promise.all(readyPromises);
+      if (!cancelled) {
+        setPlayersReady(true);
+      }
     })();
 
     return () => {
@@ -150,7 +142,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       playersRef.current = [];
       current.forEach((p) => p.destroy().catch(() => {}));
     };
-  }, [visible, showPreIntro]);
+  }, [visible]);
 
   return (
     <AnimatePresence>
@@ -214,14 +206,11 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
           {showPreIntro && (
             <div
               ref={preIntroRef}
-              className="absolute inset-0 bg-white flex items-center justify-center overflow-hidden z-10"
+              className="absolute inset-0 bg-white overflow-hidden z-10"
             >
-              <h1
-                ref={textRef}
-                className="text-4xl md:text-6xl font-light text-neutral-900 text-center max-w-4xl px-6 tracking-tight leading-tight"
-              >
-                Turn the switch on to experience
-              </h1>
+              <div className="absolute inset-0">
+                <Canvas3D onSwitch={handleSwitchClick} />
+              </div>
             </div>
           )}
         </motion.div>

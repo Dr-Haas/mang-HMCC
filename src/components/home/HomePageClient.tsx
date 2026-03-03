@@ -22,6 +22,18 @@ export function HomePageClient() {
     setHydrated(true);
   }, []);
 
+  // Masquer header/footer tant que l'intro n'est pas terminée
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.__hmccHideHeaderFooter = !showContent;
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.__hmccHideHeaderFooter = false;
+      }
+    };
+  }, [showContent]);
+
   const handleVideoEnd = () => {
     setHasSeenVideo(true);
     setShowWhiteTransition(true);
@@ -56,7 +68,7 @@ export function HomePageClient() {
         )}
       </AnimatePresence>
 
-      <HomePageContent showContent={showContent} />
+      {showContent && <HomePageContent showContent={showContent} />}
     </>
   );
 }
