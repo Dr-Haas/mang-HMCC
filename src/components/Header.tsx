@@ -73,12 +73,12 @@ function Logo() {
 
     const handleMouseEnter = () => {
       if (isAnimating.current) return;
-      
+
       isAnimating.current = true;
-      
+
       letterRefs.current.forEach((letter, index) => {
         if (!letter) return;
-        
+
         gsap.to(letter, {
           rotateY: "+=360",
           duration: 0.6,
@@ -102,7 +102,10 @@ function Logo() {
 
   return (
     <Link ref={linkRef} href="/" className="flex items-center gap-1 group">
-      <div className="font-bold text-2xl tracking-tighter text-neutral-900 flex" style={{ perspective: "1000px" }}>
+      <div
+        className="font-bold text-2xl tracking-tighter text-neutral-900 flex"
+        style={{ perspective: "1000px" }}
+      >
         {["H", "M", "C", "C"].map((letter, index) => (
           <span
             key={index}
@@ -138,7 +141,7 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
         duration: 0.4,
         ease: "power2.out",
       });
-      
+
       gsap.to(arrow, {
         x: 6,
         scale: 1.15,
@@ -154,7 +157,7 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
         duration: 0.4,
         ease: "power2.out",
       });
-      
+
       gsap.to(arrow, {
         x: 0,
         scale: 1,
@@ -179,7 +182,9 @@ function ButtonLink({ href, children }: { href: string; children: string }) {
       href={href}
       className="bg-red-600 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-red-700 transition-colors shadow-sm shadow-red-200 hover:shadow-red-300 inline-flex items-center gap-2"
     >
-      <span ref={textRef} className="inline-block">{children}</span>
+      <span ref={textRef} className="inline-block">
+        {children}
+      </span>
       <div ref={arrowRef} className="inline-block">
         <ArrowRight size={18} />
       </div>
@@ -192,7 +197,11 @@ const navItems = [
   { id: "services", label: "Services", href: "/services" },
   { id: "cabinet", label: "Le Cabinet", href: "/cabinet" },
   { id: "blog", label: "Blog", href: "/blog" },
-  { id: "facturation", label: "Facturation Électronique", href: "/facturation" },
+  {
+    id: "facturation",
+    label: "Facturation Électronique",
+    href: "/facturation",
+  },
   { id: "domiciliation", label: "Domiciliation", href: "/domiciliation" },
   { id: "contact", label: "Contact", href: "/contact" },
 ];
@@ -223,9 +232,6 @@ export function Header() {
   };
 
   return (
-<<<<<<< Updated upstream
-    <nav className="fixed top-0 z-50 w-full border-b border-neutral-100 bg-white/95 transition-all duration-300 md:bg-white/80 md:backdrop-blur-md">
-=======
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-500 border-b ${
         hasScrolled
@@ -233,7 +239,6 @@ export function Header() {
           : "border-transparent bg-transparent"
       }`}
     >
->>>>>>> Stashed changes
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Modern Logo */}
         <Logo />
@@ -279,12 +284,8 @@ export function Header() {
               <Link
                 key={item.id}
                 href={item.href}
+                className="block text-lg font-medium text-neutral-900 hover:text-red-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
-                className={`block w-full text-left text-sm font-medium transition-colors ${
-                  isActive(item.href)
-                    ? "text-red-600"
-                    : "text-neutral-600 hover:text-red-600"
-                }`}
               >
                 {item.label}
               </Link>

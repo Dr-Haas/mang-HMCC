@@ -49,6 +49,11 @@ export function HomePageClient() {
         <div className="fixed inset-0 z-[99] bg-white pointer-events-none" />
       )}
 
+      {/* Écran blanc qui couvre tout avant que le VideoLoader soit prêt */}
+      {!hasSeenVideo && (
+        <div className="fixed inset-0 z-[99] bg-white pointer-events-none" />
+      )}
+
       {/* Page blanche de transition */}
       <AnimatePresence>
         {showWhiteTransition && (
