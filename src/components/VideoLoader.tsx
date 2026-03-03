@@ -2,7 +2,12 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+<<<<<<< Updated upstream
 import { ArrowDownRight } from "lucide-react";
+=======
+import { gsap } from "gsap";
+import { Canvas3D } from "@/components/Canvas3D";
+>>>>>>> Stashed changes
 
 type VimeoPlayer = import("@vimeo/player").default;
 
@@ -16,10 +21,40 @@ interface VideoLoaderProps {
 
 export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [visible, setVisible] = useState(true);
+<<<<<<< Updated upstream
+=======
+  const [hasStarted, setHasStarted] = useState(false);
+  const [playersReady, setPlayersReady] = useState(false);
+>>>>>>> Stashed changes
   const finishedRef = useRef(false);
   const desktopIframeRef = useRef<HTMLIFrameElement>(null);
   const mobileIframeRef = useRef<HTMLIFrameElement>(null);
   const playersRef = useRef<VimeoPlayer[]>([]);
+<<<<<<< Updated upstream
+=======
+  const preIntroRef = useRef<HTMLDivElement>(null);
+
+  // Bloquer le scroll du body pendant que le VideoLoader est visible
+  useEffect(() => {
+    if (visible) {
+      // Sauvegarder l'état actuel
+      const originalOverflow = document.body.style.overflow;
+      const originalHeight = document.body.style.height;
+
+      // Bloquer le scroll
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+
+      return () => {
+        // Restaurer à la fermeture
+        document.body.style.overflow = originalOverflow;
+        document.body.style.height = originalHeight;
+        document.documentElement.style.overflow = "";
+      };
+    }
+  }, [visible]);
+>>>>>>> Stashed changes
 
   const finish = () => {
     if (finishedRef.current) return;
@@ -36,6 +71,31 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     });
   };
 
+  const handleSwitchClick = () => {
+    if (!preIntroRef.current || !playersReady) return;
+
+    // Lancer la vidéo (en arrière-plan pendant le zoom)
+    setHasStarted(true);
+    playersRef.current.forEach((player) => {
+      player.setVolume(1);
+      player.setCurrentTime(0);
+      player.play().catch(() => {});
+    });
+
+    // Attendre que le zoom soit quasi terminé puis fade out
+    setTimeout(() => {
+      gsap.to(preIntroRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          setShowPreIntro(false);
+        },
+      });
+    }, 800);
+  };
+
+  // Initialiser les players dès que le composant est visible
   useEffect(() => {
     if (!visible) return;
 
@@ -46,17 +106,40 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       if (cancelled) return;
 
       const players: VimeoPlayer[] = [];
+      const readyPromises: Promise<void>[] = [];
 
       const setupPlayer = (iframe: HTMLIFrameElement | null) => {
         if (!iframe) return;
         const player = new Player(iframe);
         players.push(player);
+<<<<<<< Updated upstream
+=======
+
+        // Configuration simple pour afficher la première frame de la vidéo
+        const readyPromise = player
+          .ready()
+          .then(() => {
+            player.setLoop(false).catch(() => {});
+            player.setVolume(0);
+            player.setCurrentTime(0); // Aller directement à la première frame
+            player.pause(); // S'assurer que c'est en pause
+          })
+          .catch(() => {});
+
+        readyPromises.push(readyPromise);
+>>>>>>> Stashed changes
         player.on("ended", () => finish());
       };
 
       setupPlayer(desktopIframeRef.current);
       setupPlayer(mobileIframeRef.current);
       playersRef.current = players;
+
+      // Attendre que tous les players soient prêts
+      await Promise.all(readyPromises);
+      if (!cancelled) {
+        setPlayersReady(true);
+      }
     })();
 
     return () => {
@@ -88,6 +171,7 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             />
           </div>
 
+<<<<<<< Updated upstream
           {/* Mobile : iframe Vimeo (masqué sur desktop) */}
           <div className="absolute inset-0 md:hidden">
             <iframe
@@ -121,6 +205,19 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
               <ArrowDownRight size={14} />
             </button>
           </div>
+=======
+          {/* Écran pré-intro (par-dessus la vidéo) */}
+          {showPreIntro && (
+            <div
+              ref={preIntroRef}
+              className="absolute inset-0 bg-white overflow-hidden z-10"
+            >
+              <div className="absolute inset-0">
+                <Canvas3D onSwitch={handleSwitchClick} />
+              </div>
+            </div>
+          )}
+>>>>>>> Stashed changes
         </motion.div>
       )}
     </AnimatePresence>

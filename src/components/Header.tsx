@@ -199,7 +199,21 @@ const navItems = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 20;
+      setHasScrolled(scrolled);
+    };
+
+    // Vérifier la position initiale
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -209,7 +223,17 @@ export function Header() {
   };
 
   return (
+<<<<<<< Updated upstream
     <nav className="fixed top-0 z-50 w-full border-b border-neutral-100 bg-white/95 transition-all duration-300 md:bg-white/80 md:backdrop-blur-md">
+=======
+    <nav
+      className={`fixed top-0 z-50 w-full transition-all duration-500 border-b ${
+        hasScrolled
+          ? "border-neutral-100 bg-white/95 md:bg-white/80 md:backdrop-blur-md"
+          : "border-transparent bg-transparent"
+      }`}
+    >
+>>>>>>> Stashed changes
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Modern Logo */}
         <Logo />

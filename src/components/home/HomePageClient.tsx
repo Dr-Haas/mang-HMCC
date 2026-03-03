@@ -34,13 +34,34 @@ export function HomePageClient() {
   };
 
   if (!hydrated) {
-    return null;
+    return <div className="fixed inset-0 z-[200] bg-white" />;
   }
 
   return (
     <>
       {!hasSeenVideo && <VideoLoader onVideoEnd={handleVideoEnd} />}
+<<<<<<< Updated upstream
       {showPageLoader && !showContent && <PageLoader onComplete={handlePageLoaderComplete} />}
+=======
+
+      {/* Écran blanc qui couvre tout avant que le VideoLoader soit prêt */}
+      {!hasSeenVideo && (
+        <div className="fixed inset-0 z-[99] bg-white pointer-events-none" />
+      )}
+
+      {/* Page blanche de transition */}
+      <AnimatePresence>
+        {showWhiteTransition && (
+          <motion.div
+            className="fixed inset-0 z-[99] bg-white"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
+>>>>>>> Stashed changes
       <HomePageContent showContent={showContent} />
     </>
   );
