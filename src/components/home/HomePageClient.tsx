@@ -1,4 +1,11 @@
+
 "use client";
+// Déclaration du type global pour éviter l'erreur TS
+declare global {
+  interface Window {
+    __hmccHideHeaderFooter?: boolean;
+  }
+}
 
 import { useEffect, useState } from "react";
 import { VideoLoader } from "@/components/VideoLoader";
