@@ -454,7 +454,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pen-left-top.png"
         alt=""
-        className="absolute left-[-12%] top-[14%] w-32 h-32 md:w-48 md:h-48 lg:w-[26rem] lg:h-auto opacity-0 pointer-events-none rotate-[25deg]"
+        className="absolute left-[-10%] top-[15%] w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-56 lg:h-56 xl:w-[20rem] xl:h-auto 2xl:w-[22rem] 2xl:h-auto opacity-0 pointer-events-none rotate-[25deg]"
         aria-hidden="true"
       />
 
@@ -465,7 +465,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/calculator-right-top.png"
         alt=""
-        className="absolute right-[-10%] top-[5%] w-28 h-28 md:w-44 md:h-44 lg:w-[24rem] lg:h-auto opacity-0 pointer-events-none rotate-[-32deg]"
+        className="absolute right-[-8%] top-[6%] w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-52 lg:h-52 xl:w-[16rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none rotate-[-32deg]"
         aria-hidden="true"
       />
 
@@ -476,7 +476,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/notebook-left-bottom.png"
         alt=""
-        className="absolute left-[-24%] bottom-[1%] w-40 h-40 md:w-64 md:h-64 lg:w-[36rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute left-[-20%] bottom-[4%] w-28 h-28 sm:w-40 sm:h-40 md:w-52 md:h-52 lg:w-72 lg:h-72 xl:w-[22rem] xl:h-auto 2xl:w-[30rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -487,7 +487,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pins-right-botttom.png"
         alt=""
-        className="absolute right-[-14%] bottom-[3%] w-32 h-32 md:w-52 md:h-52 lg:w-[28rem] lg:h-[28rem] opacity-0 pointer-events-none"
+        className="absolute right-[-11%] bottom-[6%] w-20 h-20 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-60 lg:h-60 xl:w-[18rem] xl:h-auto 2xl:w-[22rem] 2xl:h-[22rem] opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -498,7 +498,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pin-bottom-left.png"
         alt=""
-        className="absolute left-[8%] bottom-[30%] w-12 h-12 md:w-16 md:h-16 lg:w-[5rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute left-[10%] bottom-[29%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[3rem] xl:h-auto 2xl:w-[4rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -509,7 +509,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/coffee-bottom-left.png"
         alt=""
-        className="absolute left-[0%] bottom-[-10%] w-12 h-12 md:w-16 md:h-16 lg:w-[27rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute left-[2%] bottom-[-9%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[14rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -520,7 +520,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/keyboard-top-left.png"
         alt=""
-        className="absolute left-[-13%] top-[-12%] w-12 h-12 md:w-16 md:h-16 lg:w-[42rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute left-[-10%] top-[-10%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[22rem] xl:h-auto 2xl:w-[32rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -531,7 +531,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/postit-bottom-right.png"
         alt=""
-        className="absolute right-[8%] bottom-[-25%] w-12 h-12 md:w-16 md:h-16 lg:w-[30rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute right-[12%] bottom-[-25%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[14rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -542,7 +542,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/clip-top-right.png"
         alt=""
-        className="absolute right-[10%] top-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-[12rem] lg:h-auto opacity-0 pointer-events-none"
+        className="absolute right-[8%] top-[6%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[7rem] xl:h-auto 2xl:w-[9rem] 2xl:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -553,7 +553,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pin-bottom-left.png"
         alt=""
-        className="absolute right-[30%] top-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-[5rem] lg:h-auto opacity-0 pointer-events-none "
+        className="absolute right-[26%] top-[8%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[3rem] xl:h-auto 2xl:w-[4rem] 2xl:h-auto opacity-0 pointer-events-none "
         aria-hidden="true"
       />
 
