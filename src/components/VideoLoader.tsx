@@ -64,8 +64,8 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   };
 
   const handleZoneClick = () => {
-    // Empêcher la relecture si la vidéo a déjà commencé
-    if (hasStarted) return;
+    // Empêcher la relecture si la vidéo a déjà commencé ou si le player n'est pas prêt
+    if (hasStarted || !playersReady) return;
 
     setHasStarted(true);
     playersRef.current.forEach((player) => {
@@ -236,9 +236,10 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
               onClick={handleZoneClick}
               onKeyDown={(e) => e.key === "Enter" && handleZoneClick()}
               className={`absolute inset-[15%] md:inset-[20%] ${
-                hasStarted ? "cursor-default" : "cursor-pointer"
+                hasStarted || !playersReady ? "cursor-default pointer-events-none" : "cursor-pointer"
               }`}
               aria-label={hasStarted ? "Vidéo en cours" : "Lancer la vidéo"}
+              style={{ opacity: playersReady ? 1 : 0.5 }}
             />
           )}
 
