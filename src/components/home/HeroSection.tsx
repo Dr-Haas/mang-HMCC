@@ -205,6 +205,26 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         startX = -400;
         startY = 200;
       }
+      // Café en bas à gauche (5)
+      else if (index === 5) {
+        startX = -200;
+        startY = 300;
+      }
+      // Clavier en haut à gauche (6)
+      else if (index === 6) {
+        startX = -200;
+        startY = -300;
+      }
+      // Postit en bas à droite (7)
+      else if (index === 7) {
+        startX = 400;
+        startY = 200;
+      }
+      // Clip en haut à droite (8)
+      else if (index === 8) {
+        startX = 400;
+        startY = -200;
+      }
 
       // Animation d'entrée avec fromTo pour forcer les valeurs de départ
       gsap.fromTo(
@@ -308,6 +328,11 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         { x: -480, y: 150, scrub: 1.2 }, // Notebook - bas gauche
         { x: 520, y: 120, scrub: 0.95 }, // Pins - bas droite
         { x: -420, y: 180, scrub: 1.0 }, // Pin - bas gauche
+        { x: -300, y: 100, scrub: 1.1 }, // Café - bas gauche
+        { x: -450, y: -100, scrub: 0.9 }, // Clavier - haut gauche
+        { x: 520, y: 120, scrub: 0.95 }, // Postit - bas droite
+        { x: 520, y: -80, scrub: 0.8 }, // Calculator - haut droite
+        { x: 500, y: -80, scrub: 1.1 }, // Pin - haut droite
       ];
 
       if (variations[index]) {
@@ -429,7 +454,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pen-left-top.png"
         alt=""
-        className="absolute left-[-12%] top-[-18%] w-32 h-32 md:w-48 md:h-48 lg:w-[28rem] lg:h-[28rem] opacity-0 pointer-events-none rotate-[25deg]"
+        className="absolute left-[-12%] top-[14%] w-32 h-32 md:w-48 md:h-48 lg:w-[26rem] lg:h-auto opacity-0 pointer-events-none rotate-[25deg]"
         aria-hidden="true"
       />
 
@@ -440,7 +465,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/calculator-right-top.png"
         alt=""
-        className="absolute right-[-12%] top-[-4%] w-28 h-28 md:w-44 md:h-44 lg:w-[24rem] lg:h-[24rem] opacity-0 pointer-events-none rotate-[-8deg]"
+        className="absolute right-[-10%] top-[5%] w-28 h-28 md:w-44 md:h-44 lg:w-[24rem] lg:h-auto opacity-0 pointer-events-none rotate-[-32deg]"
         aria-hidden="true"
       />
 
@@ -451,7 +476,7 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/notebook-left-bottom.png"
         alt=""
-        className="absolute left-[-24%] bottom-[1%] w-40 h-40 md:w-64 md:h-64 lg:w-[36rem] lg:h-[36rem] opacity-0 pointer-events-none"
+        className="absolute left-[-24%] bottom-[1%] w-40 h-40 md:w-64 md:h-64 lg:w-[36rem] lg:h-auto opacity-0 pointer-events-none"
         aria-hidden="true"
       />
 
@@ -473,7 +498,62 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         }}
         src="/images/hero/pin-bottom-left.png"
         alt=""
-        className="absolute left-[8%] bottom-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-24 lg:h-24 opacity-0 pointer-events-none"
+        className="absolute left-[8%] bottom-[30%] w-12 h-12 md:w-16 md:h-16 lg:w-[5rem] lg:h-auto opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Café - Bas à gauche */}
+      <img
+        ref={(el) => {
+          iconsRef.current[5] = el;
+        }}
+        src="/images/hero/coffee-bottom-left.png"
+        alt=""
+        className="absolute left-[0%] bottom-[-10%] w-12 h-12 md:w-16 md:h-16 lg:w-[27rem] lg:h-auto opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Clavier - Haut à gauche */}
+      <img
+        ref={(el) => {
+          iconsRef.current[6] = el;
+        }}
+        src="/images/hero/keyboard-top-left.png"
+        alt=""
+        className="absolute left-[-13%] top-[-12%] w-12 h-12 md:w-16 md:h-16 lg:w-[42rem] lg:h-auto opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Postit - Bas à droite */}
+      <img
+        ref={(el) => {
+          iconsRef.current[7] = el;
+        }}
+        src="/images/hero/postit-bottom-right.png"
+        alt=""
+        className="absolute right-[8%] bottom-[-25%] w-12 h-12 md:w-16 md:h-16 lg:w-[30rem] lg:h-auto opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Clip - Haut à droite */}
+      <img
+        ref={(el) => {
+          iconsRef.current[8] = el;
+        }}
+        src="/images/hero/clip-top-right.png"
+        alt=""
+        className="absolute right-[10%] top-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-[12rem] lg:h-auto opacity-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Pin - Haut à droite */}
+      <img
+        ref={(el) => {
+          iconsRef.current[9] = el;
+        }}
+        src="/images/hero/pin-bottom-left.png"
+        alt=""
+        className="absolute right-[30%] top-[5%] w-12 h-12 md:w-16 md:h-16 lg:w-[5rem] lg:h-auto opacity-0 pointer-events-none "
         aria-hidden="true"
       />
 
