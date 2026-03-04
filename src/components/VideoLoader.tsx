@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { useGLTF } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { Canvas3D } from "@/components/Canvas3D";
@@ -17,10 +18,16 @@ interface VideoLoaderProps {
 }
 
 export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
+    // Précharger le modèle 3D au montage
+    useEffect(() => {
+      useGLTF.preload && useGLTF.preload("/models/switch_button.glb");
+    }, []);
   const [showPreIntro, setShowPreIntro] = useState(true);
   const [visible, setVisible] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
   const [playersReady, setPlayersReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hideLoaderText, setHideLoaderText] = useState(false);
   const finishedRef = useRef(false);
   const desktopIframeRef = useRef<HTMLIFrameElement>(null);
   const mobileIframeRef = useRef<HTMLIFrameElement>(null);
@@ -133,6 +140,15 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       await Promise.all(readyPromises);
       if (!cancelled) {
         setPlayersReady(true);
+        // Démarre la disparition du texte loader
+        setTimeout(() => {
+          setHideLoaderText(true);
+          // Attend la disparition du texte puis retire le loader
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 400); // durée du fondu texte
+        }, 400); // délai avant disparition du texte après chargement
+        setPlayersReady(true);
       }
     })();
 
@@ -153,6 +169,30 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
+          {/* Loader pendant le chargement de la vidéo */}
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div
+                className="fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-white z-[120]"
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                style={{ pointerEvents: "auto" }}
+              >
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mb-6" />
+                <motion.span
+                  className="text-lg font-semibold text-red-600"
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: hideLoaderText ? 0 : 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                >
+                  Chargement en cours
+                </motion.span>
+              </motion.div>
+            )}
+          </AnimatePresence>
           {/* Vidéo (toujours présente mais cachée derrière l'écran blanc) */}
           {/* Desktop */}
           <iframe

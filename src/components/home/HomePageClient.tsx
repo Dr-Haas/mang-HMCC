@@ -1,4 +1,3 @@
-
 "use client";
 // Déclaration du type global pour éviter l'erreur TS
 declare global {
@@ -19,6 +18,7 @@ export function HomePageClient() {
   const [hasSeenVideo, setHasSeenVideo] = useState(false);
   const [showWhiteTransition, setShowWhiteTransition] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [videoPreloaded, setVideoPreloaded] = useState(false);
 
   useEffect(() => {
     const hasSeenIntro = sessionStorage.getItem(HOME_INTRO_SEEN_KEY) === "1";
@@ -27,6 +27,17 @@ export function HomePageClient() {
       setShowContent(true);
     }
     setHydrated(true);
+    // Précharger la vidéo Vimeo en arrière-plan
+    const iframe = document.createElement("iframe");
+    iframe.src =
+      "https://player.vimeo.com/video/1165658777?h=f626d7d501&title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0&preload=1&muted=1&autoplay=0&loop=0&quality=1080p&background=0&transparent=0&color=000000&pip=0&speed=0&keyboard=0&fullscreen=0&dnt=1&player_id=0&app_id=58479";
+    iframe.style.display = "none";
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.onload = () => setVideoPreloaded(true);
+    document.body.appendChild(iframe);
+    return () => {
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    };
   }, []);
 
   // Masquer header/footer tant que l'intro n'est pas terminée
@@ -61,6 +72,7 @@ export function HomePageClient() {
 
   return (
     <>
+      {/* Loader vidéo d'intro */}
       {!hasSeenVideo && <VideoLoader onVideoEnd={handleVideoEnd} />}
 
       {/* Page blanche de transition */}
@@ -76,6 +88,14 @@ export function HomePageClient() {
       </AnimatePresence>
 
       {showContent && <HomePageContent showContent={showContent} />}
+      {/* Iframe invisible pour précharger la vidéo Vimeo sur mobile */}
+      {!videoPreloaded && (
+        <iframe
+          src="https://player.vimeo.com/video/1165658777?h=f626d7d501&title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0&preload=1&muted=1&autoplay=0&loop=0&quality=1080p&background=0&transparent=0&color=000000&pip=0&speed=0&keyboard=0&fullscreen=0&dnt=1&player_id=0&app_id=58479"
+          style={{ display: "none" }}
+          aria-hidden="true"
+        />
+      )}
     </>
   );
 }

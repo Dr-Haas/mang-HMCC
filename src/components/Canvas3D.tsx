@@ -6,11 +6,9 @@ import { useGLTF, Environment, Text } from "@react-three/drei";
 import { gsap } from "gsap";
 import * as THREE from "three";
 
-
 interface SwitchButtonProps {
   onSwitch?: () => void;
   onZoomStart?: () => void;
-
 }
 
 function getResponsiveCameraZ(width: number): number {
@@ -66,7 +64,13 @@ function CameraController({ zoomIn }: { zoomIn: boolean }) {
   return null;
 }
 
-function SwitchButton({ onSwitch, onZoomStart }: { onSwitch?: () => void; onZoomStart?: () => void }) {
+function SwitchButton({
+  onSwitch,
+  onZoomStart,
+}: {
+  onSwitch?: () => void;
+  onZoomStart?: () => void;
+}) {
   const { scene } = useGLTF("/models/switch_button.glb");
   const boutonRef = useRef<THREE.Mesh | null>(null);
   const groupRef = useRef<THREE.Group>(null);
@@ -245,7 +249,7 @@ function IntroText() {
       fontWeight={300}
       fillOpacity={opacity}
     >
-      Turn the switch on to experience
+      Un clic pour alléger votre gestion
     </Text>
   );
 }
@@ -261,8 +265,6 @@ interface Canvas3DProps {
 export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
   const [zoomIn, setZoomIn] = useState(false);
 
-
-
   const handleZoomStart = () => {
     setZoomIn(true);
   };
@@ -276,13 +278,16 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
         <Suspense fallback={null}>
           <CameraController zoomIn={zoomIn} />
           <ambientLight intensity={0} color="#e8e4dc" />
-          <directionalLight position={[5, 5, 5]} intensity={0.95} color="#f5f3ef" />
+          <directionalLight
+            position={[5, 5, 5]}
+            intensity={0.95}
+            color="#f5f3ef"
+          />
           <IntroText />
           <SwitchButton onSwitch={onSwitch} onZoomStart={handleZoomStart} />
           <Environment preset="studio" environmentIntensity={0.5} />
         </Suspense>
       </Canvas>
-
     </div>
   );
 }
