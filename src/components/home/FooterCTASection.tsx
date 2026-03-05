@@ -12,7 +12,8 @@ export function FooterCTASection() {
           Vous recherchez un expert-comptable à Paris ou en Essonne ?
         </h2>
         <p className="text-xl text-neutral-400 font-light leading-relaxed mb-10 max-w-2xl mx-auto">
-          Notre équipe est à votre disposition pour vous conseiller et définir une stratégie adaptée à vos besoins.
+          Notre équipe est à votre disposition pour vous conseiller et définir
+          une stratégie adaptée à vos besoins.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">

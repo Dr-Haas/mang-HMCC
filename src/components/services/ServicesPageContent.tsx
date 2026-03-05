@@ -342,7 +342,7 @@ export function ServicesPageContent() {
         {/* Blob Background Canvas */}
         <div
           ref={blobRef}
-          className="absolute inset-0 z-20 hidden lg:block pointer-events-none"
+          className="absolute inset-0 z-20 hidden sm:block pointer-events-none"
         >
           <BlobBackground />
         </div>

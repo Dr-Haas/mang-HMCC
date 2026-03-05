@@ -23,7 +23,7 @@ export function ContactPageContent() {
   };
 
   return (
-    <div>
+    <div className="pb-[170vh] sm:pb-0">
       {/* Contact Section fusionnée */}
       <section
         id="contact"

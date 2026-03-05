@@ -178,7 +178,7 @@ function SwitchButton({
   // Suppression du fade-in : le bouton est visible immédiatement
 
   const handleHover = (hovered: boolean) => {
-    document.body.style.cursor = hovered ? "pointer" : "default";
+    document.body.style.cursor = hovered ? "pointer" : "";
 
     if (!boutonRef.current || isOn) return;
 
@@ -193,7 +193,10 @@ function SwitchButton({
     if (!boutonRef.current || isOn) return;
 
     setIsOn(true);
-    document.body.style.cursor = "default";
+    document.body.style.cursor = ""; // Réinitialise le curseur global
+    setTimeout(() => {
+      document.body.style.cursor = "";
+    }, 1000);
 
     // Slide le bouton
     gsap.to(boutonRef.current.position, {
@@ -256,13 +259,19 @@ function IntroText() {
 
 // Preload le modèle
 useGLTF.preload("/models/switch_button.glb");
-
 interface Canvas3DProps {
   className?: string;
   onSwitch?: () => void;
 }
 
 export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
+  // Réinitialise le curseur global à chaque montage (changement de page)
+  useEffect(() => {
+    document.body.style.cursor = "";
+    return () => {
+      document.body.style.cursor = "";
+    };
+  }, []);
   const [zoomIn, setZoomIn] = useState(false);
 
   const handleZoomStart = () => {

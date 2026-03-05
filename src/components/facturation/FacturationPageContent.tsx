@@ -368,7 +368,7 @@ export function FacturationPageContent() {
         className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[100vh] md:h-[130vh]"
       >
         {/* Blob Background - Uniquement sur desktop */}
-        <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
+        <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block">
           <BlobBackground />
         </div>
 
