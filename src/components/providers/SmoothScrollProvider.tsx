@@ -10,11 +10,12 @@ export function SmoothScrollProvider({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 2.2, // plus rapide et réactif sur laptop/trackpad
+      touchMultiplier: 2.5, // plus réactif sur touch
+      syncTouch: true,
     });
 
     // Register Lenis globally for scroll-to-top usage
