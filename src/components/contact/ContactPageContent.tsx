@@ -5,7 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/app/lib/constants";
 import Link from "next/link";
-import BlobBackground from "@/components/decor/BlobBackground";
+import InteractiveDroplets from "@/app/test/InteractiveDroplets";
 
 export function ContactPageContent() {
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ export function ContactPageContent() {
       >
         {/* Conteneur full-width pour le blob - caché sur mobile */}
         <div className="absolute inset-0 w-full h-full overflow-hidden hidden sm:block">
-          <BlobBackground />
+          <InteractiveDroplets />
         </div>
 
         {/* Gradient Orbs */}

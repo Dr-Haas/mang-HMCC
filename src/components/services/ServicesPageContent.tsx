@@ -15,7 +15,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import BlobBackground from "../decor/BlobBackground";
+import InteractiveDroplets from "@/app/test/InteractiveDroplets";
 
 // Enregistrer ScrollTrigger
 if (typeof window !== "undefined") {
@@ -344,7 +344,7 @@ export function ServicesPageContent() {
           ref={blobRef}
           className="absolute inset-0 z-20 hidden sm:block pointer-events-none"
         >
-          <BlobBackground />
+          <InteractiveDroplets />
         </div>
 
         {/* Hero Section */}

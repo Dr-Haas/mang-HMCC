@@ -70,17 +70,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // On détecte si on est sur la home page pour passer la prop hideHeaderFooter
-  const isHomePage =
-    typeof window !== "undefined" && window.location.pathname === "/";
-
-  // On passe hideHeaderFooter à true si HomePageClient doit masquer header/footer
-  // On utilise une variable globale pour communiquer l'état (window.__hmccHideHeaderFooter)
-  // Cette variable sera gérée dans HomePageClient
-
-  // @ts-ignore
-  const hideHeaderFooter =
-    typeof window !== "undefined" && window.__hmccHideHeaderFooter === true;
+  // Note: do not access `window` in the root layout (server render).
+  // Any client-only detection (current path, globals) must run in a client
+  // component via `useEffect` to avoid hydration mismatches.
+  const hideHeaderFooter = false;
 
   return (
     <html lang="fr">

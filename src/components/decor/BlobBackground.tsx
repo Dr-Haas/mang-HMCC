@@ -85,45 +85,96 @@ function CustomShaderMaterial() {
     varying vec2 vUv;
     varying vec3 vPosition;
     varying vec3 vColor;
-    varying vec3 vNormal;
-    varying vec3 vViewPosition;
+    
+    #define STEPS 128
+    #define MIN_DISTANCE 0.001
+    #define MAX_DISTANCE 100.0
+    #define STEP_SIZE 0.001
+    #define PI 3.1416
+    
+    vec3 rgb(float r, float g, float b) {
+      return 1.0 - vec3(r / 255.0, g / 255.0, b / 255.0);
+    }
+    
+    mat3 rotY(float ang) {
+      float c = cos(ang), s = sin(ang);
+      return mat3(c, 0.0, s, 0.0, 1.0, 0.0, -s, 0.0, c);
+    }
+    
+    mat3 rotX(float ang) {
+      float c = cos(ang), s = sin(ang);
+      return mat3(1.0, 0.0, 0.0, 0.0, c, -s, 0.0, s, c);
+    }
+    
+    vec3 twist(vec3 p, float amount) {
+      float c = cos(amount * p.y);
+      float s = sin(amount * p.y);
+      mat2  m = mat2(c, -s, s, c);
+      return vec3(m * p.xz, p.y);
+    }
+    
+    float unionSdf(float a, float b) {
+      return min(a, b);
+    }
+    
+    float sphere(vec3 p, float r) {
+      return length(p) - r;
+    }
+    
+    float torus(vec3 p, vec2 t) {
+      vec2 q = vec2(length(p.xz)-t.x,p.y);
+      return length(q)-t.y;
+    }
+    
+    float scene(vec3 p) {
+      return unionSdf(
+        torus(twist(p * rotY(-uTime), 2.5), vec2(1.25, 0.5)),
+        sphere(p + vec3(0.0, sin(uTime) * 0.15, 0.0), 0.5)
+      );
+    }
+    
+    float light(vec3 p, vec3 normal, vec3 lightPos) {
+      vec3 direction = normalize(lightPos - p);
+      float specular = 0.5 * pow(max(dot(direction, reflect(-direction, normal)), 0.0), 2.0);  
+      return max(0.1, dot(normal, direction) * 1.2 - specular);
+    }
+    
+    vec3 calculateNormal(vec3 p) {
+      float gradientX = scene(p + vec3(STEP_SIZE, 0.0, 0.0)) - scene(p - vec3(STEP_SIZE, 0.0, 0.0));
+      float gradientY = scene(p + vec3(0.0, STEP_SIZE, 0.0)) - scene(p - vec3(0.0, STEP_SIZE, 0.0));
+      float gradientZ = scene(p + vec3(0.0, 0.0, STEP_SIZE)) - scene(p - vec3(0.0, 0.0, STEP_SIZE));
+      vec3 normal = vec3(gradientX, gradientY, gradientZ);
+      return normalize(normal);
+    }
+    
+    vec3 rayMarch(vec3 ro, vec3 rd) {
+      float traveled = 0.0;
+      for (int i = 0; i < STEPS; ++i) {
+        vec3 currentPos = ro + traveled * rd;
+        float closestDistance = scene(currentPos);
+        if (closestDistance < MIN_DISTANCE) {
+          // Hit
+          return rgb(99.0, 102.0, 241.0) * light(currentPos, calculateNormal(currentPos), vec3(3.0, 2.0, -3.0));
+        }
+        if (traveled > MAX_DISTANCE) break;
+        traveled += closestDistance;
+      }
+      // Miss
+      return vec3(0.0);
+    }
     
     void main() {
-      vec3 normal = normalize(vNormal);
-      vec3 viewDir = normalize(vViewPosition);
-      
-      // Lumière principale douce venant du bas-gauche (ombre en haut-droite)
-      vec3 lightDir = normalize(vec3(-1.0, -1.0, 0.9));
-      float NdotL = dot(normal, lightDir);
-      
-      // Ombre smooth et douce avec belle transition gooey
-      float diffuse = smoothstep(-0.4, 0.8, NdotL);
-      diffuse = diffuse * 0.5 + 0.5; // 50% à 100% - ombre visible mais douce
-      
-      // Teinte rouge clair dans les ombres
-      vec3 shadowTint = vec3(1.0, 0.85, 0.85); // Rouge très clair
-      float shadowAmount = 1.0 - diffuse;
-      vec3 colorWithShadow = mix(vColor, vColor * shadowTint, shadowAmount * 0.6);
-      
-      // Subsurface scattering pour translucidité goo
-      float backLight = max(0.0, dot(normal, -lightDir)) * 0.3;
-      float sss = pow(backLight, 2.0) * 0.4;
-      
-      // Specular brillant et fin pour effet goo
-      vec3 halfDir = normalize(lightDir + viewDir);
-      float specular = pow(max(dot(normal, halfDir), 0.0), 150.0) * 0.6;
-      
-      // Rim light (fresnel) pour bords brillants ultra gooey
-      float rim = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.5);
-      rim = smoothstep(0.3, 1.0, rim) * 0.4;
-      
-      // Couleur finale ultra gooey avec teinte rouge dans les ombres
-      vec3 finalColor = colorWithShadow * (diffuse + sss) + vec3(specular + rim);
-      
-      // Légère saturation pour vivacité
-      finalColor = finalColor * 1.05;
-      
-      gl_FragColor = vec4(finalColor, 0.98);
+      vec2 fragCoord = vUv * uResolution;
+      vec2 uv = (2.0 * fragCoord - uResolution.xy) / uResolution.y * 0.3;
+      vec3 ro = vec3(0.0, 0.0, -4.25); // Ray origin
+      vec3 rd = vec3(uv, 0.5); // Ray direction
+      vec3 color = rayMarch(ro, rd);
+      // Accentuer le blanc et les ombres douces
+      float shadow = 1.0 - length(color);
+      vec3 base = vec3(1.0, 1.0, 1.0); // blanc pur
+      vec3 shadowColor = mix(base, vec3(0.85, 0.85, 0.9), shadow * 0.7);
+      vec3 finalColor = mix(shadowColor, color, 0.18); // texture subtile
+      gl_FragColor = vec4(finalColor, 1.0);
     }
   `;
 

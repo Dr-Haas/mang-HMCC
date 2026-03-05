@@ -22,7 +22,7 @@ import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
 import { CONTACT_PHONE } from "@/app/lib/constants";
-import BlobBackground from "@/components/decor/BlobBackground";
+import InteractiveDroplets from "@/app/test/InteractiveDroplets";
 
 export function FacturationPageContent() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -365,11 +365,11 @@ export function FacturationPageContent() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[100vh] md:h-[130vh]"
+        className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[100vh]  md:h-[130vh]"
       >
         {/* Blob Background - Uniquement sur desktop */}
         <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block">
-          <BlobBackground />
+          <InteractiveDroplets />
         </div>
 
         {/* Grid Container - En haut de la page, non centré */}
