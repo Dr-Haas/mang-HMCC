@@ -212,14 +212,15 @@ export function Header() {
   const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
-    if (pathname !== "/") {
+    const transparentPages = ["/", "/services", "/facturation"];
+    if (!transparentPages.includes(pathname)) {
       setIsAtTop(false);
       return;
     }
     const handleScroll = () => {
       setIsAtTop(window.scrollY < 10);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -236,7 +237,7 @@ export function Header() {
   return (
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-500 border-b border-neutral-100 ${
-        pathname === "/" && isAtTop
+        ["/", "/services", "/facturation"].includes(pathname) && isAtTop
           ? "bg-transparent border-transparent"
           : "bg-white/95 md:bg-white/80 md:backdrop-blur-md"
       }`}

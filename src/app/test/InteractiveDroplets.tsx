@@ -170,8 +170,8 @@ export default function InteractiveDroplets() {
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     // ensure transparent background and canvas fills parent container
     renderer.setClearColor(0x000000, 0);
-    const w = (mount!.clientWidth || window.innerWidth);
-    const h = (mount!.clientHeight || window.innerHeight);
+    const w = mount!.clientWidth || window.innerWidth;
+    const h = mount!.clientHeight || window.innerHeight;
     renderer.setSize(w, h);
     const canvas = renderer.domElement;
     canvas.style.background = "transparent";
@@ -299,8 +299,8 @@ export default function InteractiveDroplets() {
       uTime: { value: 0 },
       uResolution: {
         value: new THREE.Vector2(
-          (mount!.clientWidth || window.innerWidth),
-          (mount!.clientHeight || window.innerHeight)
+          mount!.clientWidth || window.innerWidth,
+          mount!.clientHeight || window.innerHeight
         ),
       },
       uPointerTrail: { value: pointerTrail },
@@ -377,8 +377,8 @@ export default function InteractiveDroplets() {
     window.addEventListener("scroll", onScroll, { passive: true });
 
     function onResize() {
-      const w = (mount!.clientWidth || window.innerWidth);
-      const h = (mount!.clientHeight || window.innerHeight);
+      const w = mount!.clientWidth || window.innerWidth;
+      const h = mount!.clientHeight || window.innerHeight;
       renderer.setSize(w, h);
       uniforms.uResolution.value.set(w, h);
       camera.aspect = w / h;

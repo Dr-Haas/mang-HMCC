@@ -361,21 +361,21 @@ export function FacturationPageContent() {
   ];
 
   return (
-    <div className="pt-20 relative">
+    <div className="relative">
       {/* Hero Section */}
       <section
         ref={heroRef}
         className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[100vh]  md:h-[130vh]"
       >
         {/* Blob Background - Uniquement sur desktop */}
-        <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block">
+        <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block ">
           <InteractiveDroplets />
         </div>
 
         {/* Grid Container - En haut de la page, non centré */}
-        <div className="max-w-7xl mx-auto px-6 relative z-10 pt-20 md:pt-32">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 pt-20 md:pt-32 ">
           {/* Grid 12 colonnes desktop, simple sur mobile */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-4 pt-18">
             {/* Ligne 1 - Facturation avec annotation */}
             <div
               ref={(el) => {
