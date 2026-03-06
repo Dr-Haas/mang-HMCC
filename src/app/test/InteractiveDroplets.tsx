@@ -170,16 +170,42 @@ export default function InteractiveDroplets() {
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     // ensure transparent background and canvas fills parent container
     renderer.setClearColor(0x000000, 0);
-    const w = mount!.clientWidth || window.innerWidth;
-    const h = mount!.clientHeight || window.innerHeight;
-    renderer.setSize(w, h);
+    function syncViewport() {
+      // compute the mount's CSS size and derive the drawing buffer size
+      const rect = mount.getBoundingClientRect();
+      const cssW = rect.width || window.innerWidth;
+      const cssH = rect.height || window.innerHeight;
+      const ratio = window.devicePixelRatio || 1;
+
+      // update renderer pixel ratio and size using CSS pixels for layout
+      renderer.setPixelRatio(ratio);
+      // let three update the drawing buffer to (cssW*ratio, cssH*ratio)
+      renderer.setSize(Math.floor(cssW), Math.floor(cssH), false);
+
+      // ensure canvas CSS matches the mount area (no fixed/absolute styling)
+      canvas.style.background = "transparent";
+      canvas.style.display = "block";
+      canvas.style.width = `${Math.floor(cssW)}px`;
+      canvas.style.height = `${Math.floor(cssH)}px`;
+      canvas.style.transform = "none";
+
+      // update shader resolution uniform from the drawing buffer size
+      if (uniforms && uniforms.uResolution && uniforms.uResolution.value) {
+        const dw = renderer.domElement.width || Math.floor(cssW * ratio);
+        const dh = renderer.domElement.height || Math.floor(cssH * ratio);
+        uniforms.uResolution.value.set(dw, dh);
+      }
+
+      camera.aspect = cssW / cssH;
+      camera.updateProjectionMatrix();
+    }
+
+    // initial sync
+    // (canvas created below, but keep function ready)
     const canvas = renderer.domElement;
     canvas.style.background = "transparent";
-    canvas.style.position = "absolute";
-    canvas.style.inset = "0";
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
     canvas.style.display = "block";
+    // append canvas to the mount so it remains in the normal document flow
     mount.appendChild(canvas);
 
     const scene = new THREE.Scene();
@@ -187,13 +213,7 @@ export default function InteractiveDroplets() {
     // placeholder for any GSAP tweens created elsewhere; ensure defined for cleanup
     const tweens: any[] = [];
 
-    const camera = new THREE.PerspectiveCamera(
-      60,
-      (mount.clientWidth || window.innerWidth) /
-        (mount.clientHeight || window.innerHeight),
-      0.1,
-      50
-    );
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 50);
     camera.position.set(0, 0, 10);
     camera.lookAt(0, 0, 0);
 
@@ -297,12 +317,7 @@ export default function InteractiveDroplets() {
 
     const uniforms: any = {
       uTime: { value: 0 },
-      uResolution: {
-        value: new THREE.Vector2(
-          mount!.clientWidth || window.innerWidth,
-          mount!.clientHeight || window.innerHeight
-        ),
-      },
+      uResolution: { value: new THREE.Vector2(0, 0) },
       uPointerTrail: { value: pointerTrail },
       uBigSpheres: { value: bigSpheres },
     };
@@ -334,11 +349,14 @@ export default function InteractiveDroplets() {
     };
 
     function computeNormalizedFromClient(cx: number, cy: number) {
-      const rect = mount!.getBoundingClientRect();
+      // Use the canvas bounding rect to normalize pointer coordinates
+      // to the drawing area. This is robust across device emulation and
+      // viewport offsets.
+      const rect = canvas.getBoundingClientRect();
       const x = cx - rect.left;
       const y = cy - rect.top;
-      const w = rect.width || window.innerWidth;
-      const h = rect.height || window.innerHeight;
+      const w = rect.width || window.innerWidth || 1;
+      const h = rect.height || window.innerHeight || 1;
       const nx = (x / w) * 2 - 1;
       const ny = -(y / h) * 2 + 1;
       return { nx, ny };
@@ -361,8 +379,8 @@ export default function InteractiveDroplets() {
       pushPointer(nx, ny);
     }
 
-    // attach pointermove to the mount so coordinates are relative to the container
-    mount.addEventListener("pointermove", onPointerMove, { passive: true });
+    // attach pointermove to the canvas so coordinates remain accurate
+    canvas.addEventListener("pointermove", onPointerMove, { passive: true });
 
     // when scrolling, pointer events may not fire; recompute from last known client pos
     function onScroll() {
@@ -377,15 +395,20 @@ export default function InteractiveDroplets() {
     window.addEventListener("scroll", onScroll, { passive: true });
 
     function onResize() {
-      const w = mount!.clientWidth || window.innerWidth;
-      const h = mount!.clientHeight || window.innerHeight;
-      renderer.setSize(w, h);
-      uniforms.uResolution.value.set(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+      // centralize resize handling so Three.js manages canvas sizing
+      syncViewport();
     }
 
     window.addEventListener("resize", onResize, { passive: true });
+    // visualViewport can change when Chrome device toolbar is toggled
+    const vv: any = (window as any).visualViewport;
+    if (vv) {
+      vv.addEventListener("resize", syncViewport);
+      vv.addEventListener("scroll", syncViewport);
+    }
+
+    // perform initial layout sync
+    syncViewport();
 
     function animate() {
       uniforms.uTime.value = (performance.now() - start) / 1000;
@@ -413,9 +436,15 @@ export default function InteractiveDroplets() {
 
     return () => {
       cancelAnimationFrame(rafId);
-      // remove event listener from mount
-      mount.removeEventListener("pointermove", onPointerMove);
+      // remove event listener from canvas
+      try {
+        canvas.removeEventListener("pointermove", onPointerMove);
+      } catch (err) {}
       window.removeEventListener("resize", onResize);
+      if (vv) {
+        vv.removeEventListener("resize", syncViewport);
+        vv.removeEventListener("scroll", syncViewport);
+      }
       // kill GSAP tweens (guarded)
       try {
         if (typeof tweens !== "undefined" && tweens && tweens.length) {
@@ -426,7 +455,12 @@ export default function InteractiveDroplets() {
       }
       // remove scroll listener
       window.removeEventListener("scroll", onScroll);
-      mount.removeChild(renderer.domElement);
+      try {
+        const parent = renderer.domElement.parentNode as HTMLElement | null;
+        if (parent && parent.contains(renderer.domElement)) {
+          parent.removeChild(renderer.domElement);
+        }
+      } catch (err) {}
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -440,8 +474,6 @@ export default function InteractiveDroplets() {
         width: "100%",
         height: "100%",
         background: "transparent",
-        position: "absolute",
-        inset: 0,
         pointerEvents: "auto",
       }}
     />
