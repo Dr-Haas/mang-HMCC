@@ -152,7 +152,7 @@ void main() {
     vec3 color = vec3(1.0);
     if (hit > 0.5) {
       color = dropletColor(vec3(0.0), vec3(0.0), dist, hit, ray);
-      float alpha = 0.94; // very slight transparency
+      float alpha = 0.85; // very slight transparency
       gl_FragColor = vec4(color, alpha);
     } else {
       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0); // fond transparent
@@ -172,7 +172,9 @@ export default function InteractiveDroplets() {
     renderer.setClearColor(0x000000, 0);
     function syncViewport() {
       // compute the mount's CSS size and derive the drawing buffer size
-      const rect = mount.getBoundingClientRect();
+      const m = mountRef.current;
+      if (!m) return;
+      const rect = m.getBoundingClientRect();
       const cssW = rect.width || window.innerWidth;
       const cssH = rect.height || window.innerHeight;
       const ratio = window.devicePixelRatio || 1;
@@ -206,7 +208,7 @@ export default function InteractiveDroplets() {
     canvas.style.background = "transparent";
     canvas.style.display = "block";
     // append canvas to the mount so it remains in the normal document flow
-    mount.appendChild(canvas);
+    if (mountRef.current) mountRef.current.appendChild(canvas);
 
     const scene = new THREE.Scene();
 
