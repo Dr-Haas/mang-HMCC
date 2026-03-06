@@ -7,12 +7,16 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Contactez HMCC par formulaire, telephone ou email et prenez rendez-vous avec nos equipes.",
   path: "/contact",
-  keywords: ["contact HMCC", "rendez-vous expert-comptable", "cabinet comptable Paris"],
+  keywords: [
+    "contact HMCC",
+    "rendez-vous expert-comptable",
+    "cabinet comptable Paris",
+  ],
 });
 
 export default function ContactPage() {
   return (
-    <main>
+    <main className="contact-padding-bottom">
       <ContactPageContent />
     </main>
   );

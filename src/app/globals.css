@@ -177,3 +177,10 @@ body {
     rgba(255, 255, 255, 1)
   );
 }
+
+/* Contact page: add bottom padding on laptop viewports */
+@media (min-width: 1024px) {
+  .contact-padding-bottom {
+    padding-bottom: 30vh;
+  }
+}
