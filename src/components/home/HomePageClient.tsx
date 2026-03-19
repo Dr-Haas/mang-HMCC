@@ -68,19 +68,8 @@ export function HomePageClient() {
     };
   }, [showContent]);
 
-  const handleVideoEnd = () => {
-    setHasSeenVideo(true);
-    setShowWhiteTransition(true);
 
-    // Démarrer le fade out de la page blanche après un court délai
-    setTimeout(() => {
-      setShowWhiteTransition(false);
-      setTimeout(() => {
-        setShowContent(true);
-        sessionStorage.setItem(HOME_INTRO_SEEN_KEY, "1");
-      }, 100);
-    }, 500);
-  };
+  // Nettoyage : plus de vidéo d'intro, donc pas de handleVideoEnd
 
   const { motion, AnimatePresence } = motionComponents;
 

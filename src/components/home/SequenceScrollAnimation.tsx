@@ -62,6 +62,10 @@ export function SequenceScrollAnimation({
           rafId = window.requestAnimationFrame(drawFrame);
           return;
         }
+        if (!canvasRef.current) {
+          rafId = window.requestAnimationFrame(drawFrame);
+          return;
+        }
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         ctx.globalAlpha = 1;
         ctx.drawImage(
@@ -100,6 +104,10 @@ export function SequenceScrollAnimation({
         return;
       }
       // Affiche la frame instantanément
+      if (!canvasRef.current) {
+        rafId = window.requestAnimationFrame(drawFrame);
+        return;
+      }
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       ctx.globalAlpha = 1;
       ctx.drawImage(
