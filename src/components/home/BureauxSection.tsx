@@ -1,6 +1,10 @@
 import { MapPin } from "lucide-react";
 
-export function BureauxSection() {
+export function BureauxSection({
+  transparentBg = false,
+}: {
+  transparentBg?: boolean;
+}) {
   const locations = [
     {
       city: "Paris 12ᵉ",
@@ -15,14 +19,23 @@ export function BureauxSection() {
   ];
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      className={`py-24 ${
+        transparentBg ? "bg-transparent" : "bg-white"
+      } relative overflow-hidden`}
+    >
+      {/* Blur overlay, mais le background reste sur la section */}
+      {!transparentBg && (
+        <div className="absolute inset-0 z-0 pointer-events-none backdrop-blur-lg bg-white/30" />
+      )}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-red-600 mb-4">
             Deux bureaux pour mieux vous servir
           </h2>
-          <p className="text-neutral-500 font-light text-lg max-w-2xl mx-auto">
-            Pour être au plus proche de nos clients, HMCC dispose de deux implantations stratégiques à Paris et en Essonne.
+          <p className="text-neutral-900 font-medium text-xl max-w-2xl mx-auto">
+            Pour être au plus proche de nos clients, HMCC dispose de deux
+            implantations stratégiques à Paris et en Essonne.
           </p>
         </div>
 
@@ -38,8 +51,12 @@ export function BureauxSection() {
               <h3 className="text-2xl font-semibold text-neutral-900 mb-4 tracking-tight">
                 {location.city}
               </h3>
-              <p className="text-neutral-600 mb-2">{location.address}</p>
-              <p className="text-neutral-500 text-sm">{location.postalCode}</p>
+              <p className="text-neutral-900 font-medium text-lg mb-2">
+                {location.address}
+              </p>
+              <p className="text-neutral-900 font-medium text-base">
+                {location.postalCode}
+              </p>
             </div>
           ))}
         </div>

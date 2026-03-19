@@ -239,7 +239,7 @@ export function Header() {
       className={`fixed top-0 z-50 w-full transition-all duration-500 border-b border-neutral-100 ${
         ["/", "/services", "/facturation"].includes(pathname) && isAtTop
           ? "bg-transparent border-transparent"
-          : "bg-white/95 md:bg-white/80 md:backdrop-blur-md"
+          : "bg-white/40 backdrop-blur-lg"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">

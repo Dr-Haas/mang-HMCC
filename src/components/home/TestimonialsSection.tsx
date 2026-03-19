@@ -4,7 +4,11 @@ import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
-export function TestimonialsSection() {
+export function TestimonialsSection({
+  transparentBg = false,
+}: {
+  transparentBg?: boolean;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -75,7 +79,9 @@ export function TestimonialsSection() {
   };
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
   };
 
   const goToSlide = (index: number) => {
@@ -85,18 +91,25 @@ export function TestimonialsSection() {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section className="py-24 bg-neutral-50 relative overflow-hidden">
+    <section
+      className={`py-24 ${
+        transparentBg ? "bg-transparent" : "bg-white"
+      } relative overflow-hidden`}
+    >
+      {/* Blur overlay, mais le background reste sur la section */}
+      {!transparentBg && (
+        <div className="absolute inset-0 z-0 pointer-events-none backdrop-blur-lg bg-white/30" />
+      )}
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-30 -z-10"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-30 -z-10"></div>
 
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-900 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 text-lg font-medium text-neutral-900 mb-6"
           >
             <Quote size={16} className="text-red-600" />
             Témoignages clients
@@ -116,9 +129,10 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-neutral-600 font-light text-lg max-w-2xl mx-auto"
+            className="text-neutral-900 font-medium text-xl max-w-2xl mx-auto"
           >
-            Découvrez les retours d&apos;expérience de nos clients et ce qu&apos;ils apprécient dans notre accompagnement au quotidien
+            Découvrez les retours d&apos;expérience de nos clients et ce
+            qu&apos;ils apprécient dans notre accompagnement au quotidien
           </motion.p>
         </div>
 
@@ -148,21 +162,33 @@ export function TestimonialsSection() {
                   {/* Stars */}
                   <div className="flex gap-1 mb-6">
                     {[...Array(currentTestimonial.rating)].map((_, i) => (
-                      <Star key={i} className="text-yellow-400 fill-yellow-400" size={20} />
+                      <Star
+                        key={i}
+                        className="text-yellow-400 fill-yellow-400"
+                        size={20}
+                      />
                     ))}
                   </div>
 
                   {/* Testimonial text */}
-                  <p className="text-neutral-700 font-light leading-relaxed text-lg mb-8 flex-grow italic">
+                  <p className="text-neutral-900 font-medium leading-relaxed text-xl mb-8 flex-grow italic">
                     &quot;{currentTestimonial.text}&quot;
                   </p>
 
                   {/* Author info */}
                   <div className="pt-6 border-t border-neutral-100">
-                    <p className="font-semibold text-neutral-900 text-xl mb-2">{currentTestimonial.name}</p>
-                    <p className="text-neutral-600 mb-1">{currentTestimonial.role}</p>
-                    <p className="font-medium text-red-600">{currentTestimonial.company}</p>
-                    <p className="text-sm text-neutral-400 mt-1">{currentTestimonial.location}</p>
+                    <p className="font-semibold text-neutral-900 text-xl mb-2">
+                      {currentTestimonial.name}
+                    </p>
+                    <p className="text-neutral-900 font-medium text-base mb-1">
+                      {currentTestimonial.role}
+                    </p>
+                    <p className="font-medium text-red-600">
+                      {currentTestimonial.company}
+                    </p>
+                    <p className="text-base text-neutral-900 font-medium mt-1">
+                      {currentTestimonial.location}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -175,7 +201,10 @@ export function TestimonialsSection() {
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-16 w-12 h-12 bg-white border-2 border-neutral-200 rounded-full flex items-center justify-center hover:bg-neutral-50 hover:border-red-200 transition-all shadow-lg group"
             aria-label="Témoignage précédent"
           >
-            <ChevronLeft className="text-neutral-600 group-hover:text-red-600 transition-colors" size={24} />
+            <ChevronLeft
+              className="text-neutral-900 font-medium group-hover:text-red-600 transition-colors"
+              size={24}
+            />
           </button>
 
           <button
@@ -183,7 +212,10 @@ export function TestimonialsSection() {
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-16 w-12 h-12 bg-white border-2 border-neutral-200 rounded-full flex items-center justify-center hover:bg-neutral-50 hover:border-red-200 transition-all shadow-lg group"
             aria-label="Témoignage suivant"
           >
-            <ChevronRight className="text-neutral-600 group-hover:text-red-600 transition-colors" size={24} />
+            <ChevronRight
+              className="text-neutral-900 font-medium group-hover:text-red-600 transition-colors"
+              size={24}
+            />
           </button>
         </div>
 
@@ -205,7 +237,7 @@ export function TestimonialsSection() {
 
         {/* Counter */}
         <div className="text-center mt-6">
-          <span className="text-sm text-neutral-500 font-light">
+          <span className="text-base text-neutral-900 font-medium">
             {currentIndex + 1} / {testimonials.length}
           </span>
         </div>
@@ -219,19 +251,27 @@ export function TestimonialsSection() {
         >
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">
             <div className="text-3xl font-bold text-red-600 mb-2">500+</div>
-            <div className="text-sm text-neutral-600 font-light">Clients accompagnés</div>
+            <div className="text-base text-neutral-900 font-medium">
+              Clients accompagnés
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">
             <div className="text-3xl font-bold text-red-600 mb-2">25+</div>
-            <div className="text-sm text-neutral-600 font-light">Années d&apos;expérience</div>
+            <div className="text-base text-neutral-900 font-medium">
+              Années d&apos;expérience
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">
             <div className="text-3xl font-bold text-red-600 mb-2">98%</div>
-            <div className="text-sm text-neutral-600 font-light">Clients satisfaits</div>
+            <div className="text-base text-neutral-900 font-medium">
+              Clients satisfaits
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">
             <div className="text-3xl font-bold text-red-600 mb-2">2</div>
-            <div className="text-sm text-neutral-600 font-light">Bureaux en IDF</div>
+            <div className="text-base text-neutral-900 font-medium">
+              Bureaux en IDF
+            </div>
           </div>
         </motion.div>
       </div>

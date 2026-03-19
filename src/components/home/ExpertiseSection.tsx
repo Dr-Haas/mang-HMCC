@@ -1,20 +1,37 @@
 import Link from "next/link";
 import { Calculator, Users, Scale, TrendingUp, ArrowRight } from "lucide-react";
 
-export function ExpertiseSection() {
+export function ExpertiseSection({
+  transparentBg = false,
+}: {
+  transparentBg?: boolean;
+}) {
   return (
-    <section id="expertises" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="expertises"
+      className={`py-24 ${
+        transparentBg ? "bg-transparent" : "bg-white"
+      } relative overflow-hidden`}
+    >
+      {/* Blur overlay, mais le background reste sur la section */}
+      {!transparentBg && (
+        <div className="absolute inset-0 z-0 pointer-events-none backdrop-blur-lg bg-white/30" />
+      )}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-red-600 mb-4">
               Une expertise à 360°
             </h2>
-            <p className="text-neutral-500 font-light text-lg">
-              Nous accompagnons le dirigeant à chaque étape de la vie de l&apos;entreprise, de la création à la transmission.
+            <p className="text-neutral-900 font-medium text-xl">
+              Nous accompagnons le dirigeant à chaque étape de la vie de
+              l'entreprise, de la création à la transmission.
             </p>
           </div>
-          <Link href="/services" className="text-neutral-900 font-medium border-b border-red-600 pb-0.5 hover:text-red-600 transition-colors flex items-center gap-1">
+          <Link
+            href="/services"
+            className="text-neutral-900 font-medium border-b border-red-600 pb-0.5 hover:text-red-600 transition-colors flex items-center gap-1"
+          >
             Voir toutes les missions <ArrowRight size={16} />
           </Link>
         </div>
@@ -26,13 +43,17 @@ export function ExpertiseSection() {
               <div className="w-12 h-12 rounded-2xl bg-white border border-neutral-100 flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform">
                 <Calculator size={28} />
               </div>
-              <ArrowRight className="text-neutral-300 group-hover:text-red-600 transition-colors" size={24} />
+              <ArrowRight
+                className="text-neutral-300 group-hover:text-red-600 transition-colors"
+                size={24}
+              />
             </div>
             <h3 className="text-2xl font-semibold text-neutral-900 mb-3 tracking-tight">
               Comptabilité & Fiscalité
             </h3>
-            <p className="text-neutral-500 font-light leading-relaxed max-w-md">
-              Tenue comptable rigoureuse, bilans, liasses fiscales et conseils d&apos;optimisation pour sécuriser votre patrimoine.
+            <p className="text-neutral-900 font-medium leading-relaxed text-lg max-w-md">
+              Tenue comptable rigoureuse, bilans, liasses fiscales et conseils
+              d&apos;optimisation pour sécuriser votre patrimoine.
             </p>
           </div>
 
@@ -46,7 +67,7 @@ export function ExpertiseSection() {
             <h3 className="text-xl font-semibold text-neutral-900 mb-2 tracking-tight">
               Social & RH
             </h3>
-            <p className="text-neutral-500 text-sm font-light leading-relaxed">
+            <p className="text-neutral-900 font-medium leading-relaxed text-base">
               Gestion de la paie, contrats de travail et audit social.
             </p>
           </div>
@@ -61,8 +82,9 @@ export function ExpertiseSection() {
             <h3 className="text-xl font-semibold text-neutral-900 mb-2 tracking-tight">
               Juridique
             </h3>
-            <p className="text-neutral-500 text-sm font-light leading-relaxed">
-              Secrétariat juridique annuel, création de sociétés, modifications statutaires.
+            <p className="text-neutral-900 font-medium leading-relaxed text-base">
+              Secrétariat juridique annuel, création de sociétés, modifications
+              statutaires.
             </p>
           </div>
 
@@ -77,8 +99,9 @@ export function ExpertiseSection() {
               <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">
                 Audit & Conseil Stratégique
               </h3>
-              <p className="text-neutral-400 font-light leading-relaxed max-w-md">
-                Commissariat aux comptes, audit d&apos;acquisition et tableaux de bord prévisionnels pour éclairer vos décisions.
+              <p className="text-neutral-900 font-medium leading-relaxed text-lg max-w-md">
+                Commissariat aux comptes, audit d&apos;acquisition et tableaux
+                de bord prévisionnels pour éclairer vos décisions.
               </p>
             </div>
             {/* Subtle background effect */}

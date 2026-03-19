@@ -7,36 +7,52 @@ declare global {
 }
 
 import { useEffect, useState } from "react";
+
 import { VideoLoader } from "@/components/VideoLoader";
 import { HomePageContent } from "@/components/home/HomePageContent";
-import { motion, AnimatePresence } from "framer-motion";
 
 const HOME_INTRO_SEEN_KEY = "hmcc_home_intro_seen";
 
 export function HomePageClient() {
+  const [motionComponents, setMotionComponents] = useState<{motion?: any, AnimatePresence?: any}>({});
   const [showContent, setShowContent] = useState(false);
-  const [hasSeenVideo, setHasSeenVideo] = useState(false);
-  const [showWhiteTransition, setShowWhiteTransition] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  const [videoPreloaded, setVideoPreloaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const hasSeenIntro = sessionStorage.getItem(HOME_INTRO_SEEN_KEY) === "1";
-    if (hasSeenIntro) {
-      setHasSeenVideo(true);
-      setShowContent(true);
-    }
+    import("framer-motion").then(fm => {
+      setMotionComponents({ motion: fm.motion, AnimatePresence: fm.AnimatePresence });
+    });
+  }, []);
+
+  // Préchargement des images de la séquence home
+  useEffect(() => {
     setHydrated(true);
-    // Précharger la vidéo Vimeo en arrière-plan
-    const iframe = document.createElement("iframe");
-    iframe.src =
-      "https://player.vimeo.com/video/1165658777?h=f626d7d501&title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0&preload=1&muted=1&autoplay=0&loop=0&quality=1080p&background=0&transparent=0&color=000000&pip=0&speed=0&keyboard=0&fullscreen=0&dnt=1&player_id=0&app_id=58479";
-    iframe.style.display = "none";
-    iframe.setAttribute("aria-hidden", "true");
-    iframe.onload = () => setVideoPreloaded(true);
-    document.body.appendChild(iframe);
+    const frameCount = 251;
+    const folder = "/sequence/desktop-version/home/";
+    let loaded = 0;
+    let cancelled = false;
+    for (let i = 0; i < frameCount; i++) {
+      const img = new window.Image();
+      img.src = `${folder}HOME PAGE 1 - DESKTOP -_${String(i).padStart(5, "0")}.png`;
+      img.onload = () => {
+        loaded++;
+        setProgress(Math.round((loaded / frameCount) * 100));
+        if (loaded === frameCount && !cancelled) {
+          setTimeout(() => setImagesLoaded(true), 200); // petit délai pour la transition
+        }
+      };
+      img.onerror = () => {
+        loaded++;
+        setProgress(Math.round((loaded / frameCount) * 100));
+        if (loaded === frameCount && !cancelled) {
+          setTimeout(() => setImagesLoaded(true), 200);
+        }
+      };
+    }
     return () => {
-      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+      cancelled = true;
     };
   }, []);
 
@@ -66,28 +82,32 @@ export function HomePageClient() {
     }, 500);
   };
 
-  if (!hydrated) {
-    return null;
-  }
+  const { motion, AnimatePresence } = motionComponents;
+
+  if (!hydrated) return null;
 
   return (
     <>
-      {/* Loader vidéo d'intro */}
-      {!hasSeenVideo && <VideoLoader onVideoEnd={handleVideoEnd} />}
-
-      {/* Page blanche de transition */}
-      <AnimatePresence>
-        {showWhiteTransition && (
+      {/* Loader fonctionnel : fond blanc, texte rouge, attend le chargement de toutes les images */}
+      {AnimatePresence && motion && !imagesLoaded && (
+        <AnimatePresence>
           <motion.div
-            className="fixed inset-0 z-[99] bg-white"
+            className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center"
             initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          />
-        )}
-      </AnimatePresence>
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            style={{ zIndex: 100 }}
+          >
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mb-6" />
+            <span className="text-lg font-semibold text-red-600 mb-2">Chargement en cours</span>
+            <span className="text-base text-red-600">{progress}%</span>
+          </motion.div>
+        </AnimatePresence>
+      )}
 
-      {showContent && <HomePageContent showContent={showContent} />}
+      {/* Affichage du contenu home seulement après le chargement des images */}
+      {imagesLoaded && <HomePageContent showContent={true} />}
     </>
   );
 }

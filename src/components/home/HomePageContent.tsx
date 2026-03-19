@@ -10,6 +10,7 @@ import { PourquoiSection } from "./PourquoiSection";
 import { DigitalSection } from "./DigitalSection";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { FooterCTASection } from "./FooterCTASection";
+import { SequenceScrollAnimation } from "./SequenceScrollAnimation";
 
 interface HomePageContentProps {
   showContent: boolean;
@@ -18,31 +19,35 @@ interface HomePageContentProps {
 export function HomePageContent({ showContent }: HomePageContentProps) {
   return (
     <>
-      {/* Spacer invisible pour éviter que le footer apparaisse en haut pendant le chargement */}
-      {!showContent && <div className="min-h-screen" />}
-
-      <AnimatePresence>
-        {showContent && (
-          <motion.main
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative"
-          >
-            {/* Hero avec animation spéciale */}
-            <HeroSectionWithAnimation />
-
-            <ExpertiseSection />
-            <ValeurSection />
-            <CabinetSection />
-            <BureauxSection />
-            <PourquoiSection />
-            <DigitalSection />
-            <TestimonialsSection />
-            <FooterCTASection />
-          </motion.main>
-        )}
-      </AnimatePresence>
+      {/* Wrapper principal avec fond animé */}
+      <div className="relative w-full min-h-screen">
+        <SequenceScrollAnimation
+          frameCount={251}
+          className="fixed inset-0 w-full h-full object-cover z-[-10] pointer-events-none"
+        />
+        {!showContent && <div className="min-h-screen" />}
+        <AnimatePresence>
+          {showContent && (
+            <motion.main
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative"
+            >
+              {/* Hero avec animation spéciale */}
+              <HeroSectionWithAnimation />
+              <ExpertiseSection transparentBg />
+              <ValeurSection transparentBg />
+              <CabinetSection transparentBg />
+              <BureauxSection transparentBg />
+              <PourquoiSection transparentBg />
+              <DigitalSection transparentBg />
+              <TestimonialsSection transparentBg />
+              <FooterCTASection transparentBg />
+            </motion.main>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 }

@@ -1,18 +1,34 @@
 import Image from "next/image";
 import { CheckCircle, Clock, MessageCircle } from "lucide-react";
 
-export function ValeurSection() {
+export function ValeurSection({
+  transparentBg = false,
+}: {
+  transparentBg?: boolean;
+}) {
   return (
-    <section id="cabinet" className="py-24 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="cabinet"
+      className={`py-24 ${
+        transparentBg ? "bg-transparent" : "bg-neutral-50"
+      } relative overflow-hidden`}
+    >
+      {/* Blur overlay, mais le background reste sur la section */}
+      {!transparentBg && (
+        <div className="absolute inset-0 z-0 pointer-events-none backdrop-blur-lg bg-neutral-50/30" />
+      )}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-6">
-              Moins de papier,<br />
+              Moins de papier,
+              <br />
               <span className="text-neutral-900">plus de valeur.</span>
             </h2>
-            <p className="text-neutral-500 text-lg mb-8 font-light leading-relaxed">
-              Chez HMCC, nous avons supprimé les tâches chronophages pour nous concentrer sur ce qui compte vraiment : le conseil. Nous utilisons les meilleurs outils du marché pour automatiser vos flux.
+            <p className="text-neutral-900 text-xl mb-8 font-medium leading-relaxed">
+              Chez HMCC, nous avons supprimé les tâches chronophages pour nous
+              concentrer sur ce qui compte vraiment : le conseil. Nous utilisons
+              les meilleurs outils du marché pour automatiser vos flux.
             </p>
 
             <ul className="space-y-6">
@@ -21,9 +37,12 @@ export function ValeurSection() {
                   <CheckCircle size={24} />
                 </div>
                 <div>
-                  <h4 className="text-lg font-medium text-neutral-900">Zéro saisie manuelle</h4>
-                  <p className="text-sm text-neutral-500 font-light">
-                    Récupération bancaire automatique et scan de factures intelligent.
+                  <h4 className="text-lg font-medium text-neutral-900">
+                    Zéro saisie manuelle
+                  </h4>
+                  <p className="text-lg text-neutral-900 font-medium">
+                    Récupération bancaire automatique et scan de factures
+                    intelligent.
                   </p>
                 </div>
               </li>
@@ -32,9 +51,12 @@ export function ValeurSection() {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="text-lg font-medium text-neutral-900">Temps réel</h4>
-                  <p className="text-sm text-neutral-500 font-light">
-                    Accédez à vos chiffres clés 24/7 sur votre smartphone ou ordinateur.
+                  <h4 className="text-lg font-medium text-neutral-900">
+                    Temps réel
+                  </h4>
+                  <p className="text-base text-neutral-900 font-medium">
+                    Accédez à vos chiffres clés 24/7 sur votre smartphone ou
+                    ordinateur.
                   </p>
                 </div>
               </li>
@@ -43,9 +65,12 @@ export function ValeurSection() {
                   <MessageCircle size={24} />
                 </div>
                 <div>
-                  <h4 className="text-lg font-medium text-neutral-900">Réactivité garantie</h4>
-                  <p className="text-sm text-neutral-500 font-light">
-                    Un collaborateur dédié qui connaît votre dossier et répond sous 24h.
+                  <h4 className="text-lg font-medium text-neutral-900">
+                    Réactivité garantie
+                  </h4>
+                  <p className="text-base text-neutral-900 font-medium">
+                    Un collaborateur dédié qui connaît votre dossier et répond
+                    sous 24h.
                   </p>
                 </div>
               </li>
@@ -65,10 +90,14 @@ export function ValeurSection() {
             {/* Stats Card */}
             <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border border-neutral-100 max-w-xs">
               <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-red-600 tracking-tighter">15+</span>
-                <span className="text-sm text-neutral-500 font-medium mb-1">années</span>
+                <span className="text-4xl font-bold text-red-600 tracking-tighter">
+                  15+
+                </span>
+                <span className="text-base text-neutral-900 font-semibold mb-1">
+                  années
+                </span>
               </div>
-              <p className="text-sm text-neutral-600 font-medium">
+              <p className="text-base text-neutral-900 font-medium">
                 D&apos;expérience au service des entrepreneurs et PME.
               </p>
             </div>

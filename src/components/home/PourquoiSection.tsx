@@ -1,38 +1,55 @@
 import { Check, Zap, Shield, Leaf, Users as UsersIcon } from "lucide-react";
 
-export function PourquoiSection() {
+export function PourquoiSection({
+  transparentBg = false,
+}: {
+  transparentBg?: boolean;
+}) {
   const reasons = [
     {
       icon: UsersIcon,
       title: "Proximité et réactivité",
-      description: "Une équipe disponible et à l&apos;écoute, qui connaît vos enjeux.",
+      description:
+        "Une équipe disponible et à l'écoute, qui connaît vos enjeux.",
     },
     {
       icon: Shield,
       title: "Expérience reconnue",
-      description: "Plus de 40 ans d&apos;expertise cumulée au service des entreprises.",
+      description:
+        "Plus de 40 ans d'expertise cumulée au service des entreprises.",
     },
     {
       icon: Zap,
       title: "Innovation",
-      description: "Outils numériques performants et solutions de facturation électronique pour simplifier votre gestion.",
+      description:
+        "Outils numériques performants et solutions de facturation électronique pour simplifier votre gestion.",
     },
     {
       icon: Leaf,
       title: "Engagement durable",
-      description: "Une approche moderne et dématérialisée, respectueuse de l&apos;environnement.",
+      description:
+        "Une approche moderne et dématérialisée, respectueuse de l'environnement.",
     },
   ];
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section
+      className={`py-24 ${
+        transparentBg ? "bg-transparent" : "bg-white"
+      } relative overflow-hidden`}
+    >
+      {/* Blur overlay, mais le background reste sur la section */}
+      {!transparentBg && (
+        <div className="absolute inset-0 z-0 pointer-events-none backdrop-blur-lg bg-white/30" />
+      )}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-4">
             Pourquoi choisir HMCC ?
           </h2>
-          <p className="text-neutral-500 font-light text-lg max-w-2xl mx-auto">
-            Un partenaire de confiance qui combine expertise traditionnelle et innovation digitale.
+          <p className="text-neutral-900 font-medium text-xl max-w-2xl mx-auto">
+            Un partenaire de confiance qui combine expertise traditionnelle et
+            innovation digitale.
           </p>
         </div>
 
@@ -55,7 +72,7 @@ export function PourquoiSection() {
                         {reason.title}
                       </h3>
                     </div>
-                    <p className="text-neutral-600 font-light leading-relaxed">
+                    <p className="text-neutral-900 font-medium text-xl leading-relaxed">
                       {reason.description}
                     </p>
                   </div>
@@ -67,7 +84,7 @@ export function PourquoiSection() {
       </div>
 
       {/* Decorative element */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-50 rounded-full blur-3xl opacity-20 -z-10"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-50 rounded-full -z-10"></div>
     </section>
   );
 }

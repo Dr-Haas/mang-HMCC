@@ -22,7 +22,6 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const iconsRef = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     if (!startAnimation) return;
@@ -168,83 +167,6 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
       delay: 4,
     });
 
-    // Initialiser immédiatement les images hors écran pour éviter le flash
-    iconsRef.current.forEach((icon, index) => {
-      if (!icon) {
-        console.log(`⚠️ Icon ${index} not found for entrance animation`);
-        return;
-      }
-
-      console.log(`✨ Setting up entrance animation for icon ${index}`);
-
-      let startX = 0;
-      let startY = 0;
-
-      // Pen en haut à gauche (0)
-      if (index === 0) {
-        startX = -400;
-        startY = -200;
-      }
-      // Calculator en haut à droite (1)
-      else if (index === 1) {
-        startX = 400;
-        startY = -200;
-      }
-      // Notebook en bas à gauche (2)
-      else if (index === 2) {
-        startX = -400;
-        startY = 200;
-      }
-      // Pins en bas à droite (3)
-      else if (index === 3) {
-        startX = 400;
-        startY = 200;
-      }
-      // Pin en bas à gauche (4)
-      else if (index === 4) {
-        startX = -400;
-        startY = 200;
-      }
-      // Café en bas à gauche (5)
-      else if (index === 5) {
-        startX = -200;
-        startY = 300;
-      }
-      // Clavier en haut à gauche (6)
-      else if (index === 6) {
-        startX = -200;
-        startY = -300;
-      }
-      // Postit en bas à droite (7)
-      else if (index === 7) {
-        startX = 400;
-        startY = 200;
-      }
-      // Clip en haut à droite (8)
-      else if (index === 8) {
-        startX = 400;
-        startY = -200;
-      }
-
-      // Animation d'entrée avec fromTo pour forcer les valeurs de départ
-      gsap.fromTo(
-        icon,
-        {
-          x: startX,
-          y: startY,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          delay: 0.5 + index * 0.1,
-        }
-      );
-    });
-
     return () => {
       timeline.kill();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -301,83 +223,6 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
         end: "bottom top",
         scrub: 2.5,
       },
-    });
-
-    // Parallax simple - les images sortent sur les côtés au scroll
-    console.log(
-      "🎯 Setting up parallax for icons, found:",
-      iconsRef.current.length
-    );
-
-    iconsRef.current.forEach((icon, index) => {
-      if (!icon) {
-        console.log(`⚠️ Icon ${index} is null`);
-        return;
-      }
-
-      console.log(`✅ Icon ${index} found, setting up parallax`);
-
-      let moveX = 0;
-      let moveY = 0;
-      let scrubValue = 1;
-
-      // Variation pour chaque image pour un effet organique
-      const variations = [
-        { x: -450, y: -100, scrub: 0.9 }, // Pen - haut gauche
-        { x: 500, y: -80, scrub: 1.1 }, // Calculator - haut droite
-        { x: -480, y: 150, scrub: 1.2 }, // Notebook - bas gauche
-        { x: 520, y: 120, scrub: 0.95 }, // Pins - bas droite
-        { x: -420, y: 180, scrub: 1.0 }, // Pin - bas gauche
-        { x: -300, y: 100, scrub: 1.1 }, // Café - bas gauche
-        { x: -450, y: -100, scrub: 0.9 }, // Clavier - haut gauche
-        { x: 520, y: 120, scrub: 0.95 }, // Postit - bas droite
-        { x: 520, y: -80, scrub: 0.8 }, // Calculator - haut droite
-        { x: 500, y: -80, scrub: 1.1 }, // Pin - haut droite
-      ];
-
-      if (variations[index]) {
-        moveX = variations[index].x;
-        moveY = variations[index].y;
-        scrubValue = variations[index].scrub;
-      }
-
-      console.log(
-        `📍 Icon ${index}: will move to x: ${moveX}, y: ${moveY}, scrub: ${scrubValue}`
-      );
-
-      gsap.fromTo(
-        icon,
-        {
-          x: 0,
-          y: 0,
-        },
-        {
-          x: moveX,
-          y: moveY,
-          opacity: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: scrubValue,
-            onUpdate: (self) => {
-              console.log(
-                `📊 Icon ${index} progress: ${(self.progress * 100).toFixed(
-                  0
-                )}%`
-              );
-            },
-            onEnter: () =>
-              console.log(`▶️ Icon ${index} ScrollTrigger ENTERED`),
-            onLeave: () => console.log(`⏹️ Icon ${index} ScrollTrigger LEFT`),
-            onEnterBack: () =>
-              console.log(`◀️ Icon ${index} ScrollTrigger ENTER BACK`),
-            onLeaveBack: () =>
-              console.log(`⏪ Icon ${index} ScrollTrigger LEAVE BACK`),
-          },
-        }
-      );
     });
 
     return () => {
@@ -442,130 +287,16 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center px-6 py-32 overflow-hidden"
     >
-      {/* Dégradé de fond subtil */}
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-white -z-10" />
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-red-50/30 rounded-full blur-3xl -z-10" />
-
-      {/* Images décoratives - Bureau désordonné */}
-      {/* Pen - Haut à gauche */}
-      <img
-        ref={(el) => {
-          iconsRef.current[0] = el;
-        }}
-        src="/images/hero/pen-left-top.png"
-        alt=""
-        className="absolute left-[-10%] top-[15%] w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-56 lg:h-56 xl:w-[20rem] xl:h-auto 2xl:w-[22rem] 2xl:h-auto opacity-0 pointer-events-none rotate-[25deg]"
-        aria-hidden="true"
-      />
-
-      {/* Calculator - Haut à droite */}
-      <img
-        ref={(el) => {
-          iconsRef.current[1] = el;
-        }}
-        src="/images/hero/calculator-right-top.png"
-        alt=""
-        className="absolute right-[-8%] top-[6%] w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-52 lg:h-52 xl:w-[16rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none rotate-[-32deg]"
-        aria-hidden="true"
-      />
-
-      {/* Notebook - Bas à gauche */}
-      <img
-        ref={(el) => {
-          iconsRef.current[2] = el;
-        }}
-        src="/images/hero/notebook-left-bottom.png"
-        alt=""
-        className="absolute left-[-20%] bottom-[4%] w-28 h-28 sm:w-40 sm:h-40 md:w-52 md:h-52 lg:w-72 lg:h-72 xl:w-[22rem] xl:h-auto 2xl:w-[30rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Pins - Bas à droite */}
-      <img
-        ref={(el) => {
-          iconsRef.current[3] = el;
-        }}
-        src="/images/hero/pins-right-botttom.png"
-        alt=""
-        className="absolute right-[-11%] bottom-[6%] w-20 h-20 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-60 lg:h-60 xl:w-[18rem] xl:h-auto 2xl:w-[22rem] 2xl:h-[22rem] opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Pin - Bas à gauche */}
-      <img
-        ref={(el) => {
-          iconsRef.current[4] = el;
-        }}
-        src="/images/hero/pin-bottom-left.png"
-        alt=""
-        className="absolute left-[10%] bottom-[29%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[3rem] xl:h-auto 2xl:w-[4rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Café - Bas à gauche */}
-      <img
-        ref={(el) => {
-          iconsRef.current[5] = el;
-        }}
-        src="/images/hero/coffee-bottom-left.png"
-        alt=""
-        className="absolute left-[2%] bottom-[-9%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[14rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Clavier - Haut à gauche */}
-      <img
-        ref={(el) => {
-          iconsRef.current[6] = el;
-        }}
-        src="/images/hero/keyboard-top-left.png"
-        alt=""
-        className="absolute left-[-10%] top-[-10%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[22rem] xl:h-auto 2xl:w-[32rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Postit - Bas à droite */}
-      <img
-        ref={(el) => {
-          iconsRef.current[7] = el;
-        }}
-        src="/images/hero/postit-bottom-right.png"
-        alt=""
-        className="absolute right-[12%] bottom-[-25%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[14rem] xl:h-auto 2xl:w-[20rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Clip - Haut à droite */}
-      <img
-        ref={(el) => {
-          iconsRef.current[8] = el;
-        }}
-        src="/images/hero/clip-top-right.png"
-        alt=""
-        className="absolute right-[8%] top-[6%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[7rem] xl:h-auto 2xl:w-[9rem] 2xl:h-auto opacity-0 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Pin - Haut à droite */}
-      <img
-        ref={(el) => {
-          iconsRef.current[9] = el;
-        }}
-        src="/images/hero/pin-bottom-left.png"
-        alt=""
-        className="absolute right-[26%] top-[8%] w-8 h-8 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20 xl:w-[3rem] xl:h-auto 2xl:w-[4rem] 2xl:h-auto opacity-0 pointer-events-none "
-        aria-hidden="true"
-      />
-
+      {/* Fond invisible sur le Hero */}
+      <div className="absolute inset-0 bg-transparent -z-10" />
       <div className="max-w-4xl mx-auto text-center space-y-8">
         {/* Sous-titre */}
         <h2
           ref={subtitleRef}
-          className="typography-hero-label text-neutral-400 opacity-0"
+          className="typography-hero-label text-neutral-900 font-semibold opacity-0 text-xl md:text-2xl"
         >
           Cabinet d'expertise comptable
         </h2>
-
         {/* Titre principal */}
         <h1
           ref={titleRef}
@@ -576,17 +307,15 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
             Expertise moderne
           </span>
         </h1>
-
         {/* Description */}
         <p
           ref={descriptionRef}
-          className="text-lg md:text-xl typography-hero-desc text-neutral-500 max-w-2xl mx-auto opacity-0"
+          className="text-xl md:text-2xl typography-hero-desc text-neutral-900 font-medium max-w-2xl mx-auto opacity-0"
         >
           Nous transformons vos obligations comptables en opportunités
           stratégiques. Une approche digitale et humaine pour les entrepreneurs
           exigeants.
         </p>
-
         {/* CTA simple */}
         <div className="pt-8">
           <Link
@@ -599,14 +328,13 @@ export function HeroSection({ startAnimation = false }: HeroSectionProps) {
           </Link>
         </div>
       </div>
-
       {/* Indicateur de scroll */}
       <div
         ref={scrollIndicatorRef}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0"
       >
         <div className="flex flex-col items-center space-y-2">
-          <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">
+          <span className="text-base tracking-[0.2em] text-neutral-900 font-semibold uppercase">
             Scroll
           </span>
           <div className="w-[1px] h-16 bg-gradient-to-b from-neutral-400 to-transparent" />
