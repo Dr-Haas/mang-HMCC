@@ -7,10 +7,15 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "HMCC accompagne les entrepreneurs, dirigeants et independants en comptabilite, fiscalite, juridique, social et pilotage.",
   path: "/",
-  keywords: ["expert comptable", "cabinet comptable", "comptabilite", "fiscalite", "HMCC"],
+  keywords: [
+    "expert comptable",
+    "cabinet comptable",
+    "comptabilite",
+    "fiscalite",
+    "HMCC",
+  ],
 });
 
 export default function Home() {
-  return <HomePageClient />; 
+  return <HomePageClient />;
 }
-

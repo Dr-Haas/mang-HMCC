@@ -15,58 +15,58 @@ export function DomiciliationHero() {
   // Icônes flottantes pour le hero domiciliation (positions différentes)
   const floatingIcons = [
     {
-      src: "/icons/hero-icon-1.svg",
+      src: "/icons/hero-icon-1.png",
       style:
-        "left-[8%] top-[14%] w-[clamp(3.5rem,7vw,6rem)] h-[clamp(3.5rem,7vw,6rem)] opacity-0",
+        "left-[8%] top-[14%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0",
       delay: 0.2,
       float: { y: 20, x: 8, duration: 3.1, delay: 0 },
     },
     {
-      src: "/icons/hero-icon-2.svg",
+      src: "/icons/hero-icon-2.png",
       style:
-        "right-[10%] top-[10%] w-[clamp(3.2rem,6vw,5.5rem)] h-[clamp(3.2rem,6vw,5.5rem)] opacity-0",
+        "right-[10%] top-[10%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0",
       delay: 0.4,
       float: { y: 16, x: -10, duration: 2.7, delay: 0.2 },
     },
     {
-      src: "/icons/hero-icon-3.svg",
+      src: "/icons/hero-icon-3.png",
       style:
-        "left-[4%] bottom-[18%] w-[clamp(3rem,6vw,5rem)] h-[clamp(3rem,6vw,5rem)] opacity-0 rotate-[-10deg]",
+        "left-[4%] bottom-[18%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-10deg]",
       delay: 0.6,
       float: { y: 18, x: 12, duration: 3.3, delay: 0.3 },
     },
     {
-      src: "/icons/hero-icon-4.svg",
+      src: "/icons/hero-icon-4.png",
       style:
-        "right-[6%] bottom-[10%] w-[clamp(3.7rem,7vw,6.2rem)] h-[clamp(3.7rem,7vw,6.2rem)] opacity-0 rotate-[10deg]",
+        "right-[6%] bottom-[10%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[10deg]",
       delay: 0.8,
       float: { y: 22, x: -14, duration: 3.2, delay: 0.4 },
     },
     {
-      src: "/icons/hero-icon-5.svg",
+      src: "/icons/hero-icon-5.png",
       style:
-        "left-[22%] top-[28%] w-[clamp(2.7rem,5vw,4.2rem)] h-[clamp(2.7rem,5vw,4.2rem)] opacity-0 rotate-[8deg]",
+        "left-[22%] top-[28%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[8deg]",
       delay: 0.5,
       float: { y: 12, x: 10, duration: 2.8, delay: 0.1 },
     },
     {
-      src: "/icons/hero-icon-6.svg",
+      src: "/icons/hero-icon-6.png",
       style:
-        "right-[20%] top-[18%] w-[clamp(2.7rem,5vw,4.2rem)] h-[clamp(2.7rem,5vw,4.2rem)] opacity-0 rotate-[-8deg]",
+        "right-[20%] top-[18%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-8deg]",
       delay: 0.7,
       float: { y: 14, x: -8, duration: 2.9, delay: 0.2 },
     },
     {
-      src: "/icons/hero-icon-7.svg",
+      src: "/icons/hero-icon-7.png",
       style:
-        "left-[14%] bottom-[24%] w-[clamp(2.7rem,5vw,4.2rem)] h-[clamp(2.7rem,5vw,4.2rem)] opacity-0 rotate-[12deg]",
+        "left-[14%] bottom-[24%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[12deg]",
       delay: 0.9,
       float: { y: 16, x: 14, duration: 3.4, delay: 0.3 },
     },
     {
-      src: "/icons/hero-icon-8.svg",
+      src: "/icons/hero-icon-8.png",
       style:
-        "right-[18%] bottom-[14%] w-[clamp(2.7rem,5vw,4.2rem)] h-[clamp(2.7rem,5vw,4.2rem)] opacity-0 rotate-[-12deg]",
+        "right-[18%] bottom-[14%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-12deg]",
       delay: 1.1,
       float: { y: 12, x: -10, duration: 2.7, delay: 0.4 },
     },

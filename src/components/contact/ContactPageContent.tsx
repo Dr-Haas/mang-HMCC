@@ -29,10 +29,7 @@ export function ContactPageContent() {
         id="contact"
         className="relative overflow-visible bg-transparent pointer-events-none z-10 h-[130vh] pb-32 sm:pb-0"
       >
-        {/* Conteneur full-width pour le blob - caché sur mobile */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden hidden sm:block">
-          <InteractiveDroplets />
-        </div>
+        {/* Blob de fond supprimé */}
 
         {/* Gradient Orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-visible z-10">

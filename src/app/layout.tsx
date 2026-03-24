@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_URL, SITE_NAME } from "./lib/constants";
-import { Layout } from "@/components/Layout";
+import { ClientLayout } from "./ClientLayout";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { LenisScrollToTopOnRouteChange } from "@/components/providers/LenisScrollToTopOnRouteChange";
 import "./globals.css";
@@ -70,11 +70,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Note: do not access `window` in the root layout (server render).
-  // Any client-only detection (current path, globals) must run in a client
-  // component via `useEffect` to avoid hydration mismatches.
-  const hideHeaderFooter = false;
-
   return (
     <html lang="fr">
       <body
@@ -83,7 +78,7 @@ export default function RootLayout({
       >
         <SmoothScrollProvider>
           <LenisScrollToTopOnRouteChange>
-            <Layout hideHeaderFooter={hideHeaderFooter}>{children}</Layout>
+            <ClientLayout>{children}</ClientLayout>
           </LenisScrollToTopOnRouteChange>
         </SmoothScrollProvider>
       </body>

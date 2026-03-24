@@ -4,58 +4,58 @@ import { useEffect, useRef } from "react";
 // Liste des icônes à afficher
 const floatingIcons = [
   {
-    src: "/icons/hero-icon-1.svg",
+    src: "/icons/hero-icon-1.png",
     style:
-      "left-[5%] top-[10%] w-[clamp(3.5rem,7vw,6rem)] h-[clamp(3.5rem,7vw,6rem)] opacity-0",
+      "left-[5%] top-[10%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0",
     delay: 0.2,
     float: { y: 18, x: 0, duration: 3, delay: 0 },
   },
   {
-    src: "/icons/hero-icon-2.svg",
+    src: "/icons/hero-icon-2.png",
     style:
-      "right-[8%] top-[18%] w-[clamp(3rem,6vw,5rem)] h-[clamp(3rem,6vw,5rem)] opacity-0",
+      "right-[8%] top-[18%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0",
     delay: 0.4,
     float: { y: 14, x: 8, duration: 2.8, delay: 0.2 },
   },
   {
-    src: "/icons/hero-icon-3.svg",
+    src: "/icons/hero-icon-3.png",
     style:
-      "left-[2%] bottom-[10%] w-[clamp(3rem,6vw,5rem)] h-[clamp(3rem,6vw,5rem)] opacity-0 rotate-[-12deg]",
+      "left-[2%] bottom-[10%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-12deg]",
     delay: 0.6,
     float: { y: 16, x: -10, duration: 3.2, delay: 0.3 },
   },
   {
-    src: "/icons/hero-icon-4.svg",
+    src: "/icons/hero-icon-4.png",
     style:
-      "right-[3%] bottom-[14%] w-[clamp(3.5rem,7vw,6rem)] h-[clamp(3.5rem,7vw,6rem)] opacity-0 rotate-[8deg]",
+      "right-[3%] bottom-[14%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[8deg]",
     delay: 0.8,
     float: { y: 20, x: 10, duration: 3.1, delay: 0.4 },
   },
   {
-    src: "/icons/hero-icon-5.svg",
+    src: "/icons/hero-icon-5.png",
     style:
-      "left-[18%] top-[22%] w-[clamp(2.5rem,5vw,4rem)] h-[clamp(2.5rem,5vw,4rem)] opacity-0 rotate-[6deg]",
+      "left-[18%] top-[22%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[6deg]",
     delay: 0.5,
     float: { y: 10, x: 12, duration: 2.7, delay: 0.1 },
   },
   {
-    src: "/icons/hero-icon-6.svg",
+    src: "/icons/hero-icon-6.png",
     style:
-      "right-[18%] top-[8%] w-[clamp(2.5rem,5vw,4rem)] h-[clamp(2.5rem,5vw,4rem)] opacity-0 rotate-[-8deg]",
+      "right-[18%] top-[8%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-8deg]",
     delay: 0.7,
     float: { y: 12, x: -10, duration: 2.9, delay: 0.2 },
   },
   {
-    src: "/icons/hero-icon-7.svg",
+    src: "/icons/hero-icon-7.png",
     style:
-      "left-[10%] bottom-[22%] w-[clamp(2.5rem,5vw,4rem)] h-[clamp(2.5rem,5vw,4rem)] opacity-0 rotate-[10deg]",
+      "left-[10%] bottom-[22%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[10deg]",
     delay: 0.9,
     float: { y: 14, x: 8, duration: 3.3, delay: 0.3 },
   },
   {
-    src: "/icons/hero-icon-8.svg",
+    src: "/icons/hero-icon-8.png",
     style:
-      "right-[16%] bottom-[8%] w-[clamp(2.5rem,5vw,4rem)] h-[clamp(2.5rem,5vw,4rem)] opacity-0 rotate-[-6deg]",
+      "right-[16%] bottom-[8%] w-[clamp(2.3rem,4.6vw,3.4rem)] h-auto opacity-0 rotate-[-6deg]",
     delay: 1.1,
     float: { y: 10, x: -12, duration: 2.6, delay: 0.4 },
   },
