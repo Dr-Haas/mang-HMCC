@@ -5,16 +5,19 @@ interface SequenceScrollAnimationProps {
   folder?: string;
   frameCount?: number;
   className?: string;
+  mobileFrameCount?: number;
 }
 
 // Par défaut : 251 images (de 00000 à 00250)
 const DEFAULT_FRAME_COUNT = 251;
 const DEFAULT_FOLDER = "/sequence/desktop-version/home2/";
+const DEFAULT_MOBILE_FOLDER = "/sequence/mobile-version/home2/";
 
 export function SequenceScrollAnimation({
   folder = DEFAULT_FOLDER,
   frameCount = DEFAULT_FRAME_COUNT,
   className = "absolute inset-0 w-full h-full z-[-1] pointer-events-none",
+  mobileFrameCount,
 }: SequenceScrollAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
@@ -24,20 +27,27 @@ export function SequenceScrollAnimation({
   const fadeDuration = 0.18; // Durée du fondu en secondes (ajuste si besoin)
   const lastTimestampRef = useRef<number>(0);
 
-  // Précharge les images
+  // Précharge les images (utilise la séquence mobile si viewport mobile)
   useEffect(() => {
-    imagesRef.current = Array(frameCount)
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 767;
+    const useFolder = isMobile ? DEFAULT_MOBILE_FOLDER : folder;
+    const useFrameCount = isMobile && mobileFrameCount ? mobileFrameCount : frameCount;
+    imagesRef.current = Array(useFrameCount)
       .fill(null)
       .map((_, i) => {
         const img = new window.Image();
-        img.src = `${folder}HOME PAGE v2 -_${String(i).padStart(5, "0")}.png`;
+        if (isMobile) {
+          img.src = `${useFolder}HOME PAGE - MOBILE - 1 -_${String(i).padStart(5, "0")}.png`;
+        } else {
+          img.src = `${useFolder}HOME PAGE v2 -_${String(i).padStart(5, "0")}.png`;
+        }
         img.onload = () => {
           loadedRef.current[i] = true;
         };
         loadedRef.current[i] = false;
         return img;
       });
-  }, [folder, frameCount]);
+  }, [folder, frameCount, mobileFrameCount]);
 
   useEffect(() => {
     let rafId: number;
@@ -80,13 +90,13 @@ export function SequenceScrollAnimation({
         rafId = window.requestAnimationFrame(drawFrame);
         return;
       }
-      // Phase 2 : scroll sync (frames 30-250)
+      // Phase 2 : scroll sync (frames 30-<last>)
       const scrollTop = window.scrollY;
       const docHeight = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = Math.min(Math.max(scrollTop / docHeight, 0), 1);
       // Frame de scroll commence à 30
       const minFrame = AUTO_PLAY_FRAMES;
-      const maxFrame = frameCount - 1;
+      const maxFrame = Math.max(imagesRef.current.length - 1, minFrame);
       const frame = Math.floor(
         scrollPercent * (maxFrame - minFrame) + minFrame
       );
