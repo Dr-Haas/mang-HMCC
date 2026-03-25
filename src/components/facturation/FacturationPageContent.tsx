@@ -375,7 +375,7 @@ export function FacturationPageContent() {
         {/* Grid Container - En haut de la page, non centré */}
         <div className="max-w-7xl mx-auto px-6 relative z-10 pt-20 md:pt-32 ">
           {/* Grid 12 colonnes desktop, simple sur mobile */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-4 pt-18">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-4 ">
             {/* Ligne 1 - Facturation avec annotation */}
             <div
               ref={(el) => {
