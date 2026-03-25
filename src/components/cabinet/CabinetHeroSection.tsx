@@ -22,7 +22,7 @@ export function CabinetHeroSection() {
             className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm"
           >
             <Sparkles size={16} className="text-red-300" />
-            HMCC depuis 1998
+            HMCC depuis 1985
           </motion.div>
 
           <motion.h1

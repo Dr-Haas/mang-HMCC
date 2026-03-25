@@ -287,7 +287,7 @@ export function DomiciliationHero() {
       <div className="max-w-5xl mx-auto text-center space-y-8">
         {/* Sous-titre élégant */}
         <div className="text-sm tracking-[0.3em] text-neutral-400 uppercase">
-          Service de domiciliation agréé depuis 1998
+          Service de domiciliation agréé depuis 1985
         </div>
 
         {/* Titre principal avec décalage créatif */}

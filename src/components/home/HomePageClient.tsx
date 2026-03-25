@@ -14,28 +14,34 @@ import { HomePageContent } from "@/components/home/HomePageContent";
 const HOME_INTRO_SEEN_KEY = "hmcc_home_intro_seen";
 
 export function HomePageClient() {
-  const [motionComponents, setMotionComponents] = useState<{motion?: any, AnimatePresence?: any}>({});
+  const [motionComponents, setMotionComponents] = useState<{
+    motion?: any;
+    AnimatePresence?: any;
+  }>({});
   const [showContent, setShowContent] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    import("framer-motion").then(fm => {
-      setMotionComponents({ motion: fm.motion, AnimatePresence: fm.AnimatePresence });
+    import("framer-motion").then((fm) => {
+      setMotionComponents({
+        motion: fm.motion,
+        AnimatePresence: fm.AnimatePresence,
+      });
     });
   }, []);
 
-  // Préchargement des images de la séquence home
+  // Préchargement des images de la séquence home2
   useEffect(() => {
     setHydrated(true);
     const frameCount = 251;
-    const folder = "/sequence/desktop-version/home/";
+    const folder = "/sequence/desktop-version/home2/";
     let loaded = 0;
     let cancelled = false;
     for (let i = 0; i < frameCount; i++) {
       const img = new window.Image();
-      img.src = `${folder}HOME PAGE 1 - DESKTOP -_${String(i).padStart(5, "0")}.png`;
+      img.src = `${folder}HOME PAGE v2 -_${String(i).padStart(5, "0")}.png`;
       img.onload = () => {
         loaded++;
         setProgress(Math.round((loaded / frameCount) * 100));
@@ -68,7 +74,6 @@ export function HomePageClient() {
     };
   }, [showContent]);
 
-
   // Nettoyage : plus de vidéo d'intro, donc pas de handleVideoEnd
 
   const { motion, AnimatePresence } = motionComponents;
@@ -89,7 +94,9 @@ export function HomePageClient() {
             style={{ zIndex: 100 }}
           >
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mb-6" />
-            <span className="text-lg font-semibold text-red-600 mb-2">Chargement en cours</span>
+            <span className="text-lg font-semibold text-red-600 mb-2">
+              Chargement en cours
+            </span>
             <span className="text-base text-red-600">{progress}%</span>
           </motion.div>
         </AnimatePresence>

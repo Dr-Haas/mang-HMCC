@@ -9,7 +9,7 @@ interface SequenceScrollAnimationProps {
 
 // Par défaut : 251 images (de 00000 à 00250)
 const DEFAULT_FRAME_COUNT = 251;
-const DEFAULT_FOLDER = "/sequence/desktop-version/home/";
+const DEFAULT_FOLDER = "/sequence/desktop-version/home2/";
 
 export function SequenceScrollAnimation({
   folder = DEFAULT_FOLDER,
@@ -30,10 +30,7 @@ export function SequenceScrollAnimation({
       .fill(null)
       .map((_, i) => {
         const img = new window.Image();
-        img.src = `${folder}HOME PAGE 1 - DESKTOP -_${String(i).padStart(
-          5,
-          "0"
-        )}.png`;
+        img.src = `${folder}HOME PAGE v2 -_${String(i).padStart(5, "0")}.png`;
         img.onload = () => {
           loadedRef.current[i] = true;
         };

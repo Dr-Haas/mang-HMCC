@@ -340,7 +340,7 @@ export function NewCabinetHero() {
               {/* Année */}
               <div ref={yearRef}>
                 <div className="text-3xl sm:text-4xl md:text-5xl font-light text-neutral-400">
-                  1998
+                  1985
                 </div>
                 <div className="text-xs sm:text-sm tracking-[0.2em] text-neutral-500 uppercase mt-1 md:mt-2">
                   Depuis

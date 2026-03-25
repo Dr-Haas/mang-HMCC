@@ -291,7 +291,7 @@ export function CabinetSection({
               style={{ willChange: "transform" }}
             >
               <Award size={16} />
-              Depuis 1998
+              Depuis 1985
             </div>
             <h2
               ref={titleRef}
