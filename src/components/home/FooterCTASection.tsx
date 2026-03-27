@@ -10,7 +10,7 @@ export function FooterCTASection({
   transparentBg?: boolean;
 }) {
   return (
-    <section className={`py-24 bg-transparent relative overflow-hidden`}>
+    <section className={`py-24 bg-transparent relative overflow-hidden mb-[130px] md:mb-0`}>
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
         <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-500 mb-6">
           Vous recherchez un expert-comptable à Paris ou en Essonne ?
@@ -19,11 +19,10 @@ export function FooterCTASection({
           Notre équipe est à votre disposition pour vous conseiller et définir
           une stratégie adaptée à vos besoins.
         </p>
-        <div className="flex justify-end mb-14">
+        <div className="flex justify-center md:justify-end mb-14">
           <Link
             href="/contact"
-            className="bg-red-600 text-white text-base font-medium px-8 py-3.5 rounded-full hover:bg-red-700 transition-all shadow-lg shadow-red-900/30 flex items-center gap-2"
-            style={{ marginRight: "140px" }}
+            className="bg-red-600 text-white text-lg md:text-base font-medium px-10 py-4 md:px-8 md:py-3.5 rounded-full hover:bg-red-700 transition-all shadow-lg shadow-red-900/30 flex items-center gap-2 whitespace-nowrap md:mr-[140px]"
           >
             Prendre rendez-vous
             <ArrowRight size={20} />
