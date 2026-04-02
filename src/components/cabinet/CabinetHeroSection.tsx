@@ -43,7 +43,7 @@ export function CabinetHeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mx-auto max-w-2xl text-lg md:text-2xl typography-hero-desc text-neutral-200"
           >
-            Plus de 25 ans d&apos;accompagnement des entrepreneurs, associations
+            Plus de 40 ans d&apos;accompagnement des entrepreneurs, associations
             et dirigeants.
           </motion.p>
 

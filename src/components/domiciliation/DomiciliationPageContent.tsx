@@ -48,7 +48,7 @@ export function DomiciliationPageContent() {
       icon: Award,
       title: "Expertise reconnue",
       description:
-        "Plus de 25 ans d'expérience dans l'accompagnement des entreprises",
+        "Plus de 40 ans d'expérience dans l'accompagnement des entreprises",
     },
     {
       icon: FileCheck,

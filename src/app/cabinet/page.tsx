@@ -9,7 +9,7 @@ import { FooterCTASection } from "@/components/home/FooterCTASection";
 export const metadata: Metadata = buildPageMetadata({
   title: "Le cabinet HMCC",
   description:
-    "Decouvrez HMCC, cabinet d'expertise comptable independant fonde en 1998.",
+    "Découvrez HMCC, cabinet d'expertise comptable indépendant fondé en 1985.",
   path: "/cabinet",
   keywords: [
     "cabinet expertise comptable",

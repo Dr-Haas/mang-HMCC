@@ -1,28 +1,48 @@
 const timelineEvents = [
   {
-    year: "1998",
-    title: "Creation du cabinet",
-    description: "Herve Miniou fonde HMCC",
+    year: "1985",
+    title: "Création par Hervé",
+    description: "Fondation du cabinet HMCC.",
+  },
+  {
+    year: "1988",
+    title: "Prise de la Bastille",
+    description: "Installation du cabinet au 42 boulevard de la Bastille, Paris.",
+  },
+  {
+    year: "1993",
+    title: "Arrivée d'Alan au cabinet",
+    description: "Alan Miniou rejoint l'équipe.",
   },
   {
     year: "2006",
-    title: "Nouvelle generation",
-    description: "Alan Miniou rejoint le cabinet",
+    title: "Diplôme EC Alan",
+    description: "Alan obtient le diplôme d'expert-comptable.",
   },
   {
-    year: "2015",
-    title: "Transformation digitale",
-    description: "Adoption des outils cloud",
+    year: "2013",
+    title: "Ouverture du bureau d'Arpajon",
+    description: "Extension du cabinet en Essonne.",
   },
   {
-    year: "2020",
-    title: "Innovation",
-    description: "IA et automatisation",
+    year: "2018",
+    title: "Création du pôle RH",
+    description: "Renforcement de l'offre paie et gestion sociale.",
   },
   {
-    year: "2026",
-    title: "Aujourd'hui",
-    description: "Leader de l'expertise 3.0",
+    year: "2024",
+    title: "Déménagement Arpajon",
+    description: "Nouveaux locaux pour le bureau d'Arpajon.",
+  },
+  {
+    year: "2025",
+    title: "Diplôme EC Julien",
+    description: "Julien obtient le diplôme d'expert-comptable.",
+  },
+  {
+    year: "2025",
+    title: "Nouveaux associés",
+    description: "Élargissement de la gouvernance du cabinet.",
   },
 ];
 
@@ -35,7 +55,7 @@ export function CabinetTimelineSection() {
             Notre histoire
           </h2>
           <p className="mx-auto max-w-3xl text-base sm:text-lg font-light text-neutral-500">
-            Plus de 25 ans d&apos;evolution et d&apos;innovation continue
+            Plus de 40 ans d&apos;évolution et d&apos;innovation continue
           </p>
         </div>
 
@@ -48,7 +68,7 @@ export function CabinetTimelineSection() {
 
               return (
                 <article
-                  key={event.year}
+                  key={`${event.year}-${index}-${event.title}`}
                   className={`relative flex items-center ${
                     isLeft ? "md:justify-start" : "md:justify-end"
                   }`}

@@ -327,7 +327,7 @@ export function NewCabinetHero() {
                 ref={descRef}
                 className="text-base sm:text-lg md:text-xl text-neutral-600 leading-relaxed font-light max-w-2xl"
               >
-                Plus de 25 ans d'expertise au service des entrepreneurs,
+                Plus de 40 ans d'expertise au service des entrepreneurs,
                 associations et dirigeants. Un cabinet indépendant qui
                 privilégie la proximité et l'excellence.
               </p>

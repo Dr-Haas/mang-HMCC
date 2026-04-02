@@ -30,14 +30,14 @@ export function CabinetSection({
     {
       name: "Hervé Miniou",
       role: "Expert-Comptable",
-      inscription: "Inscrit à l&apos;Ordre depuis 1983",
-      experience: "40+ ans d&apos;expérience",
+      inscription: "Inscrit à l'Ordre depuis 1983",
+      experience: "40+ ans d'expérience",
     },
     {
       name: "Alan Miniou",
       role: "Expert-Comptable",
-      inscription: "Inscrit à l&apos;Ordre depuis 2006",
-      experience: "18+ ans d&apos;expérience",
+      inscription: "Inscrit à l'Ordre depuis 2006",
+      experience: "18+ ans d'expérience",
     },
   ];
 
@@ -334,9 +334,13 @@ export function CabinetSection({
               }}
               className="text-neutral-900 text-xl mb-6 font-medium leading-relaxed opacity-0"
             >
+<<<<<<< Updated upstream
               Hervé Miniou Conseil Comptabilité (HMCC) est un cabinet
               d&apos;expertise comptable indépendant, spécialisé en conseil,
               audit et commissariat aux comptes, fondé en 1998.
+=======
+              Hervé Miniou Conseil Comptabilité (HMCC) est un cabinet d&apos;expertise comptable indépendant, spécialisé en conseil, audit et commissariat aux comptes, fondé en 1985.
+>>>>>>> Stashed changes
             </p>
             <p
               ref={(el) => {
@@ -344,10 +348,14 @@ export function CabinetSection({
               }}
               className="text-neutral-900 text-xl mb-8 font-medium leading-relaxed opacity-0"
             >
+<<<<<<< Updated upstream
               Depuis plus de{" "}
               <span className="font-semibold text-neutral-900">25 ans</span>,
               nous accompagnons les entreprises, dirigeants et associations dans
               toutes les étapes de leur développement.
+=======
+              Depuis plus de <span className="font-semibold text-neutral-900">40 ans</span>, nous accompagnons les entreprises, dirigeants et associations dans toutes les étapes de leur développement.
+>>>>>>> Stashed changes
             </p>
 
             <div
