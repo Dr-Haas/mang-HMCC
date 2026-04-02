@@ -8,7 +8,7 @@ export function DigitalSection({
   return (
     <section
       id="digital"
-      className={`py-20 border-t border-neutral-200 ${
+      className={`py-20 ${
         transparentBg ? "bg-transparent" : "bg-white"
       } relative overflow-hidden`}
     >
