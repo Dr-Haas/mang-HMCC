@@ -115,7 +115,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           ) : article.content ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{article.content}</ReactMarkdown>
           ) : (
-            <p>Le contenu de cet article n&apos;est pas encore disponible.</p>
+            <p>Le contenu de cet article n'est pas encore disponible.</p>
           )}
         </section>
 

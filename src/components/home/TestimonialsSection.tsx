@@ -131,8 +131,8 @@ export function TestimonialsSection({
             transition={{ delay: 0.2 }}
             className="text-neutral-900 font-medium text-xl max-w-2xl mx-auto"
           >
-            Découvrez les retours d&apos;expérience de nos clients et ce
-            qu&apos;ils apprécient dans notre accompagnement au quotidien
+            Découvrez les retours d'expérience de nos clients et ce
+            qu'ils apprécient dans notre accompagnement au quotidien
           </motion.p>
         </div>
 
@@ -258,7 +258,7 @@ export function TestimonialsSection({
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">
             <div className="text-3xl font-bold text-red-600 mb-2">25+</div>
             <div className="text-base text-neutral-900 font-medium">
-              Années d&apos;expérience
+              Années d'expérience
             </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-neutral-200 text-center">

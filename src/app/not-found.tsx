@@ -23,14 +23,14 @@ export default function NotFound() {
           Page introuvable
         </h1>
         <p className="mb-10 text-lg font-light text-neutral-600">
-          Redirection vers l&apos;accueil...
+          Redirection vers l'accueil...
         </p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/"
             className="inline-flex items-center rounded-full bg-red-600 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-red-700"
           >
-            Retour a l&apos;accueil
+            Retour a l'accueil
           </Link>
           <Link
             href="/contact"

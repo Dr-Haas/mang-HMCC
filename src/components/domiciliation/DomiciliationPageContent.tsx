@@ -147,7 +147,7 @@ export function DomiciliationPageContent() {
       <section className="py-24 bg-neutral-900 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-6">
-            Besoin d&apos;une domiciliation ?
+            Besoin d'une domiciliation ?
           </h2>
           <p className="text-xl text-neutral-400 font-light leading-relaxed mb-10">
             Contactez-nous pour discuter de vos besoins et obtenir un devis

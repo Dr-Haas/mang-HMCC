@@ -23,8 +23,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-neutral-500 text-sm leading-relaxed mb-6">
-              Cabinet d&apos;expertise comptable inscrit à l&apos;Ordre de Paris
-              Île-de-France. L&apos;accompagnement moderne pour les
+              Cabinet d'expertise comptable inscrit à l'Ordre de Paris
+              Île-de-France. L'accompagnement moderne pour les
               entrepreneurs.
             </p>
             <div className="flex gap-4">
@@ -53,7 +53,7 @@ export function Footer() {
                   href="/services"
                   className="hover:text-red-600 transition-colors"
                 >
-                  Création d&apos;entreprise
+                  Création d'entreprise
                 </Link>
               </li>
               <li>
@@ -107,7 +107,7 @@ export function Footer() {
                   href="/cabinet"
                   className="hover:text-red-600 transition-colors"
                 >
-                  L&apos;équipe
+                  L'équipe
                 </Link>
               </li>
               <li>

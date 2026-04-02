@@ -517,7 +517,7 @@ export function FacturationPageContent() {
               Ce qui change vraiment
             </h2>
             <p className="text-neutral-600 font-light text-lg max-w-2xl mx-auto">
-              Une facture électronique n&apos;est pas un simple PDF. Voici les
+              Une facture électronique n'est pas un simple PDF. Voici les
               différences clés.
             </p>
           </div>

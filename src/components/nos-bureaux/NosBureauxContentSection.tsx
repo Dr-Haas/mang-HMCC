@@ -11,7 +11,7 @@ export function NosBureauxContentSection() {
           Prendre rendez-vous
         </h2>
         <p className="mt-4 text-foreground/80">
-          Appelez-nous ou envoyez un message pour convenir d&apos;un créneau.
+          Appelez-nous ou envoyez un message pour convenir d'un créneau.
         </p>
         <p className="mt-2 font-medium text-foreground">{CONTACT_PHONE}</p>
         <Link

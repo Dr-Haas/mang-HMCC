@@ -90,7 +90,7 @@ export function CarrierePageContent() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg md:text-xl text-neutral-300 font-light leading-relaxed mb-12"
             >
-              Un cabinet moderne où l&apos;innovation rencontre l&apos;expertise humaine.
+              Un cabinet moderne où l'innovation rencontre l'expertise humaine.
             </motion.p>
           </div>
         </div>

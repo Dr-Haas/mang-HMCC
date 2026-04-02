@@ -55,7 +55,7 @@ export function CabinetTimelineSection() {
             Notre histoire
           </h2>
           <p className="mx-auto max-w-3xl text-base sm:text-lg font-light text-neutral-500">
-            Plus de 40 ans d&apos;évolution et d&apos;innovation continue
+            Plus de 40 ans d'évolution et d'innovation continue
           </p>
         </div>
 

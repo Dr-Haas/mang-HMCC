@@ -82,7 +82,7 @@ export function ContactPageContent() {
                 </h2>
                 <p className="text-neutral-600 typography-hero-desc text-lg mb-8">
                   Le premier rendez-vous de conseil est offert. Discutons de vos
-                  besoins autour d&apos;un café ou en visio.
+                  besoins autour d'un café ou en visio.
                 </p>
 
                 {/* Quick Info Cards */}

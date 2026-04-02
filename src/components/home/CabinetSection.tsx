@@ -336,10 +336,10 @@ export function CabinetSection({
             >
 <<<<<<< Updated upstream
               Hervé Miniou Conseil Comptabilité (HMCC) est un cabinet
-              d&apos;expertise comptable indépendant, spécialisé en conseil,
+              d'expertise comptable indépendant, spécialisé en conseil,
               audit et commissariat aux comptes, fondé en 1998.
 =======
-              Hervé Miniou Conseil Comptabilité (HMCC) est un cabinet d&apos;expertise comptable indépendant, spécialisé en conseil, audit et commissariat aux comptes, fondé en 1985.
+              Hervé Miniou Conseil Comptabilité (HMCC) est un cabinet d'expertise comptable indépendant, spécialisé en conseil, audit et commissariat aux comptes, fondé en 1985.
 >>>>>>> Stashed changes
             </p>
             <p

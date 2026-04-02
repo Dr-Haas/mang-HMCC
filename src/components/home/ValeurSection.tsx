@@ -98,7 +98,7 @@ export function ValeurSection({
                 </span>
               </div>
               <p className="text-base text-neutral-900 font-medium">
-                D&apos;expérience au service des entrepreneurs et PME.
+                D'expérience au service des entrepreneurs et PME.
               </p>
             </div>
           </div>

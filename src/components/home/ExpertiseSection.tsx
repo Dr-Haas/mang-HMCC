@@ -53,7 +53,7 @@ export function ExpertiseSection({
             </h3>
             <p className="text-neutral-900 font-medium leading-relaxed text-lg max-w-md">
               Tenue comptable rigoureuse, bilans, liasses fiscales et conseils
-              d&apos;optimisation pour sécuriser votre patrimoine.
+              d'optimisation pour sécuriser votre patrimoine.
             </p>
           </div>
 
@@ -100,7 +100,7 @@ export function ExpertiseSection({
                 Audit & Conseil Stratégique
               </h3>
               <p className="text-neutral-900 font-medium leading-relaxed text-lg max-w-md">
-                Commissariat aux comptes, audit d&apos;acquisition et tableaux
+                Commissariat aux comptes, audit d'acquisition et tableaux
                 de bord prévisionnels pour éclairer vos décisions.
               </p>
             </div>

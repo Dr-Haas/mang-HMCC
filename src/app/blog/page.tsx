@@ -44,7 +44,7 @@ export default async function BlogPage() {
               Blog
             </h1>
             <p className="mx-auto max-w-2xl text-lg font-light leading-relaxed text-neutral-200 md:text-2xl">
-              Tous nos articles publiés sur l&apos;actualité entrepreneuriale, fiscale et comptable.
+              Tous nos articles publiés sur l'actualité entrepreneuriale, fiscale et comptable.
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default async function BlogPage() {
                       href={`/blog/${article.slug}`}
                       className="inline-flex items-center text-sm font-medium text-red-600 transition-colors group-hover:text-red-700"
                     >
-                      Lire l&apos;article
+                      Lire l'article
                     </Link>
                   </div>
                 </article>

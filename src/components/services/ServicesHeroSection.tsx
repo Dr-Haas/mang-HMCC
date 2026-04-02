@@ -9,8 +9,8 @@ export function ServicesHeroSection() {
           Nos services
         </h1>
         <p className="mt-4 text-lg typography-hero-desc text-foreground/70">
-          Comptabilité, conseil, paie & social, création d&apos;entreprise.
-          Découvrez l&apos;ensemble de nos offres pour les TPE, PME et
+          Comptabilité, conseil, paie & social, création d'entreprise.
+          Découvrez l'ensemble de nos offres pour les TPE, PME et
           indépendants.
         </p>
         </div>
