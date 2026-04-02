@@ -19,7 +19,10 @@ export function ExpertiseSection({
       )}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-xl">
+          <div
+            className="max-w-xl"
+            style={transparentBg ? { backgroundColor: "rgba(255,255,255,0.8)", border: "1px solid lightgray", borderRadius: "15px", padding: "20px" } : undefined}
+          >
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-red-600 mb-4">
               Une expertise à 360°
             </h2>
@@ -31,6 +34,7 @@ export function ExpertiseSection({
           <Link
             href="/services"
             className="text-neutral-900 font-medium border-b border-red-600 pb-0.5 hover:text-red-600 transition-colors flex items-center gap-1"
+            style={transparentBg ? { backgroundColor: "rgba(255,255,255,0.8)", border: "1px solid lightgray", borderRadius: "15px", padding: "20px", borderBottom: "1px solid lightgray" } : undefined}
           >
             Voir toutes les missions <ArrowRight size={16} />
           </Link>

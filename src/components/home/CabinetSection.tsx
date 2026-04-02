@@ -262,6 +262,14 @@ export function CabinetSection({
       className={`relative py-24 ${
         transparentBg ? "bg-transparent" : "bg-white"
       }`}
+      style={
+        transparentBg
+          ? {
+              backgroundColor: "rgba(255,255,255,0.8)",
+              border: "1px solid lightgray",
+            }
+          : undefined
+      }
     >
       {/* Particules animées */}
       <div className="absolute inset-0 pointer-events-none">

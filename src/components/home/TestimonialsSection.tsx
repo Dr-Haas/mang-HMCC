@@ -131,14 +131,14 @@ export function TestimonialsSection({
             transition={{ delay: 0.2 }}
             className="text-neutral-900 font-medium text-xl max-w-2xl mx-auto"
           >
-            Découvrez les retours d'expérience de nos clients et ce
-            qu'ils apprécient dans notre accompagnement au quotidien
+            Découvrez les retours d'expérience de nos clients et ce qu'ils
+            apprécient dans notre accompagnement au quotidien
           </motion.p>
         </div>
 
         {/* Carousel Container — overflow-x-hidden évite le scroll horizontal (flèches, texte long) */}
         <div
-          className="relative overflow-x-hidden"
+          className="relative"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >

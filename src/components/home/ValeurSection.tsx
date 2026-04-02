@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CheckCircle, Clock, MessageCircle } from "lucide-react";
 
 export function ValeurSection({
@@ -19,6 +18,9 @@ export function ValeurSection({
       )}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Espace vide à gauche */}
+          <div className="hidden lg:block" />
+
           <div>
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-600 mb-6">
               Moins de papier,
@@ -75,32 +77,6 @@ export function ValeurSection({
                 </div>
               </li>
             </ul>
-          </div>
-
-          <div className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-white shadow-2xl border border-neutral-200 p-2">
-              <Image
-                src="https://images.unsplash.com/photo-1760611656007-f767a8082758?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBidXNpbmVzcyUyMHRlYW0lMjBtZWV0aW5nfGVufDF8fHx8MTc3MDQ4NjU3OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Equipe HMCC"
-                width={1080}
-                height={1080}
-                className="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-            {/* Stats Card */}
-            <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border border-neutral-100 max-w-xs">
-              <div className="flex items-end gap-2 mb-2">
-                <span className="text-4xl font-bold text-red-600 tracking-tighter">
-                  15+
-                </span>
-                <span className="text-base text-neutral-900 font-semibold mb-1">
-                  années
-                </span>
-              </div>
-              <p className="text-base text-neutral-900 font-medium">
-                D'expérience au service des entrepreneurs et PME.
-              </p>
-            </div>
           </div>
         </div>
       </div>

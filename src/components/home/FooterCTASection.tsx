@@ -12,7 +12,7 @@ export function FooterCTASection({
   return (
     <section className={`py-24 bg-transparent relative overflow-hidden mb-[130px] md:mb-0`}>
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-        <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-red-500 mb-6">
+        <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-neutral-900 mb-6">
           Vous recherchez un expert-comptable à Paris ou en Essonne ?
         </h2>
         <p className="text-xl text-neutral-900 font-medium leading-relaxed mb-10 max-w-2xl mx-auto mb-14">
