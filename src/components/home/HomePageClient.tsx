@@ -7,59 +7,33 @@ declare global {
 }
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 import { VideoLoader } from "@/components/VideoLoader";
 import { HomePageContent } from "@/components/home/HomePageContent";
 
-const HOME_INTRO_SEEN_KEY = "hmcc_home_intro_seen";
+const INTRO_SESSION_KEY = "hmcc_intro_seen";
 
 export function HomePageClient() {
-  const [motionComponents, setMotionComponents] = useState<{
-    motion?: any;
-    AnimatePresence?: any;
-  }>({});
   const [showContent, setShowContent] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [skipIntro, setSkipIntro] = useState(false);
 
   useEffect(() => {
-    import("framer-motion").then((fm) => {
-      setMotionComponents({
-        motion: fm.motion,
-        AnimatePresence: fm.AnimatePresence,
-      });
-    });
-  }, []);
-
-  // Préchargement des images de la séquence home2
-  useEffect(() => {
-    setHydrated(true);
+    // Préchargement des images EN PREMIER — démarre immédiatement au montage
     const frameCount = 251;
     const folder = "/sequence/desktop-version/home2/";
-    let loaded = 0;
-    let cancelled = false;
     for (let i = 0; i < frameCount; i++) {
       const img = new window.Image();
       img.src = `${folder}HOME PAGE v2 -_${String(i).padStart(5, "0")}.png`;
-      img.onload = () => {
-        loaded++;
-        setProgress(Math.round((loaded / frameCount) * 100));
-        if (loaded === frameCount && !cancelled) {
-          setTimeout(() => setImagesLoaded(true), 200); // petit délai pour la transition
-        }
-      };
-      img.onerror = () => {
-        loaded++;
-        setProgress(Math.round((loaded / frameCount) * 100));
-        if (loaded === frameCount && !cancelled) {
-          setTimeout(() => setImagesLoaded(true), 200);
-        }
-      };
     }
-    return () => {
-      cancelled = true;
-    };
+
+    // Si l'intro a déjà été jouée dans cette session → on saute directement au contenu
+    const alreadySeen = sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    setSkipIntro(alreadySeen);
+    if (alreadySeen) setShowContent(true);
+
+    setHydrated(true);
   }, []);
 
   // Masquer header/footer tant que l'intro n'est pas terminée
@@ -74,36 +48,26 @@ export function HomePageClient() {
     };
   }, [showContent]);
 
-  // Nettoyage : plus de vidéo d'intro, donc pas de handleVideoEnd
-
-  const { motion, AnimatePresence } = motionComponents;
+  const handleVideoEnd = () => {
+    sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    setShowContent(true);
+  };
 
   if (!hydrated) return null;
 
   return (
     <>
-      {/* Loader fonctionnel : fond blanc, texte rouge, attend le chargement de toutes les images */}
-      {AnimatePresence && motion && !imagesLoaded && (
-        <AnimatePresence>
-          <motion.div
-            className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-            style={{ zIndex: 100 }}
-          >
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mb-6" />
-            <span className="text-lg font-semibold text-red-600 mb-2">
-              Chargement en cours
-            </span>
-            <span className="text-base text-red-600">{progress}%</span>
-          </motion.div>
-        </AnimatePresence>
-      )}
+      {/* Intro uniquement si pas encore vue dans cette session */}
+      {!skipIntro && !showContent && <VideoLoader onVideoEnd={handleVideoEnd} />}
 
-      {/* Affichage du contenu home seulement après le chargement des images */}
-      {imagesLoaded && <HomePageContent showContent={true} />}
+      {/* Contenu home : toujours monté, fondu d'opacité au moment où l'intro se termine */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showContent ? 1 : 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <HomePageContent showContent={showContent} />
+      </motion.div>
     </>
   );
 }
