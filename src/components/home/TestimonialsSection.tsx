@@ -136,14 +136,14 @@ export function TestimonialsSection({
           </motion.p>
         </div>
 
-        {/* Carousel Container */}
+        {/* Carousel Container — overflow-x-hidden évite le scroll horizontal (flèches, texte long) */}
         <div
-          className="relative"
+          className="relative overflow-x-hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Main Testimonial Card */}
-          <div className="relative min-h-[400px] md:min-h-[450px]">
+          {/* Espace latéral pour les flèches sans déborder ni recouvrir le texte */}
+          <div className="relative mx-auto w-full max-w-full px-11 sm:px-12 md:px-16">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -151,42 +151,42 @@ export function TestimonialsSection({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0"
+                className="w-full min-w-0"
               >
-                <div className="bg-white rounded-3xl p-8 md:p-12 border border-neutral-200 shadow-xl h-full flex flex-col">
+                <div className="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white p-5 shadow-xl sm:p-8 md:p-12">
                   {/* Quote icon */}
-                  <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
-                    <Quote className="text-red-600" size={32} />
+                  <div className="mb-4 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-red-50 sm:mb-6 sm:h-16 sm:w-16">
+                    <Quote className="text-red-600" size={28} />
                   </div>
 
                   {/* Stars */}
-                  <div className="flex gap-1 mb-6">
+                  <div className="mb-4 flex flex-wrap gap-1 sm:mb-6">
                     {[...Array(currentTestimonial.rating)].map((_, i) => (
                       <Star
                         key={i}
                         className="text-yellow-400 fill-yellow-400"
-                        size={20}
+                        size={18}
                       />
                     ))}
                   </div>
 
-                  {/* Testimonial text */}
-                  <p className="text-neutral-900 font-medium leading-relaxed text-xl mb-8 flex-grow italic">
+                  {/* Testimonial text — break-words + taille responsive pour éviter tout débordement */}
+                  <p className="mb-6 min-w-0 break-words text-base font-medium italic leading-relaxed text-neutral-900 sm:mb-8 sm:text-lg md:text-xl">
                     &quot;{currentTestimonial.text}&quot;
                   </p>
 
                   {/* Author info */}
-                  <div className="pt-6 border-t border-neutral-100">
-                    <p className="font-semibold text-neutral-900 text-xl mb-2">
+                  <div className="min-w-0 border-t border-neutral-100 pt-4 sm:pt-6">
+                    <p className="mb-1 break-words text-lg font-semibold text-neutral-900 sm:text-xl">
                       {currentTestimonial.name}
                     </p>
-                    <p className="text-neutral-900 font-medium text-base mb-1">
+                    <p className="mb-1 break-words text-sm font-medium text-neutral-900 sm:text-base">
                       {currentTestimonial.role}
                     </p>
-                    <p className="font-medium text-red-600">
+                    <p className="break-words font-medium text-red-600">
                       {currentTestimonial.company}
                     </p>
-                    <p className="text-base text-neutral-900 font-medium mt-1">
+                    <p className="mt-1 break-words text-sm font-medium text-neutral-900 sm:text-base">
                       {currentTestimonial.location}
                     </p>
                   </div>
@@ -195,26 +195,28 @@ export function TestimonialsSection({
             </AnimatePresence>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows — positionnées dans la zone visible sur mobile */}
           <button
+            type="button"
             onClick={goToPrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-16 w-12 h-12 bg-white border-2 border-neutral-200 rounded-full flex items-center justify-center hover:bg-neutral-50 hover:border-red-200 transition-all shadow-lg group"
+            className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-neutral-200 bg-white shadow-lg transition-all hover:border-red-200 hover:bg-neutral-50 group sm:h-12 sm:w-12 md:-translate-x-2 lg:-translate-x-4"
             aria-label="Témoignage précédent"
           >
             <ChevronLeft
-              className="text-neutral-900 font-medium group-hover:text-red-600 transition-colors"
-              size={24}
+              className="text-neutral-900 transition-colors group-hover:text-red-600"
+              size={22}
             />
           </button>
 
           <button
+            type="button"
             onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-16 w-12 h-12 bg-white border-2 border-neutral-200 rounded-full flex items-center justify-center hover:bg-neutral-50 hover:border-red-200 transition-all shadow-lg group"
+            className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-neutral-200 bg-white shadow-lg transition-all hover:border-red-200 hover:bg-neutral-50 group sm:h-12 sm:w-12 md:translate-x-2 lg:translate-x-4"
             aria-label="Témoignage suivant"
           >
             <ChevronRight
-              className="text-neutral-900 font-medium group-hover:text-red-600 transition-colors"
-              size={24}
+              className="text-neutral-900 transition-colors group-hover:text-red-600"
+              size={22}
             />
           </button>
         </div>
