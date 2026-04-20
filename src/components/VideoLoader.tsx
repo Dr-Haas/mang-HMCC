@@ -10,8 +10,8 @@ type VimeoPlayer = import("@vimeo/player").default;
 
 const VIMEO_OPTIONS =
   "title=0&byline=0&portrait=0&badge=0&autopause=0&controls=0&preload=1&muted=1&autoplay=0&loop=0&quality=1080p&background=0&transparent=0&color=000000&pip=0&speed=0&keyboard=0&fullscreen=0&dnt=1";
-const VIMEO_DESKTOP_SRC = `https://player.vimeo.com/video/1165656919?h=e9affce932&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
-const VIMEO_MOBILE_SRC = `https://player.vimeo.com/video/1165658777?h=f626d7d501&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
+const VIMEO_DESKTOP_SRC = `https://player.vimeo.com/video/1184717613?h=2aeace8997&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
+const VIMEO_MOBILE_SRC = `https://player.vimeo.com/video/1184717613?h=2aeace8997&${VIMEO_OPTIONS}&player_id=0&app_id=58479`;
 
 interface VideoLoaderProps {
   onVideoEnd: () => void;
@@ -211,17 +211,17 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
             title="Intro HMCC desktop"
           />
 
-          {/* Mobile */}
+          {/* Mobile : vidéo 16:9 zoomée pour couvrir l'écran portrait — les côtés sont croppés */}
           <iframe
             ref={mobileIframeRef}
             src={VIMEO_MOBILE_SRC}
-            className="md:hidden absolute inset-0 w-full h-full border-0 object-cover"
+            className="md:hidden absolute border-0"
             style={{
-              objectFit: "cover",
-              width: "120%",
-              height: "120%",
-              top: "-10%",
-              left: "-10%",
+              width: "calc(100vh * 16 / 9)",
+              height: "100vh",
+              top: "0",
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
