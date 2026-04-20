@@ -5,9 +5,11 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SITE_NAME } from "@/app/lib/constants";
-import { BLOG_REVALIDATE_SECONDS, getArticleBySlug, getPublishedArticles } from "@/lib/blog";
+import { getArticleBySlug, getPublishedArticles } from "@/lib/blog";
 
-export const revalidate = BLOG_REVALIDATE_SECONDS;
+// Next.js exige des valeurs littérales statiques pour ces exports de segment.
+// Garder ces valeurs synchronisées avec BLOG_REVALIDATE_SECONDS dans src/lib/blog.ts.
+export const revalidate = 300;
 export const dynamicParams = true;
 
 type BlogDetailPageProps = {
