@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Enregistrer ScrollTrigger si côté client
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
