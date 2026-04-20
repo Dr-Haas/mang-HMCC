@@ -235,13 +235,24 @@ const getRawArticlesCached = unstable_cache(getRawArticles, ["blog-articles-all"
   tags: [BLOG_CACHE_TAG],
 });
 
+async function getRawArticlesSafe(): Promise<ArticleRow[]> {
+  try {
+    return await getRawArticlesCached();
+  } catch (error) {
+    // Ne jamais casser le build/rendu si Supabase est indisponible ou si les
+    // variables d'environnement manquent au moment du build.
+    console.warn("[blog] Unable to fetch articles from Supabase:", error);
+    return [];
+  }
+}
+
 export async function getPublishedArticles(): Promise<BlogArticle[]> {
-  const rows = await getRawArticlesCached();
+  const rows = await getRawArticlesSafe();
   return rows.map(normalizeArticle).filter((item) => item.isPublished).sort(byMostRecent);
 }
 
 export async function getArticleBySlug(slug: string): Promise<BlogArticle | null> {
-  const rows = await getRawArticlesCached();
+  const rows = await getRawArticlesSafe();
   const articles = rows.map(normalizeArticle);
   return articles.find((item) => item.slug === slug) ?? null;
 }

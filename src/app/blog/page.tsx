@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { SITE_NAME } from "@/app/lib/constants";
 import { UnicornHeaderScene } from "@/components/decor/UnicornHeaderScene";
-import { getPublishedArticles } from "@/lib/blog";
+import { BLOG_REVALIDATE_SECONDS, getPublishedArticles } from "@/lib/blog";
+
+export const revalidate = BLOG_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = {
   title: `Blog | ${SITE_NAME}`,

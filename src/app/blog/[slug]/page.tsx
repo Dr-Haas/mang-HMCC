@@ -5,7 +5,10 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SITE_NAME } from "@/app/lib/constants";
-import { getArticleBySlug, getPublishedArticles } from "@/lib/blog";
+import { BLOG_REVALIDATE_SECONDS, getArticleBySlug, getPublishedArticles } from "@/lib/blog";
+
+export const revalidate = BLOG_REVALIDATE_SECONDS;
+export const dynamicParams = true;
 
 type BlogDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -56,8 +59,15 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 }
 
 export async function generateStaticParams() {
-  const articles = await getPublishedArticles();
-  return articles.map((article) => ({ slug: article.slug }));
+  try {
+    const articles = await getPublishedArticles();
+    return articles.map((article) => ({ slug: article.slug }));
+  } catch (error) {
+    // En cas d'échec Supabase au build, on laisse Next rendre les pages à la
+    // demande (ISR) plutôt que de faire échouer le build entier.
+    console.warn("[blog] generateStaticParams fallback to empty list:", error);
+    return [];
+  }
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
