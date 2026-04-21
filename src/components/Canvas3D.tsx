@@ -67,9 +67,11 @@ function CameraController({ zoomIn }: { zoomIn: boolean }) {
 function SwitchButton({
   onSwitch,
   onZoomStart,
+  isMobile = false,
 }: {
   onSwitch?: () => void;
   onZoomStart?: () => void;
+  isMobile?: boolean;
 }) {
   const { scene } = useGLTF("/models/switch_button.glb");
   const boutonRef = useRef<THREE.Mesh | null>(null);
@@ -211,10 +213,10 @@ function SwitchButton({
   };
 
   return (
-    <group ref={groupRef} position={[3.95, -0.05, 0]}>
+    <group ref={groupRef} position={isMobile ? [0, 0, 0] : [3.95, -0.05, 0]}>
       <primitive
         object={scene}
-        scale={0.65}
+        scale={isMobile ? 1.2 : 0.65}
         onPointerOver={() => handleHover(true)}
         onPointerOut={() => handleHover(false)}
         onClick={handleClick}
@@ -273,6 +275,14 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
     };
   }, []);
   const [zoomIn, setZoomIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleZoomStart = () => {
     setZoomIn(true);
@@ -281,7 +291,7 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 50 }}
+        camera={{ position: [0, 0, 10], fov: isMobile ? 28 : 50 }}
         style={{ background: "transparent" }}
       >
         <Suspense fallback={null}>
@@ -292,8 +302,8 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
             intensity={0.95}
             color="#f5f3ef"
           />
-          <IntroText />
-          <SwitchButton onSwitch={onSwitch} onZoomStart={handleZoomStart} />
+          {!isMobile && <IntroText />}
+          <SwitchButton onSwitch={onSwitch} onZoomStart={handleZoomStart} isMobile={isMobile} />
           <Environment preset="studio" environmentIntensity={0.5} />
         </Suspense>
       </Canvas>

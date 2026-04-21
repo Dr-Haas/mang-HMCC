@@ -5,6 +5,7 @@ import { useGLTF } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { Canvas3D } from "@/components/Canvas3D";
+import { HmccLogo } from "@/components/HmccLogo";
 
 type VimeoPlayer = import("@vimeo/player").default;
 
@@ -249,6 +250,9 @@ export function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
               ref={preIntroRef}
               className="absolute inset-0 bg-white overflow-hidden z-10"
             >
+              <div className="absolute top-6 left-6 z-20">
+                <HmccLogo />
+              </div>
               <div className="absolute inset-0">
                 <Canvas3D onSwitch={handleSwitchClick} />
               </div>
