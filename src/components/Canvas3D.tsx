@@ -213,7 +213,7 @@ function SwitchButton({
   };
 
   return (
-    <group ref={groupRef} position={isMobile ? [0, 0, 0] : [3.95, -0.05, 0]}>
+    <group ref={groupRef} position={isMobile ? [0, -0.55, 0] : [3.95, -0.05, 0]}>
       <primitive
         object={scene}
         scale={isMobile ? 1.2 : 0.65}
@@ -226,7 +226,7 @@ function SwitchButton({
   );
 }
 
-function IntroText() {
+function IntroText({ isMobile = false }: { isMobile?: boolean }) {
   const [opacity, setOpacity] = useState(0);
   const opacityRef = useRef({ value: 0 });
 
@@ -241,17 +241,22 @@ function IntroText() {
     });
   }, []);
 
+  // Mobile: centré au-dessus du bouton (switch à [0,0,0])
+  // Desktop: au-dessus du bouton (switch à [3.95,-0.05,0])
+  const posX = isMobile ? 0 : 3.95;
+  const posY = isMobile ? 1.25 : 1.8;
+
   return (
     <Text
-      position={[-4.55, 0, 0]}
-      fontSize={0.5}
-      maxWidth={10}
+      position={[posX, posY, 0]}
+      fontSize={isMobile ? 0.5 : 0.5}
+      maxWidth={isMobile ? 6 : 10}
       lineHeight={1.4}
-      textAlign="left"
-      color="#b81a25" // rouge foncé HMCC
-      anchorX="left"
+      textAlign="center"
+      color="#b81a25"
+      anchorX="center"
       anchorY="middle"
-      fontWeight={300}
+      fontWeight={isMobile ? 600 : 300}
       fillOpacity={opacity}
     >
       Un clic pour alléger votre gestion
@@ -302,7 +307,7 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
             intensity={0.95}
             color="#f5f3ef"
           />
-          {!isMobile && <IntroText />}
+          <IntroText isMobile={isMobile} />
           <SwitchButton onSwitch={onSwitch} onZoomStart={handleZoomStart} isMobile={isMobile} />
           <Environment preset="studio" environmentIntensity={0.5} />
         </Suspense>
