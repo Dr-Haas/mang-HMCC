@@ -213,7 +213,10 @@ function SwitchButton({
   };
 
   return (
-    <group ref={groupRef} position={isMobile ? [0, -0.55, 0] : [3.95, -0.05, 0]}>
+    <group
+      ref={groupRef}
+      position={isMobile ? [0, -0.55, 0] : [3.95, -0.05, 0]}
+    >
       <primitive
         object={scene}
         scale={isMobile ? 1.2 : 0.65}
@@ -242,19 +245,19 @@ function IntroText({ isMobile = false }: { isMobile?: boolean }) {
   }, []);
 
   // Mobile: centré au-dessus du bouton (switch à [0,0,0])
-  // Desktop: au-dessus du bouton (switch à [3.95,-0.05,0])
-  const posX = isMobile ? 0 : 3.95;
-  const posY = isMobile ? 1.25 : 1.8;
+  // Desktop: à gauche, aligné comme l'original
+  const posX = isMobile ? 0 : -4.55;
+  const posY = isMobile ? 1.25 : 0;
 
   return (
     <Text
       position={[posX, posY, 0]}
-      fontSize={isMobile ? 0.5 : 0.5}
+      fontSize={0.5}
       maxWidth={isMobile ? 6 : 10}
       lineHeight={1.4}
-      textAlign="center"
+      textAlign={isMobile ? "center" : "left"}
       color="#b81a25"
-      anchorX="center"
+      anchorX={isMobile ? "center" : "left"}
       anchorY="middle"
       fontWeight={isMobile ? 600 : 300}
       fillOpacity={opacity}
@@ -308,7 +311,11 @@ export function Canvas3D({ className = "", onSwitch }: Canvas3DProps) {
             color="#f5f3ef"
           />
           <IntroText isMobile={isMobile} />
-          <SwitchButton onSwitch={onSwitch} onZoomStart={handleZoomStart} isMobile={isMobile} />
+          <SwitchButton
+            onSwitch={onSwitch}
+            onZoomStart={handleZoomStart}
+            isMobile={isMobile}
+          />
           <Environment preset="studio" environmentIntensity={0.5} />
         </Suspense>
       </Canvas>
